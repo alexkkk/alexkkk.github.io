@@ -51,9 +51,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -63,6 +63,92 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-DijkstraAlgorithm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/08/DijkstraAlgorithm/" class="article-date">
+  <time datetime="2016-06-08T15:37:17.000Z" itemprop="datePublished">2016-06-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/08/DijkstraAlgorithm/">DijkstraAlgorithm</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="&#x95EE;&#x9898;&#x63CF;&#x8FF0;"><a href="#&#x95EE;&#x9898;&#x63CF;&#x8FF0;" class="headerlink" title="&#x95EE;&#x9898;&#x63CF;&#x8FF0;"></a>&#x95EE;&#x9898;&#x63CF;&#x8FF0;</h2><p>&#x7ED9;&#x5B9A;1&#x4E2A;&#x56FE;&#xFF08;&#x8FD9;&#x91CC;&#x5E94;&#x8BE5;&#x662F;&#x65E0;&#x5411;&#x56FE;&#xFF09;&#x548C;&#x56FE;&#x4E2D;&#x7684;1&#x4E2A;&#x6E90;&#x7ED3;&#x70B9;&#xFF0C;&#x627E;&#x5230;&#x8FD9;&#x4E2A;&#x56FE;&#x4E2D;&#x4ECE;&#x6E90;&#x70B9;&#x5230;&#x5176;&#x4F59;&#x5404;&#x70B9;&#x7684;&#x6700;&#x77ED;&#x8DDD;&#x79BB;</p>
+<h2 id="&#x7B97;&#x6CD5;"><a href="#&#x7B97;&#x6CD5;" class="headerlink" title="&#x7B97;&#x6CD5;"></a>&#x7B97;&#x6CD5;</h2><p>Dijkstra&#x7684;&#x7B97;&#x6CD5;&#x548C;&#x6700;&#x5C0F;&#x751F;&#x6210;&#x6811;&#x7684;Prim&#x7B97;&#x6CD5;&#x975E;&#x5E38;&#x76F8;&#x50CF;&#x3002;&#x7C7B;&#x4F3C;Prim&#x7684;&#x6700;&#x5C0F;&#x751F;&#x6210;&#x6811;(MinimumSpanningTree)&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x7ED9;&#x5B9A;&#x7684;&#x6E90;&#x70B9;&#x4F5C;&#x4E3A;&#x8DDF;&#xFF0C;&#x751F;&#x6210;&#x4E86;&#x6700;&#x5C0F;&#x8DEF;&#x5F84;&#x6811;(ShortestPathTree)&#x3002;<br>&#x7B97;&#x6CD5;&#x4E2D;&#x6211;&#x4EEC;&#x7EF4;&#x62A4;2&#x4E2A;&#x96C6;&#x5408;&#xFF0C;<br>1) SptSet&#x96C6;&#x5408;&#xFF0C;&#x7528;&#x6765;&#x4FDD;&#x5B58;&#x6700;&#x77ED;&#x8DEF;&#x5F84;&#x6811;&#x5305;&#x542B;&#x7684;&#x8282;&#x70B9;<br>2&#xFF09;NotSptSet&#x96C6;&#x5408;, &#x7528;&#x6765;&#x4FDD;&#x5B58;&#x6CA1;&#x6709;&#x5305;&#x542B;&#x5728;&#x6700;&#x77ED;&#x8DEF;&#x5F84;&#x6811;&#x79CD;&#x7684;&#x8282;&#x70B9;&#x3002;<br>&#x5728;&#x7B97;&#x6CD5;&#x7684;&#x6BCF;&#x4E00;&#x6B65;&#xFF0C;&#x6211;&#x4EEC;&#x627E;&#x51FA;&#x6CA1;&#x6709;&#x5305;&#x542B;&#x5728;&#x6700;&#x77ED;&#x8DEF;&#x5F84;&#x6811;&#x4E2D;&#x8DDF;&#x6E90;&#x70B9;&#x8DDD;&#x79BB;&#x6700;&#x5C0F;&#x7684;&#x8282;&#x70B9;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x6211;&#x4EEC;&#x7528;Dijkstra&#x7B97;&#x6CD5;&#x53BB;&#x627E;&#x51FA;&#x7ED9;&#x5B9A;&#x7684;&#x56FE;&#x4E2D;&#x4ECE;1&#x4E2A;&#x6E90;&#x70B9;&#x5230;&#x5176;&#x4F59;&#x522B;&#x7684;&#x8282;&#x70B9;&#x7684;&#x6700;&#x77ED;&#x8DEF;&#x5F84;&#x3002;<br>&#x7B97;&#x6CD5;&#xFF1A;<br>1) &#x521B;&#x5EFA;1&#x4E2A;&#x96C6;&#x5408;&#x53EB;SptSet, &#x7528;&#x6765;&#x8DDF;&#x8E2A;&#x6700;&#x77ED;&#x8DEF;&#x5F84;&#x6811;&#x79CD;&#x7684;&#x6240;&#x6709;&#x8282;&#x70B9;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x91CC;&#x9762;&#x4FDD;&#x5B58;&#x4E86;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x5230;&#x6E90;&#x70B9;&#x7684;&#x6700;&#x77ED;&#x8DDD;&#x79BB;&#x3002;&#x521D;&#x59CB;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8FD9;&#x4E2A;&#x96C6;&#x5408;&#x662F;&#x7A7A;&#x7684;<br>2) &#x7ED9;&#x56FE;&#x4E2D;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x8DDD;&#x79BB;&#x7684;&#x503C;&#x3002;&#x521D;&#x59CB;&#x5316;&#x7684;&#x8DDD;&#x79BB;&#x4E3A;&#x65E0;&#x7A77;&#x5927;&#x3002;&#x6E90;&#x70B9;&#x7684;&#x8DDD;&#x79BB;&#x662F;0&#xFF0C;&#x6240;&#x4EE5;&#x5B83;&#x662F;&#x7B2C;1&#x4E2A;&#x88AB;&#x6311;&#x9009;&#x51FA;&#x6765;&#x7684;&#xFF0C;&#x5047;&#x8BBE;&#x6E90;&#x70B9;&#x662F;S&#x3002;<br>3) &#x5F53;SptSet&#x6CA1;&#x6709;&#x5305;&#x542B;&#x6240;&#x6709;&#x7684;&#x8282;&#x70B9;&#x7684;&#x65F6;&#x5019;:<br>&#x2026;.a) &#x4ECE;NotSptSet&#x4E2D;&#x9009;&#x51FA;&#x90A3;&#x4E2A;&#x548C;&#x6E90;&#x70B9;&#x6709;&#x6700;&#x77ED;&#x8DDD;&#x79BB;&#x7684;&#x8282;&#x70B9;U<br>&#x2026;.b) &#x628A;U&#x653E;&#x5165;&#x5230;SptSet&#x4E2D;<br>&#x2026;.c) &#x66F4;&#x65B0;&#x8282;&#x70B9;U&#x7684;&#x90BB;&#x63A5;&#x8282;&#x70B9;&#x7684;&#x8DDD;&#x79BB;&#x3002;&#x66F4;&#x65B0;&#x8DDD;&#x79BB;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x904D;&#x5386;&#x6240;&#x6709;&#x7684;&#x90BB;&#x63A5;&#x8282;&#x70B9;&#xFF0C;&#x5BF9;&#x6BCF;&#x4E2A;&#x90BB;&#x63A5;&#x8282;&#x70B9;v&#x6765;&#x8BF4;&#xFF0C;&#x5982;&#x679C;(S,U)&#x7684;&#x8DDD;&#x79BB;&#x52A0;&#x4E0A;(U,V)&#x7684;&#x8DDD;&#x79BB;&#x5C0F;&#x4E8E;&#xFF08;S,V&#xFF09;&#x7684;&#x8DDD;     &#x79BB;&#xFF0C;&#x5219;&#x66F4;&#x65B0;(S,V)&#x7684;&#x8DDD;&#x79BB;</p>
+<p>&#x8BA9;&#x6211;&#x4EEC;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x56FE;&#x6765;&#x7406;&#x89E3;&#x95EE;&#x9898;:<br><img src="/2016/06/08/DijkstraAlgorithm/2016/06/08/DijkstraAlgorithm/0.jpg" alt="0.jpg" title=""><br><img src="/2016/06/08/DijkstraAlgorithm/20160608-DijkstraAlgorithm/logo.jpg" alt="graph"></p>
+<p>PS&#xFF1A;&#x6587;&#x7AE0;&#x6765;&#x81EA;&#x4E8E;<a href="http://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/&#x7684;&#x7FFB;&#x8BD1;" target="_blank" rel="external">http://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/&#x7684;&#x7FFB;&#x8BD1;</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/08/DijkstraAlgorithm/" data-id="cip71pw110003soz90omd4mxu" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/graph/">graph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/greedy/">greedy</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Dijkstra-ShortestPathAlgorithm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/08/Dijkstra-ShortestPathAlgorithm/" class="article-date">
+  <time datetime="2016-06-08T14:53:02.000Z" itemprop="datePublished">2016-06-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/08/Dijkstra-ShortestPathAlgorithm/">Dijkstra-ShortestPathAlgorithm</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="&#x95EE;&#x9898;&#x63CF;&#x8FF0;"><a href="#&#x95EE;&#x9898;&#x63CF;&#x8FF0;" class="headerlink" title="&#x95EE;&#x9898;&#x63CF;&#x8FF0;"></a>&#x95EE;&#x9898;&#x63CF;&#x8FF0;</h2><p>&#x7ED9;&#x5B9A;1&#x4E2A;&#x56FE;&#xFF08;&#x8FD9;&#x91CC;&#x5E94;&#x8BE5;&#x662F;&#x65E0;&#x5411;&#x56FE;&#xFF09;&#x548C;&#x56FE;&#x4E2D;&#x7684;1&#x4E2A;&#x6E90;&#x7ED3;&#x70B9;&#xFF0C;&#x627E;&#x5230;&#x8FD9;&#x4E2A;&#x56FE;&#x4E2D;&#x4ECE;&#x6E90;&#x70B9;&#x5230;&#x5176;&#x4F59;&#x5404;&#x70B9;&#x7684;&#x6700;&#x77ED;&#x8DDD;&#x79BB;</p>
+<p>Dijkstra&#x7684;&#x7B97;&#x6CD5;&#x5462;&#x548C;&#x6700;&#x5C0F;&#x751F;&#x6210;&#x6811;&#x7684;Prim&#x7B97;&#x6CD5;&#x975E;&#x5E38;&#x76F8;&#x50CF;&#x3002;&#x7C7B;&#x4F3C;Prim&#x7684;&#x6700;&#x5C0F;&#x751F;&#x6210;&#x6811;(MinimumSpanningTree)&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x7ED9;&#x5B9A;&#x7684;&#x6E90;&#x70B9;&#x4F5C;&#x4E3A;&#x8DDF;&#xFF0C;&#x751F;&#x6210;&#x4E86;&#x6700;&#x5C0F;&#x8DEF;&#x5F84;&#x6811;(ShortestPathTree)&#x3002;<br>&#x7B97;&#x6CD5;&#x4E2D;&#x6211;&#x4EEC;&#x7EF4;&#x62A4;2&#x4E2A;&#x96C6;&#x5408;&#xFF0C;<br>1) SptSet&#x96C6;&#x5408;&#xFF0C;&#x7528;&#x6765;&#x4FDD;&#x5B58;&#x6700;&#x77ED;&#x8DEF;&#x5F84;&#x6811;&#x5305;&#x542B;&#x7684;&#x8282;&#x70B9;<br>2&#xFF09;NotSptSet&#x96C6;&#x5408;, &#x7528;&#x6765;&#x4FDD;&#x5B58;&#x6CA1;&#x6709;&#x5305;&#x542B;&#x5728;&#x6700;&#x77ED;&#x8DEF;&#x5F84;&#x6811;&#x79CD;&#x7684;&#x8282;&#x70B9;&#x3002;<br>&#x5728;&#x7B97;&#x6CD5;&#x7684;&#x6BCF;&#x4E00;&#x6B65;&#xFF0C;&#x6211;&#x4EEC;&#x627E;&#x51FA;&#x6CA1;&#x6709;&#x5305;&#x542B;&#x5728;&#x6700;&#x77ED;&#x8DEF;&#x5F84;&#x6811;&#x4E2D;&#x8DDF;&#x6E90;&#x70B9;&#x8DDD;&#x79BB;&#x6700;&#x5C0F;&#x7684;&#x8282;&#x70B9;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x6211;&#x4EEC;&#x7528;Dijkstra&#x7B97;&#x6CD5;&#x53BB;&#x627E;&#x51FA;&#x7ED9;&#x5B9A;&#x7684;&#x56FE;&#x4E2D;&#x4ECE;1&#x4E2A;&#x6E90;&#x70B9;&#x5230;&#x5176;&#x4F59;&#x522B;&#x7684;&#x8282;&#x70B9;&#x7684;&#x6700;&#x77ED;&#x8DEF;&#x5F84;&#x3002;<br>&#x7B97;&#x6CD5;&#xFF1A;<br>1) &#x521B;&#x5EFA;1&#x4E2A;&#x96C6;&#x5408;&#x53EB;SptSet, &#x7528;&#x6765;&#x8DDF;&#x8E2A;&#x6700;&#x77ED;&#x8DEF;&#x5F84;&#x6811;&#x79CD;&#x7684;&#x6240;&#x6709;&#x8282;&#x70B9;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x91CC;&#x9762;&#x4FDD;&#x5B58;&#x4E86;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x5230;&#x6E90;&#x70B9;&#x7684;&#x6700;&#x77ED;&#x8DDD;&#x79BB;&#x3002;&#x521D;&#x59CB;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8FD9;&#x4E2A;&#x96C6;&#x5408;&#x662F;&#x7A7A;&#x7684;<br>2) &#x7ED9;&#x56FE;&#x4E2D;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x8DDD;&#x79BB;&#x7684;&#x503C;&#x3002;&#x521D;&#x59CB;&#x5316;&#x7684;&#x8DDD;&#x79BB;&#x4E3A;&#x65E0;&#x7A77;&#x5927;&#x3002;&#x6E90;&#x70B9;&#x7684;&#x8DDD;&#x79BB;&#x662F;0&#xFF0C;&#x6240;&#x4EE5;&#x5B83;&#x662F;&#x7B2C;1&#x4E2A;&#x88AB;&#x6311;&#x9009;&#x51FA;&#x6765;&#x7684;&#xFF0C;&#x5047;&#x8BBE;&#x6E90;&#x70B9;&#x662F;S&#x3002;<br>3) &#x5F53;SptSet&#x6CA1;&#x6709;&#x5305;&#x542B;&#x6240;&#x6709;&#x7684;&#x8282;&#x70B9;&#x7684;&#x65F6;&#x5019;:<br>&#x2026;.a) &#x4ECE;NotSptSet&#x4E2D;&#x9009;&#x51FA;&#x90A3;&#x4E2A;&#x548C;&#x6E90;&#x70B9;&#x6709;&#x6700;&#x77ED;&#x8DDD;&#x79BB;&#x7684;&#x8282;&#x70B9;U<br>&#x2026;.b) &#x628A;U&#x653E;&#x5165;&#x5230;SptSet&#x4E2D;<br>&#x2026;.c) &#x66F4;&#x65B0;&#x8282;&#x70B9;U&#x7684;&#x90BB;&#x63A5;&#x8282;&#x70B9;&#x7684;&#x8DDD;&#x79BB;&#x3002;&#x66F4;&#x65B0;&#x8DDD;&#x79BB;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x904D;&#x5386;&#x6240;&#x6709;&#x7684;&#x90BB;&#x63A5;&#x8282;&#x70B9;&#xFF0C;&#x5BF9;&#x6BCF;&#x4E2A;&#x90BB;&#x63A5;&#x8282;&#x70B9;v&#x6765;&#x8BF4;&#xFF0C;&#x5982;&#x679C;(S,U)&#x7684;&#x8DDD;&#x79BB;&#x52A0;&#x4E0A;(U,V)&#x7684;&#x8DDD;&#x79BB;&#x5C0F;&#x4E8E;&#xFF08;S,V&#xFF09;&#x7684;&#x8DDD;     &#x79BB;&#xFF0C;&#x5219;&#x66F4;&#x65B0;(S,V)&#x7684;&#x8DDD;&#x79BB;</p>
+<p>&#x8BA9;&#x6211;&#x4EEC;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x56FE;&#x6765;&#x7406;&#x89E3;&#x95EE;&#x9898;</p>
+<p>PS&#xFF1A;&#x6587;&#x7AE0;&#x6765;&#x81EA;&#x4E8E;<a href="http://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/&#x7684;&#x7FFB;&#x8BD1;" target="_blank" rel="external">http://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/&#x7684;&#x7FFB;&#x8BD1;</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/08/Dijkstra-ShortestPathAlgorithm/" data-id="cip71pw0p0000soz92xqefs8c" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm-graph-greedy/">algorithm,graph,greedy</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-20160602-alfred使用笔记" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -86,13 +172,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="打开搜索文件所在目录"><a href="#打开搜索文件所在目录" class="headerlink" title="打开搜索文件所在目录"></a>打开搜索文件所在目录</h2><p>CMD + RETURN</p>
-<h2 id="搜索文件"><a href="#搜索文件" class="headerlink" title="搜索文件"></a>搜索文件</h2><p>find + 空格 + 文件名称</p>
+        <h2 id="&#x6253;&#x5F00;&#x641C;&#x7D22;&#x6587;&#x4EF6;&#x6240;&#x5728;&#x76EE;&#x5F55;"><a href="#&#x6253;&#x5F00;&#x641C;&#x7D22;&#x6587;&#x4EF6;&#x6240;&#x5728;&#x76EE;&#x5F55;" class="headerlink" title="&#x6253;&#x5F00;&#x641C;&#x7D22;&#x6587;&#x4EF6;&#x6240;&#x5728;&#x76EE;&#x5F55;"></a>&#x6253;&#x5F00;&#x641C;&#x7D22;&#x6587;&#x4EF6;&#x6240;&#x5728;&#x76EE;&#x5F55;</h2><p>CMD + RETURN</p>
+<h2 id="&#x641C;&#x7D22;&#x6587;&#x4EF6;"><a href="#&#x641C;&#x7D22;&#x6587;&#x4EF6;" class="headerlink" title="&#x641C;&#x7D22;&#x6587;&#x4EF6;"></a>&#x641C;&#x7D22;&#x6587;&#x4EF6;</h2><p>find + &#x7A7A;&#x683C; + &#x6587;&#x4EF6;&#x540D;&#x79F0;</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/02/20160602-alfred使用笔记/" data-id="cioyc07qw00095tz9m05rnyag" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/02/20160602-alfred使用笔记/" data-id="cip71pw1i0009soz99u3vhxhz" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/alfred/">alfred</a></li></ul>
@@ -126,22 +212,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>今天翻之前的老邮件发现如下的一个关于I/O重定向的老题目，一下子懵逼了。。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#cat std.sh</span><br><span class="line">#!/bin/sh</span><br><span class="line">echo &quot;stdout&quot;</span><br><span class="line">echo &quot;stderr&quot; &gt;&amp;2</span><br><span class="line"></span><br><span class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null (这个命令输出什么?)</span><br><span class="line"></span><br><span class="line">#/bin/sh std.sh &gt; /dev/null 2&gt;&amp;1 (这个命令输出什么?)</span><br></pre></td></tr></table></figure></p>
-<p>只好重新学习下I/O重定向相关的只是了，~(≧▽≦)/~啦啦啦</p>
-<h2 id="什么是I-O重定向"><a href="#什么是I-O重定向" class="headerlink" title="什么是I/O重定向"></a>什么是I/O重定向</h2><p>首先重新明确下stdin/stdout/stderr:<br>stdin(0):   默认是keyboard<br>stdout(1):  默认是屏幕<br>stderr(2):  错误消息输出到屏幕</p>
-<p>所谓重定向就是：</p>
+        <h2 id="&#x5F15;&#x5B50;"><a href="#&#x5F15;&#x5B50;" class="headerlink" title="&#x5F15;&#x5B50;"></a>&#x5F15;&#x5B50;</h2><p>&#x4ECA;&#x5929;&#x7FFB;&#x4E4B;&#x524D;&#x7684;&#x8001;&#x90AE;&#x4EF6;&#x53D1;&#x73B0;&#x5982;&#x4E0B;&#x7684;&#x4E00;&#x4E2A;&#x5173;&#x4E8E;I/O&#x91CD;&#x5B9A;&#x5411;&#x7684;&#x8001;&#x9898;&#x76EE;&#xFF0C;&#x4E00;&#x4E0B;&#x5B50;&#x61F5;&#x903C;&#x4E86;&#x3002;&#x3002;&#x3002;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#cat std.sh</span><br><span class="line">#!/bin/sh</span><br><span class="line">echo &quot;stdout&quot;</span><br><span class="line">echo &quot;stderr&quot; &gt;&amp;2</span><br><span class="line"></span><br><span class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null (&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x8F93;&#x51FA;&#x4EC0;&#x4E48;?)</span><br><span class="line"></span><br><span class="line">#/bin/sh std.sh &gt; /dev/null 2&gt;&amp;1 (&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x8F93;&#x51FA;&#x4EC0;&#x4E48;?)</span><br></pre></td></tr></table></figure></p>
+<p>&#x53EA;&#x597D;&#x91CD;&#x65B0;&#x5B66;&#x4E60;&#x4E0B;I/O&#x91CD;&#x5B9A;&#x5411;&#x76F8;&#x5173;&#x7684;&#x53EA;&#x662F;&#x4E86;&#xFF0C;~(&#x2267;&#x25BD;&#x2266;)/~&#x5566;&#x5566;&#x5566;</p>
+<h2 id="&#x4EC0;&#x4E48;&#x662F;I-O&#x91CD;&#x5B9A;&#x5411;"><a href="#&#x4EC0;&#x4E48;&#x662F;I-O&#x91CD;&#x5B9A;&#x5411;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;I/O&#x91CD;&#x5B9A;&#x5411;"></a>&#x4EC0;&#x4E48;&#x662F;I/O&#x91CD;&#x5B9A;&#x5411;</h2><p>&#x9996;&#x5148;&#x91CD;&#x65B0;&#x660E;&#x786E;&#x4E0B;stdin/stdout/stderr:<br>stdin(0):   &#x9ED8;&#x8BA4;&#x662F;keyboard<br>stdout(1):  &#x9ED8;&#x8BA4;&#x662F;&#x5C4F;&#x5E55;<br>stderr(2):  &#x9519;&#x8BEF;&#x6D88;&#x606F;&#x8F93;&#x51FA;&#x5230;&#x5C4F;&#x5E55;</p>
+<p>&#x6240;&#x8C13;&#x91CD;&#x5B9A;&#x5411;&#x5C31;&#x662F;&#xFF1A;</p>
 <blockquote>
-<p>Redirection simply means capturing output from a file, command, program, script,<br>or even code block within a script and sending it as input to another file, command, program, or script.</p>
+<p align="left"> Redirection simply means capturing output from a file, command, program, script, or even code block within a script and sending it as input to another file, command, program, or script. </p>
+
 </blockquote>
-<p>再贴个Advanced Bash Scripting中的例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ls -yz &gt;&gt; command.log 2&gt;&amp;1</span><br><span class="line">#  Capture result of illegal options &quot;yz&quot; in file &quot;command.log.&quot;</span><br><span class="line">#  Because stderr is redirected to the file,</span><br><span class="line">#+ any error messages will also be there.</span><br><span class="line">#  Note, however, that the following does *not* give the same result.</span><br><span class="line">ls -yz 2&gt;&amp;1 &gt;&gt; command.log</span><br><span class="line">#  Outputs an error message, but does not write to file.</span><br><span class="line">#  More precisely, the command output (in this case, null)</span><br><span class="line">#+ writes to the file, but the error message goes only to stdout.</span><br><span class="line">#  If redirecting both stdout and stderr,</span><br><span class="line">#+ the order of the commands makes a difference.</span><br></pre></td></tr></table></figure></p>
-<p>根据这个思路试着看之前的2个问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null</span><br></pre></td></tr></table></figure></p>
-<p>输出：stderr<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null</span><br></pre></td></tr></table></figure></p>
-<p>输出： （没有任何输出）</p>
+<p>&#x518D;&#x8D34;&#x4E2A;Advanced Bash Scripting&#x4E2D;&#x7684;&#x4F8B;&#x5B50;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ls -yz &gt;&gt; command.log 2&gt;&amp;1</span><br><span class="line">#  Capture result of illegal options &quot;yz&quot; in file &quot;command.log.&quot;</span><br><span class="line">#  Because stderr is redirected to the file,</span><br><span class="line">#+ any error messages will also be there.</span><br><span class="line">#  Note, however, that the following does *not* give the same result.</span><br><span class="line">ls -yz 2&gt;&amp;1 &gt;&gt; command.log</span><br><span class="line">#  Outputs an error message, but does not write to file.</span><br><span class="line">#  More precisely, the command output (in this case, null)</span><br><span class="line">#+ writes to the file, but the error message goes only to stdout.</span><br><span class="line">#  If redirecting both stdout and stderr,</span><br><span class="line">#+ the order of the commands makes a difference.</span><br></pre></td></tr></table></figure></p>
+<p>&#x6839;&#x636E;&#x8FD9;&#x4E2A;&#x601D;&#x8DEF;&#x8BD5;&#x7740;&#x770B;&#x4E4B;&#x524D;&#x7684;2&#x4E2A;&#x95EE;&#x9898;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null</span><br></pre></td></tr></table></figure></p>
+<p>&#x8F93;&#x51FA;&#xFF1A;stderr<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null</span><br></pre></td></tr></table></figure></p>
+<p>&#x8F93;&#x51FA;&#xFF1A; &#xFF08;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x8F93;&#x51FA;&#xFF09;</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/02/Shell之IO重定向/" data-id="cioyc07od00005tz9hwawymsr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/02/Shell之IO重定向/" data-id="cip71pw190006soz9hbz9s4of" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
@@ -175,16 +262,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>前提是已经安装了ruby，一般情况下mac会自带ruby</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
-<p>这个命令其实就是下载安装脚本，然后执行安装</p>
-<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)&quot;</span><br></pre></td></tr></table></figure>
-<p>这个命令是下载卸载脚本，然后执行脚本进行卸载</p>
+        <p>&#x524D;&#x63D0;&#x662F;&#x5DF2;&#x7ECF;&#x5B89;&#x88C5;&#x4E86;ruby&#xFF0C;&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;mac&#x4F1A;&#x81EA;&#x5E26;ruby</p>
+<h2 id="&#x5B89;&#x88C5;"><a href="#&#x5B89;&#x88C5;" class="headerlink" title="&#x5B89;&#x88C5;"></a>&#x5B89;&#x88C5;</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x4E0B;&#x8F7D;&#x5B89;&#x88C5;&#x811A;&#x672C;&#xFF0C;&#x7136;&#x540E;&#x6267;&#x884C;&#x5B89;&#x88C5;</p>
+<h2 id="&#x5378;&#x8F7D;"><a href="#&#x5378;&#x8F7D;" class="headerlink" title="&#x5378;&#x8F7D;"></a>&#x5378;&#x8F7D;</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)&quot;</span><br></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x662F;&#x4E0B;&#x8F7D;&#x5378;&#x8F7D;&#x811A;&#x672C;&#xFF0C;&#x7136;&#x540E;&#x6267;&#x884C;&#x811A;&#x672C;&#x8FDB;&#x884C;&#x5378;&#x8F7D;</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/01/安装和卸载Homebrew/" data-id="cioyc07or00035tz90ofcyd89" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/01/安装和卸载Homebrew/" data-id="cip71pw0v0001soz9tglokc7n" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/homebrew/">homebrew</a></li></ul>
@@ -219,7 +306,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
@@ -231,7 +318,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/01/hello-world/" data-id="cioyc07sm000c5tz93b8f7xf0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/01/hello-world/" data-id="cip71pw1d0008soz9li6l5bed" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -263,13 +350,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>基本参照了下面这个链接搭建的: <a href="http://www.jianshu.com/p/70974a67ec8f" target="_blank" rel="external">http://www.jianshu.com/p/70974a67ec8f</a></p>
-<p>部署部分做了如下的修改：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  #repository: http://github.com/alexkkk/alexkkk.github.io.git</span><br><span class="line">  repository: git@github.com:alexkkk/alexkkk.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
+        <p>&#x57FA;&#x672C;&#x53C2;&#x7167;&#x4E86;&#x4E0B;&#x9762;&#x8FD9;&#x4E2A;&#x94FE;&#x63A5;&#x642D;&#x5EFA;&#x7684;: <a href="http://www.jianshu.com/p/70974a67ec8f" target="_blank" rel="external">http://www.jianshu.com/p/70974a67ec8f</a></p>
+<p>&#x90E8;&#x7F72;&#x90E8;&#x5206;&#x505A;&#x4E86;&#x5982;&#x4E0B;&#x7684;&#x4FEE;&#x6539;&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  #repository: http://github.com/alexkkk/alexkkk.github.io.git</span><br><span class="line">  repository: git@github.com:alexkkk/alexkkk.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/01/20160601-Mac下Github-hexo搭建静态博客/" data-id="cioyc07ov00045tz9xqktgc7k" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/01/20160601-Mac下Github-hexo搭建静态博客/" data-id="cip71pw120004soz9j5je8r3q" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
@@ -291,9 +378,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">Mot-clés</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/alfred/">alfred</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/homebrew/">homebrew</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/alfred/">alfred</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm-graph-greedy/">algorithm,graph,greedy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graph/">graph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/">greedy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/homebrew/">homebrew</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li></ul>
     </div>
   </div>
 
@@ -301,9 +388,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">Nuage de mot-clés</h3>
     <div class="widget tagcloud">
-      <a href="/tags/alfred/" style="font-size: 10px;">alfred</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/homebrew/" style="font-size: 10px;">homebrew</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a>
+      <a href="/tags/alfred/" style="font-size: 10px;">alfred</a> <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/algorithm-graph-greedy/" style="font-size: 10px;">algorithm,graph,greedy</a> <a href="/tags/graph/" style="font-size: 10px;">graph</a> <a href="/tags/greedy/" style="font-size: 10px;">greedy</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/homebrew/" style="font-size: 10px;">homebrew</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a>
     </div>
   </div>
 
@@ -320,9 +407,17 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/06/08/DijkstraAlgorithm/">DijkstraAlgorithm</a>
+          </li>
+        
+          <li>
+            <a href="/2016/06/08/Dijkstra-ShortestPathAlgorithm/">Dijkstra-ShortestPathAlgorithm</a>
+          </li>
         
           <li>
             <a href="/2016/06/02/20160602-alfred使用笔记/">alfred使用笔记</a>
@@ -334,14 +429,6 @@
         
           <li>
             <a href="/2016/06/01/安装和卸载Homebrew/">安装和卸载Homebrew</a>
-          </li>
-        
-          <li>
-            <a href="/2016/06/01/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2016/06/01/20160601-Mac下Github-hexo搭建静态博客/">Mac下Github+hexo搭建静态博客</a>
           </li>
         
       </ul>
@@ -357,7 +444,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 alexkkk<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
