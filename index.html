@@ -64,6 +64,105 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-redis-2-异步网络框架" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/14/redis-2-异步网络框架/" class="article-date">
+  <time datetime="2016-06-14T09:44:02.000Z" itemprop="datePublished">2016-06-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/14/redis-2-异步网络框架/">redis_2_异步网络框架</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="&#x6574;&#x4F53;&#x6D41;&#x7A0B;&#x56FE;"><a href="#&#x6574;&#x4F53;&#x6D41;&#x7A0B;&#x56FE;" class="headerlink" title="&#x6574;&#x4F53;&#x6D41;&#x7A0B;&#x56FE;"></a>&#x6574;&#x4F53;&#x6D41;&#x7A0B;&#x56FE;</h2><p>&#x501F;&#x52A9;&#x6574;&#x4F53;&#x6D41;&#x7A0B;&#x56FE;&#xFF0C;&#x68B3;&#x7406;&#x4E0B;redis&#x5F02;&#x6B65;&#x7F51;&#x7EDC;&#x6846;&#x67B6;&#x7684;&#x5904;&#x7406;&#x76F8;&#x5173;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x7136;&#x540E;&#x4E00;&#x4E00;&#x5206;&#x6790;&#x4E0B;&#xFF1A;</p>
+<ol>
+<li>&#x521B;&#x5EFA;epoll&#x4E3B;&#x5FAA;&#x73AF;<br> <code>aeCreateEventLoop</code></li>
+<li>&#x521B;&#x5EFA;&#x76D1;&#x542C;socket,<br> <code>anetTcpServer(server.neterr, server.port, server.bindaddr)</code></li>
+<li>&#x521B;&#x5EFA;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;&#x56DE;&#x8C03;,<br> <code>asCreateTimeEvent(server.el, 1, serverCron, NULL, NULL)</code></li>
+<li>&#x521B;&#x5EFA;&#x6587;&#x4EF6;&#x4E8B;&#x4EF6;&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;&#x56DE;&#x8C03;<br> <code>aeCreateFileEvent(server.el, server.ipfd, AE_READABLE, acceptTcpHandler, NULL)</code><br> &#x5176;&#x5B9E;&#x5C31;&#x662F;&#x7ED9;&#x76D1;&#x542C;&#x7684;socket&#x8BBE;&#x7F6E;&#x53EF;&#x8BFB;&#x56DE;&#x8C03;&#xFF0C;&#x5F53;&#x6709;&#x8FDE;&#x63A5;&#x5230;&#x670D;&#x52A1;&#x5668;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C31;&#x8C03;&#x7528;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x8FDB;&#x884C;&#x5904;&#x7406;</li>
+</ol>
+<p>&#x6240;&#x4EE5;&#x4E3B;&#x6D41;&#x7A0B;&#x5C31;&#x662F;&#x5982;&#x4E0B;&#x4F2A;&#x4EE3;&#x7801;&#x6240;&#x793A;&#xFF0C;&#x5177;&#x4F53;&#x7EC6;&#x8282;&#x518D;&#x6162;&#x6162;&#x5F80;&#x4E0B;&#x770B;<br>while(!stop) {</p>
+<pre><code>1. &#x6267;&#x884C;beforeSleep
+2. epoll_wait&#x7B49;&#x5F85;&#x65F6;&#x95F4;&#x5C31;&#x7EEA;
+    - &#x6587;&#x4EF6;&#x4E8B;&#x4EF6;&#x5C31;&#x7EEA;&#xFF0C;&#x8FDB;&#x884C;&#x5904;&#x7406;
+    - &#x65F6;&#x95F4;&#x4E8B;&#x4EF6;&#x5C31;&#x7EEA;&#xFF0C;&#x8FDB;&#x884C;&#x5904;&#x7406;
+</code></pre><p>}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/14/redis-2-异步网络框架/" data-id="cipfaky8l000fcez9mjckegce" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-Alfred使用iTerm2运行shell命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/13/Alfred使用iTerm2运行shell命令/" class="article-date">
+  <time datetime="2016-06-13T09:52:13.000Z" itemprop="datePublished">2016-06-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/13/Alfred使用iTerm2运行shell命令/">Alfred使用iTerm2运行shell命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>alfred&#x9ED8;&#x8BA4;&#x662F;&#x4F7F;&#x7528;MacOSX&#x81EA;&#x5E26;&#x7684;Terminal&#x8FD0;&#x884C;shell&#x547D;&#x4EE4;,&#x6CA1;&#x6709;&#x7528;iTerm2,&#x4E0D;&#x723D;&#x3002;&#x3002;&#x3002;<br>&#x4E0A;&#x7F51;&#x641C;&#x4E86;&#x4E0B;&#xFF0C;&#x6709;&#x4E9B;&#x540C;&#x5B66;&#x8BF4;&#x5C06;iTerm2&#x8BBE;&#x7F6E;&#x6210;&#x9ED8;&#x8BA4;&#x7684;&#x7EC8;&#x7AEF;&#x5E94;&#x7528;&#x5C31;&#x884C;&#xFF0C;&#x6211;&#x8BBE;&#x7F6E;&#x4E4B;&#x540E;&#x8FD8;&#x662F;&#x4E0D;&#x884C;&#xFF0C;<br>&#x4E8E;&#x662F;&#x81EA;&#x884C;google&#x4E4B;&#xFF0C;&#x641C;&#x5230;&#x4E86;&#x4E00;&#x4E2A;&#x811A;&#x672C;&#xFF0C;&#x66FF;&#x6362;alfred&#x7684;custom&#x811A;&#x672C;&#x4E4B;&#x540E;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;<br>DONE:)</p>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x9700;&#x8981;&#x5C06;iTerm.app&#x79FB;&#x52A8;&#x5230;/Applications&#x76EE;&#x5F55;&#x4E0B;</p>
+<p>##&#x8001;&#x7684;&#x811A;&#x672C;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">on alfred_script(q)</span><br><span class="line">    tell application &quot;Terminal&quot;</span><br><span class="line">        activate</span><br><span class="line">        do script q</span><br><span class="line">    end tell</span><br><span class="line">end alfred_script</span><br></pre></td></tr></table></figure></p>
+<p>##&#x65B0;&#x7684;&#x811A;&#x672C;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">-- This is v0.6 of the custom script for AlfredApp for iTerm 2.9+</span><br><span class="line">-- Please see https://github.com/stuartcryan/custom-iterm-applescripts-for-alfred/</span><br><span class="line">-- for the latest changes.</span><br><span class="line"></span><br><span class="line">-- Please note, if you store the iTerm binary in any other location </span><br><span class="line">    than the Applications Folder</span><br><span class="line">-- please ensure you update the two locations below </span><br><span class="line">    (in the format of : rather than / for folder dividers)</span><br><span class="line">-- this gets around issues with AppleScript not handling things well </span><br><span class="line">    if you have two iTerm binaries on your system... which can happen :D</span><br><span class="line"></span><br><span class="line">on alfred_script(q)</span><br><span class="line">    if application &quot;iTerm2&quot; is running or application &quot;iTerm&quot; is running then</span><br><span class="line">        run script &quot;</span><br><span class="line">            on run {q}</span><br><span class="line">                tell application \&quot;:Applications:iTerm.app\&quot;</span><br><span class="line">                    activate</span><br><span class="line">                    try</span><br><span class="line">                        select first window</span><br><span class="line">                        set onlywindow to false</span><br><span class="line">                    on error</span><br><span class="line">                        create window with default profile</span><br><span class="line">                        select first window</span><br><span class="line">                        set onlywindow to true</span><br><span class="line">                    end try</span><br><span class="line">                    tell the first window</span><br><span class="line">                        if onlywindow is false then</span><br><span class="line">                            create tab with default profile</span><br><span class="line">                        end if</span><br><span class="line">                        tell current session to write text q</span><br><span class="line">                    end tell</span><br><span class="line">                end tell</span><br><span class="line">            end run</span><br><span class="line">        &quot; with parameters {q}</span><br><span class="line">    else</span><br><span class="line">        run script &quot;</span><br><span class="line">            on run {q}</span><br><span class="line">                tell application \&quot;:Applications:iTerm.app\&quot;</span><br><span class="line">                    activate</span><br><span class="line">                    try</span><br><span class="line">                        select first window</span><br><span class="line">                    on error</span><br><span class="line">                        create window with default profile</span><br><span class="line">                        select first window</span><br><span class="line">                    end try</span><br><span class="line">                    tell the first window</span><br><span class="line">                        tell current session to write text q</span><br><span class="line">                    end tell</span><br><span class="line">                end tell</span><br><span class="line">            end run</span><br><span class="line">        &quot; with parameters {q}</span><br><span class="line">    end if</span><br><span class="line">end alfred_script</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/13/Alfred使用iTerm2运行shell命令/" data-id="cipfaky8i000dcez9mafxjpmb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/alfred/">alfred</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+
+  
     <article id="post-redis-1-整体架构" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/06/12/redis-1-整体架构/" class="article-date">
@@ -121,6 +220,42 @@
 </li>
 </ol>
 <p>}</p>
+<h2 id="initServer&#x521D;&#x59CB;&#x5316;&#x670D;&#x52A1;&#x5668;"><a href="#initServer&#x521D;&#x59CB;&#x5316;&#x670D;&#x52A1;&#x5668;" class="headerlink" title="initServer&#x521D;&#x59CB;&#x5316;&#x670D;&#x52A1;&#x5668;"></a>initServer&#x521D;&#x59CB;&#x5316;&#x670D;&#x52A1;&#x5668;</h2><p>void initServer() {</p>
+<ol>
+<li>&#x4FE1;&#x53F7;&#x5904;&#x7406;&#x8BBE;&#x7F6E;</li>
+<li>LOG&#x5904;&#x7406;</li>
+<li>&#x5168;&#x5C40;redisServer&#x8BBE;&#x7F6E;</li>
+<li>&#x521D;&#x59CB;&#x5316;&#x5171;&#x4EAB;&#x5BF9;&#x8C61;</li>
+<li>&#x521D;&#x59CB;&#x5316;&#x4E8B;&#x4EF6;&#x72B6;&#x6001;</li>
+<li>&#x521D;&#x59CB;&#x5316;&#x6570;&#x636E;&#x5E93;</li>
+<li><p>&#x521D;&#x59CB;&#x5316;&#x7F51;&#x7EDC;&#x8FDE;&#x63A5;</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (server.port != <span class="number">0</span>) {</span><br><span class="line">    <span class="comment">///&#x521B;&#x5EFA;socket&#x5E76;&#x76D1;&#x542C;</span></span><br><span class="line">    server.ipfd = anetTcpServer(server.neterr,server.port,server.bindaddr);</span><br><span class="line">    <span class="keyword">if</span> (server.ipfd == ANET_ERR) {</span><br><span class="line">        redisLog(REDIS_WARNING, <span class="string">&quot;Opening port %d: %s&quot;</span>, server.port, server.neterr);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (server.unixsocket != <span class="literal">NULL</span>) {</span><br><span class="line">    unlink(server.unixsocket); <span class="comment">/* don&apos;t care if this fails */</span></span><br><span class="line">    server.sofd = anetUnixServer(server.neterr,server.unixsocket,server.unixsocketperm);</span><br><span class="line">    <span class="keyword">if</span> (server.sofd == ANET_ERR) {</span><br><span class="line">        redisLog(REDIS_WARNING, <span class="string">&quot;Opening socket: %s&quot;</span>, server.neterr);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="keyword">if</span> (server.ipfd &lt; <span class="number">0</span> &amp;&amp; server.sofd &lt; <span class="number">0</span>) {</span><br><span class="line">    redisLog(REDIS_WARNING, <span class="string">&quot;Configured to not listen anywhere, exiting.&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x521D;&#x59CB;&#x5316;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x6309;&#x7167;dbnum&#x521B;&#x5EFA;db&#x7684;dict/expires/blocking_keys/ready_keys/watched_keys</p>
+</li>
+<li>pubsub</li>
+<li>CRON&#x6267;&#x884C;&#x8BA1;&#x6570;</li>
+<li>rdb&#x548C;aof&#x521D;&#x59CB;&#x5316;</li>
+<li>&#x7EDF;&#x8BA1;&#x53D8;&#x91CF;</li>
+<li>&#x5173;&#x8054;server cron&#x5230;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;</li>
+<li>&#x5173;&#x8054;&#x7F51;&#x7EDC;&#x8FDE;&#x63A5;&#x4E8B;&#x4EF6;<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (server.ipfd &gt; <span class="number">0</span> </span><br><span class="line">    <span class="comment">///&#x5C06;socket&#x52A0;&#x5165;epoll&#x76D1;&#x542C;&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;&#x53EF;&#x8BFB;&#x65F6;&#x7684;&#x56DE;&#x8C03;&#x5904;&#x7406;&#x51FD;&#x6570;        ///&#x521B;&#x5EFA;socket&#x5E76;&#x76D1;&#x542C;</span></span><br><span class="line">    &amp;&amp; aeCreateFileEvent(server.el,server.ipfd,AE_READABLE, acceptTcpHandler,<span class="literal">NULL</span>) == AE_ERR) </span><br><span class="line">    redisPanic(<span class="string">&quot;Unrecoverable error creating server.ipfd file event.&quot;</span>);</span><br><span class="line"><span class="keyword">if</span> (server.sofd &gt; <span class="number">0</span> </span><br><span class="line">    &amp;&amp; aeCreateFileEvent(server.el,server.sofd,AE_READABLE, acceptUnixHandler,<span class="literal">NULL</span>) == AE_ERR) </span><br><span class="line">    redisPanic(<span class="string">&quot;Unrecoverable error creating server.sofd file event.&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>&#x7F51;&#x7EDC;&#x4E8B;&#x4EF6;&#x5904;&#x7406;&#x6D41;&#x7A0B;&#x7B80;&#x5355;&#x68B3;&#x7406;&#x4E0B;&#xFF1A;</p>
+<ul>
+<li>&#x521B;&#x5EFA;&#x76D1;&#x542C;socket,&#x5E76;&#x5C06;socket&#x52A0;&#x5165;epoll&#x76D1;&#x63A7;&#xFF0C;&#x8BBE;&#x7F6E;&#x53EF;&#x8BFB;&#x56DE;&#x8C03;&#x51FD;&#x6570;acceptTcpHandler</li>
+<li>acceptTcpHandler&#x63A5;&#x53D7;&#x8FDE;&#x63A5;&#x7684;socket&#xFF0C;&#x5E76;&#x8C03;&#x7528;acceptCommandHandler</li>
+<li>acceptCommandHandler&#x8C03;&#x7528;createClient,&#x521B;&#x5EFA;&#x65B0;&#x7684;&#x5BA2;&#x6237;&#x7AEF;,&#x5982;&#x679C;&#x5BA2;&#x6237;&#x7AEF;&#x4E2A;&#x6570;&#x8D85;&#x8FC7;&#x9650;&#x5236;&#x5219;&#x5173;&#x95ED;</li>
+<li>createClient&#x9996;&#x5148;&#x5BF9;&#x5148;&#x8FDE;&#x63A5;&#x7684;socket&#x8BBE;&#x7F6E;nonblock&#x548C;nodelay&#xFF0C;&#x7136;&#x540E;&#x5C06;socket&#x52A0;&#x5165;epoll&#x76D1;&#x542C;&#xFF0C;&#x8BBE;&#x7F6E;&#x53EF;&#x8BFB;&#x56DE;&#x8C03;readQueryFromClient&#x5982;&#x679C;&#x5BA2;&#x6237;&#x7AEF;&#x4E2A;&#x6570;&#x8D85;&#x8FC7;&#x9650;&#x5236;&#x5219;&#x5173;&#x95ED;</li>
+<li>readQueryFromClient&#x5C06;&#x8BF7;&#x6C42;&#x8BFB;&#x5165;querybuf,&#x7136;&#x540E;&#x8C03;&#x7528;processInputBuffer&#x6765;&#x5904;&#x7406;&#x8F93;&#x5165;&#x6267;&#x884C;&#x547D;&#x4EE4;</li>
+</ul>
+<ol>
+<li>&#x8BBE;&#x7F6E;32&#x4F4D;&#x7CFB;&#x7EDF;&#x5185;&#x5B58;&#x5927;&#x5C0F;&#x548C;&#x5185;&#x5B58;&#x7B56;&#x7565;</li>
+<li>&#x5982;&#x679C;&#x96C6;&#x7FA4;&#x6A21;&#x5F0F;&#x6253;&#x5F00;&#x5219;&#x521D;&#x59CB;&#x5316;&#x96C6;&#x7FA4;</li>
+<li>&#x521D;&#x59CB;&#x5316;&#x811A;&#x672C;&#x73AF;&#x5883;</li>
+<li>&#x521D;&#x59CB;&#x5316;&#x6162;&#x67E5;&#x8BE2;&#x65E5;&#x5FD7;</li>
+<li>&#x521D;&#x59CB;&#x5316;&#x540E;&#x53F0;IO<br>}</li>
+</ol>
 <h2 id="aeMain&#x4E3B;&#x5FAA;&#x73AF;&#x5904;&#x7406;&#x903B;&#x8F91;"><a href="#aeMain&#x4E3B;&#x5FAA;&#x73AF;&#x5904;&#x7406;&#x903B;&#x8F91;" class="headerlink" title="aeMain&#x4E3B;&#x5FAA;&#x73AF;&#x5904;&#x7406;&#x903B;&#x8F91;"></a>aeMain&#x4E3B;&#x5FAA;&#x73AF;&#x5904;&#x7406;&#x903B;&#x8F91;</h2><p>&#x4ECE;&#x4E0A;&#x9762;&#x7684;&#x4E3B;&#x6D41;&#x7A0B;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x7684;&#x4E3B;&#x5FAA;&#x73AF;&#x903B;&#x8F91;&#x5C31;&#x5728;aeMain&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x91CC;&#x9762;&#xFF0C;&#x6211;&#x4EEC;&#x770B;&#x4E0B;&#x5176;&#x4EE3;&#x7801;&#x5982;&#x4E0B;:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">aeMain</span><span class="params">(aeEventLoop *eventLoop)</span> </span>{</span><br><span class="line"></span><br><span class="line">    eventLoop-&gt;stop = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!eventLoop-&gt;stop) {</span><br><span class="line"></span><br><span class="line">        <span class="comment">// &#x5982;&#x679C;&#x6709;&#x9700;&#x8981;&#x5728;&#x4E8B;&#x4EF6;&#x5904;&#x7406;&#x524D;&#x6267;&#x884C;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x90A3;&#x4E48;&#x8FD0;&#x884C;&#x5B83;</span></span><br><span class="line">        <span class="keyword">if</span> (eventLoop-&gt;beforesleep != <span class="literal">NULL</span>)</span><br><span class="line">            eventLoop-&gt;beforesleep(eventLoop);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// &#x5F00;&#x59CB;&#x5904;&#x7406;&#x4E8B;&#x4EF6;</span></span><br><span class="line">        aeProcessEvents(eventLoop, AE_ALL_EVENTS);</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
 <h2 id="aeProcessEvents&#x6D41;&#x7A0B;"><a href="#aeProcessEvents&#x6D41;&#x7A0B;" class="headerlink" title="aeProcessEvents&#x6D41;&#x7A0B;"></a>aeProcessEvents&#x6D41;&#x7A0B;</h2><ol>
 <li>&#x51FD;&#x6570;&#x539F;&#x578B;&#xFF1A;<br> <code>int aeProcessEvents(aeEventLoop *eventLoop, int flags)</code></li>
@@ -132,18 +267,35 @@
 <li><p>&#x83B7;&#x53D6;&#x6700;&#x8FD1;&#x7684;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;</p>
 </li>
 <li>&#x6839;&#x636E;AE_DONT_WAIT&#x53C2;&#x6570;&#x51B3;&#x5B9A;&#x662F;&#x963B;&#x585E;&#x7B49;&#x5F85;&#x6587;&#x4EF6;&#x4E8B;&#x4EF6;&#x7684;&#x65F6;&#x95F4;</li>
-<li><p>&#x5904;&#x7406;&#x5230;&#x8FBE;&#x7684;&#x6587;&#x4EF6;&#x4E8B;&#x4EF6;&#x6587;&#x4EF6;&#x4E8B;&#x4EF6;</p>
+<li><p>&#x5904;&#x7406;&#x5230;&#x8FBE;&#x7684;&#x6587;&#x4EF6;&#x4E8B;&#x4EF6;</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">numevents = aeApiPoll(eventLoop, tvp);</span><br><span class="line"><span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; numevents; j++) {</span><br><span class="line">    <span class="comment">// &#x4ECE;&#x5DF2;&#x5C31;&#x7EEA;&#x6570;&#x7EC4;&#x4E2D;&#x83B7;&#x53D6;&#x4E8B;&#x4EF6;</span></span><br><span class="line">    aeFileEvent *fe = &amp;eventLoop-&gt;events[eventLoop-&gt;fired[j].fd];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> mask = eventLoop-&gt;fired[j].mask;</span><br><span class="line">    <span class="keyword">int</span> fd = eventLoop-&gt;fired[j].fd;</span><br><span class="line">    <span class="keyword">int</span> rfired = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* note the fe-&gt;mask &amp; mask &amp; ... code: maybe an already processed</span><br><span class="line">     * event removed an element that fired and we still didn&apos;t</span><br><span class="line">     * processed, so we check if the event is still valid. */</span></span><br><span class="line">    <span class="keyword">if</span> (fe-&gt;mask &amp; mask &amp; AE_READABLE) {</span><br><span class="line">        <span class="comment">// &#x8BFB;&#x4E8B;&#x4EF6;</span></span><br><span class="line">        rfired = <span class="number">1</span>; <span class="comment">// &#x786E;&#x4FDD;&#x8BFB;/&#x5199;&#x4E8B;&#x4EF6;&#x53EA;&#x80FD;&#x6267;&#x884C;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;</span></span><br><span class="line">        fe-&gt;rfileProc(eventLoop,fd,fe-&gt;clientData,mask);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">if</span> (fe-&gt;mask &amp; mask &amp; AE_WRITABLE) {</span><br><span class="line">        <span class="comment">// &#x5199;&#x4E8B;&#x4EF6;</span></span><br><span class="line">        <span class="keyword">if</span> (!rfired || fe-&gt;wfileProc != fe-&gt;rfileProc)</span><br><span class="line">            fe-&gt;wfileProc(eventLoop,fd,fe-&gt;clientData,mask);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    processed++;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>&#x5904;&#x7406;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;</p>
 </li>
 </ol>
 <p>}</p>
-<h2 id="&#x5904;&#x7406;&#x8BFB;&#x4E8B;&#x4EF6;"><a href="#&#x5904;&#x7406;&#x8BFB;&#x4E8B;&#x4EF6;" class="headerlink" title="&#x5904;&#x7406;&#x8BFB;&#x4E8B;&#x4EF6;"></a>&#x5904;&#x7406;&#x8BFB;&#x4E8B;&#x4EF6;</h2><h2 id="&#x5904;&#x7406;&#x5199;&#x4E8B;&#x4EF6;"><a href="#&#x5904;&#x7406;&#x5199;&#x4E8B;&#x4EF6;" class="headerlink" title="&#x5904;&#x7406;&#x5199;&#x4E8B;&#x4EF6;"></a>&#x5904;&#x7406;&#x5199;&#x4E8B;&#x4EF6;</h2><h2 id="&#x5904;&#x7406;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;"><a href="#&#x5904;&#x7406;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;" class="headerlink" title="&#x5904;&#x7406;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;"></a>&#x5904;&#x7406;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;</h2>
+<h2 id="&#x5904;&#x7406;&#x8BFB;&#x4E8B;&#x4EF6;"><a href="#&#x5904;&#x7406;&#x8BFB;&#x4E8B;&#x4EF6;" class="headerlink" title="&#x5904;&#x7406;&#x8BFB;&#x4E8B;&#x4EF6;"></a>&#x5904;&#x7406;&#x8BFB;&#x4E8B;&#x4EF6;</h2><p>&#x5F53;epoll&#x76D1;&#x542C;&#x7684;accept&#x7684;socket&#x53EF;&#x8BFB;&#xFF0C;&#x8C03;&#x7528;readQueryFromClient&#x51FD;&#x6570;<br>readQueryFromClient&#x5C06;&#x8BF7;&#x6C42;&#x8BFB;&#x5165;querybuf,&#x7136;&#x540E;&#x8C03;&#x7528;processInputBuffer&#x6765;&#x5904;&#x7406;&#x8F93;&#x5165;&#x6267;&#x884C;&#x547D;&#x4EE4;<br>processInputBuffer&#x6839;&#x636E;&#x4E0D;&#x540C;&#x7684;&#x547D;&#x4EE4;&#x627E;&#x5230;&#x4E0D;&#x540C;&#x547D;&#x4EE4;&#x7684;&#x5904;&#x7406;&#x65B9;&#x6CD5;<br>&#x6700;&#x540E;&#x8C03;&#x7528;addReply, addReply&#x8C03;&#x7528;prepareClientToWrite&#x5C06;fd&#x8BBE;&#x7F6E;&#x53EF;&#x5199;&#x56DE;&#x8C03;sendReplyToClient<br>&#x5E76;&#x5C06;&#x5904;&#x7406;&#x7ED3;&#x679C;&#x52A0;&#x5165;&#x5230;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x56DE;&#x590D;&#x4E2D;<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">prepareClientToWrite</span><span class="params">(redisClient *c)</span> </span>{</span><br><span class="line">    <span class="keyword">if</span> (c-&gt;flags &amp; REDIS_LUA_CLIENT) <span class="keyword">return</span> REDIS_OK;</span><br><span class="line">    <span class="keyword">if</span> (c-&gt;fd &lt;= <span class="number">0</span>) <span class="keyword">return</span> REDIS_ERR; <span class="comment">/* Fake client */</span></span><br><span class="line">    <span class="keyword">if</span> (c-&gt;bufpos == <span class="number">0</span> &amp;&amp; listLength(c-&gt;reply) == <span class="number">0</span> &amp;&amp;</span><br><span class="line">        (c-&gt;replstate == REDIS_REPL_NONE || c-&gt;replstate == REDIS_REPL_ONLINE) &amp;&amp;</span><br><span class="line">        aeCreateFileEvent(server.el, c-&gt;fd, AE_WRITABLE, sendReplyToClient, c) == AE_ERR)</span><br><span class="line">        <span class="keyword">return</span> REDIS_ERR;</span><br><span class="line">    <span class="keyword">return</span> REDIS_OK;</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<h2 id="&#x5904;&#x7406;&#x5199;&#x4E8B;&#x4EF6;"><a href="#&#x5904;&#x7406;&#x5199;&#x4E8B;&#x4EF6;" class="headerlink" title="&#x5904;&#x7406;&#x5199;&#x4E8B;&#x4EF6;"></a>&#x5904;&#x7406;&#x5199;&#x4E8B;&#x4EF6;</h2><p>&#x8C03;&#x7528;sendReplyToClient&#x51FD;&#x6570;,&#x540E;&#x9762;&#x518D;&#x8BE6;&#x7EC6;&#x5206;&#x6790;,&#x5148;&#x5199;&#x51E0;&#x4E2A;&#x89C9;&#x5F97;&#x4E0D;&#x9519;&#x7684;&#x70B9;</p>
+<ul>
+<li>&#x4E3A;&#x907F;&#x514D;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x5927;&#x7684;&#x56DE;&#x590D;&#x72EC;&#x5360;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x5982;&#x679C;&#x5199;&#x5165;&#x7684;&#x5B57;&#x8282;&#x6570;&#x5DF2;&#x7ECF;&#x8D85;&#x8FC7;&#x4E8B;&#x4EF6;&#x8BBE;&#x5B9A;&#x7684;&#x6BCF;&#x6B21;&#x53EF;&#x4EE5;&#x5199;&#x5165;&#x7684;&#x6700;&#x5927;&#x5B57;&#x8282;&#x6570;&#xFF0C;&#x5219;&#x4E2D;&#x65AD;&#x53D1;&#x9001;</li>
+<li>&#x5168;&#x90E8;&#x53D1;&#x9001;&#x5B8C;&#x6BD5;&#x4E4B;&#x540E;&#xFF0C;&#x4ECE;epoll&#x91CC;&#x5220;&#x9664;&#x53EF;&#x5199;&#x7684;&#x6587;&#x4EF6;&#x53E5;&#x67C4;&#x76D1;&#x63A7;</li>
+</ul>
+<h2 id="&#x5904;&#x7406;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;"><a href="#&#x5904;&#x7406;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;" class="headerlink" title="&#x5904;&#x7406;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;"></a>&#x5904;&#x7406;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;</h2><p>&#x8C03;&#x7528;<code>static int processTimeEvents(aeEventLoop *eventLoop)</code>&#x5904;&#x7406;&#x65F6;&#x95F4;&#x65F6;&#x95F4;&#xFF0C;&#x5177;&#x4F53;&#x903B;&#x8F91;&#x5982;&#x4E0B;<br>static int processTimeEvents(aeEventLoop *eventLoop) {<br>while(time_event) {</p>
+<ol>
+<li><p>&#x65F6;&#x95F4;&#x9519;&#x4E71;&#x7684;&#x5904;&#x7406;<br>&#x5982;&#x679C;&#x65F6;&#x95F4;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x5C31;&#x63D0;&#x524D;&#x5148;&#x6267;&#x884C;&#x7B2C;&#x4E00;&#x4E2A;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;&#xFF0C;&#x65E9;&#x6267;&#x884C;&#x6BD4;&#x65E0;&#x9650;&#x7B49;&#x5F85;&#x597D;</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (now &lt; eventLoop-&gt;lastTime) {</span><br><span class="line">    te = eventLoop-&gt;timeEventHead;</span><br><span class="line">    <span class="keyword">while</span>(te) {</span><br><span class="line">        te-&gt;when_sec = <span class="number">0</span>;</span><br><span class="line">        te = te-&gt;next;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6267;&#x884C;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;</p>
+</li>
+<li>&#x5224;&#x65AD;&#x662F;&#x4E0D;&#x662F;&#x9700;&#x8981;&#x5FAA;&#x73AF;&#x6267;&#x884C;&#x7684;&#x4E8B;&#x4EF6;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x5FAA;&#x73AF;&#x6267;&#x884C;&#x7684;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x52A0;&#x5230;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;&#x94FE;&#x8868;&#x4E2D;</li>
+<li>&#x53D6;&#x4E0B;&#x4E00;&#x4E2A;&#x65F6;&#x95F4;&#x4E8B;&#x4EF6;<br>}</li>
+</ol>
+<h2 id="&#x6574;&#x4F53;&#x6D41;&#x7A0B;&#x56FE;"><a href="#&#x6574;&#x4F53;&#x6D41;&#x7A0B;&#x56FE;" class="headerlink" title="&#x6574;&#x4F53;&#x6D41;&#x7A0B;&#x56FE;"></a>&#x6574;&#x4F53;&#x6D41;&#x7A0B;&#x56FE;</h2><p>&#x7F51;&#x4E0A;&#x627E;&#x7684;&#x4E00;&#x4E2A;redis&#x6574;&#x4F53;&#x6D41;&#x7A0B;&#x56FE;&#xFF0C;&#x5177;&#x4F53;<a href="http://www.hoterran.info/redis_eventlibrary" target="_blank" rel="external">&#x94FE;&#x63A5;</a><br><img src="/2016/06/12/redis-1-&#x6574;&#x4F53;&#x67B6;&#x6784;/redis_main_process.png" alt="redis&#x6574;&#x4F53;&#x6D41;&#x7A0B;&#x56FE;"><br></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/12/redis-1-整体架构/" data-id="cipcgsjla00091jz93rer59je" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/12/redis-1-整体架构/" data-id="cipfaky8e000ccez9u9ssmpir" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
@@ -217,7 +369,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/12/Erlang学习笔记/" data-id="cipcgsjll000d1jz9sjs5tksd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/12/Erlang学习笔记/" data-id="cipfaky870009cez9drw9ktls" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Erlang/">Erlang</a></li></ul>
@@ -259,7 +411,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/12/Emacs学习笔记/" data-id="cipcgsjl600081jz943yga7xx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/12/Emacs学习笔记/" data-id="cipfaky840008cez9ecx0624k" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Emacs/">Emacs</a></li></ul>
@@ -315,7 +467,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/08/DijkstraAlgorithm/" data-id="cipcgsjl400061jz9vn5aog01" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/08/DijkstraAlgorithm/" data-id="cipfaky800006cez985s6e9vj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/graph/">graph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/greedy/">greedy</a></li></ul>
@@ -358,7 +510,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/02/20160602-alfred使用笔记/" data-id="cipcgsjkz00041jz9xhile8cc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/02/20160602-alfred使用笔记/" data-id="cipfaky7v0004cez9gxw0oltz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/alfred/">alfred</a></li></ul>
@@ -411,7 +563,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/02/Shell之IO重定向/" data-id="cipcgsjkx00031jz9nk3gx8js" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/02/Shell之IO重定向/" data-id="cipfaky7u0003cez98yf2o5l0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
@@ -457,7 +609,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/01/安装和卸载Homebrew/" data-id="cipcgsjki00001jz9cu9y5mep" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/01/安装和卸载Homebrew/" data-id="cipfaky7f0000cez9n87v4vu5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/homebrew/">homebrew</a></li></ul>
@@ -507,7 +659,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/01/hello-world/" data-id="cipcgsjli000c1jz9tacugg7y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/01/hello-world/" data-id="cipfaky8n000hcez9l2e3vxbo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -520,50 +672,11 @@
 
 
   
-    <article id="post-20160601-Mac下Github-hexo搭建静态博客" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/06/01/20160601-Mac下Github-hexo搭建静态博客/" class="article-date">
-  <time datetime="2016-06-01T03:23:47.000Z" itemprop="datePublished">2016-06-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/01/20160601-Mac下Github-hexo搭建静态博客/">Mac下Github+hexo搭建静态博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&#x57FA;&#x672C;&#x53C2;&#x7167;&#x4E86;&#x4E0B;&#x9762;&#x8FD9;&#x4E2A;&#x94FE;&#x63A5;&#x642D;&#x5EFA;&#x7684;: <a href="http://www.jianshu.com/p/70974a67ec8f" target="_blank" rel="external">http://www.jianshu.com/p/70974a67ec8f</a></p>
-<p>&#x90E8;&#x7F72;&#x90E8;&#x5206;&#x505A;&#x4E86;&#x5982;&#x4E0B;&#x7684;&#x4FEE;&#x6539;&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  #repository: http://github.com/alexkkk/alexkkk.github.io.git</span><br><span class="line">  repository: git@github.com:alexkkk/alexkkk.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/01/20160601-Mac下Github-hexo搭建静态博客/" data-id="cipcgsjkp00011jz9xp3jsz0m" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
 
 
-
-
-
-  
-
+  <nav id="page-nav">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
+  </nav>
 </section>
         
           <aside id="sidebar">
@@ -575,7 +688,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/">Emacs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erlang/">Erlang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alfred/">alfred</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graph/">graph</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/">greedy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/homebrew/">homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/">Emacs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erlang/">Erlang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alfred/">alfred</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graph/">graph</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/">greedy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/homebrew/">homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -585,7 +698,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Emacs/" style="font-size: 10px;">Emacs</a> <a href="/tags/Erlang/" style="font-size: 10px;">Erlang</a> <a href="/tags/alfred/" style="font-size: 10px;">alfred</a> <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/graph/" style="font-size: 10px;">graph</a> <a href="/tags/greedy/" style="font-size: 10px;">greedy</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/homebrew/" style="font-size: 10px;">homebrew</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a>
+      <a href="/tags/Emacs/" style="font-size: 10px;">Emacs</a> <a href="/tags/Erlang/" style="font-size: 10px;">Erlang</a> <a href="/tags/alfred/" style="font-size: 20px;">alfred</a> <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/graph/" style="font-size: 10px;">graph</a> <a href="/tags/greedy/" style="font-size: 10px;">greedy</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/homebrew/" style="font-size: 10px;">homebrew</a> <a href="/tags/redis/" style="font-size: 20px;">redis</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a>
     </div>
   </div>
 
@@ -594,7 +707,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">9</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">11</span></li></ul>
     </div>
   </div>
 
@@ -607,6 +720,14 @@
       <ul>
         
           <li>
+            <a href="/2016/06/14/redis-2-异步网络框架/">redis_2_异步网络框架</a>
+          </li>
+        
+          <li>
+            <a href="/2016/06/13/Alfred使用iTerm2运行shell命令/">Alfred使用iTerm2运行shell命令</a>
+          </li>
+        
+          <li>
             <a href="/2016/06/12/redis-1-整体架构/">redis_1_整体架构</a>
           </li>
         
@@ -616,14 +737,6 @@
         
           <li>
             <a href="/2016/06/12/Emacs学习笔记/">Emacs学习笔记</a>
-          </li>
-        
-          <li>
-            <a href="/2016/06/08/DijkstraAlgorithm/">DijkstraAlgorithm</a>
-          </li>
-        
-          <li>
-            <a href="/2016/06/02/20160602-alfred使用笔记/">alfred使用笔记</a>
           </li>
         
       </ul>
