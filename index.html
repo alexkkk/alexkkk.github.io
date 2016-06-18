@@ -51,9 +51,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -63,6 +63,62 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-redis-3-时间事件分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/16/redis-3-时间事件分析/" class="article-date">
+  <time datetime="2016-06-16T08:04:03.000Z" itemprop="datePublished">2016-06-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/16/redis-3-时间事件分析/">redis_3_时间事件分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>redis&#x7684;&#x4E8B;&#x4EF6;&#x4E8B;&#x4EF6;&#x662F;&#x5728;initServer&#x4E2D;&#x8FDB;&#x884C;&#x8BBE;&#x7F6E;&#x7684;<br><code>aeCreateTimeEvent(server.el, 1, serverCron, NULL, NULL);</code><br>&#x6211;&#x4EEC;&#x770B;&#x4E0B;&#x5B83;&#x7684;&#x4EE3;&#x7801;,&#x5176;&#x5B9E;&#x4E3B;&#x8981;&#x505A;&#x7684;&#x5C31;&#x662F;&#x521B;&#x5EFA;&#x4E8B;&#x4EF6;&#xFF0C;&#x5E76;&#x5C06;&#x5B83;&#x653E;&#x5230;&#x6574;&#x4E2A;&#x4E8B;&#x4EF6;&#x4E8B;&#x4EF6;&#x7684;&#x94FE;&#x8868;&#x5934;<br>&#x6709;&#x51E0;&#x4E2A;&#x7EC6;&#x8282;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x4E0B;&#xFF1A;</p>
+<ol>
+<li>milliseconds&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x4F20;&#x5165;&#x7684;&#x662F;1&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x4E2A;&#x5904;&#x7406;1ms&#x4E4B;&#x540E;&#x5C31;&#x4F1A;&#x751F;&#x6548;&#xFF0C;&#x9700;&#x8981;&#x8FDB;&#x884C;&#x5904;&#x7406;</li>
+<li><p>finalizeProc&#x8FD9;&#x4E2A;&#x662F;null<br>long long aeCreateTimeEvent(aeEventLoop *eventLoop, long long milliseconds,</p>
+<pre><code>aeTimeProc *proc, void *clientData,
+aeEventFinalizerProc *finalizerProc)
+</code></pre><p>{<br> // &#x66F4;&#x65B0;&#x65F6;&#x95F4;&#x8BA1;&#x6570;&#x5668;<br> long long id = eventLoop-&gt;timeEventNextId++;<br> aeTimeEvent *te;</p>
+<p> te = zmalloc(sizeof(*te));<br> if (te == NULL) return AE_ERR;</p>
+<p> te-&gt;id = id;</p>
+<p> // &#x8BBE;&#x5B9A;&#x5904;&#x7406;&#x4E8B;&#x4EF6;&#x7684;&#x65F6;&#x95F4;<br> aeAddMillisecondsToNow(milliseconds,&amp;te-&gt;when_sec,&amp;te-&gt;when_ms);<br> te-&gt;timeProc = proc;///@alex:&#x8FD9;&#x91CC;&#x8BBE;&#x7F6E;&#x7684;&#x5C31;&#x662F;serverCron<br> te-&gt;finalizerProc = finalizerProc;<br> te-&gt;clientData = clientData;</p>
+<p> // &#x5C06;&#x65B0;&#x4E8B;&#x4EF6;&#x653E;&#x5165;&#x8868;&#x5934;<br> te-&gt;next = eventLoop-&gt;timeEventHead;<br> eventLoop-&gt;timeEventHead = te;</p>
+<p> return id;<br>}</p>
+</li>
+</ol>
+<p>&#x4E0B;&#x9762;&#x518D;&#x770B;&#x770B;serverCron&#x5177;&#x4F53;&#x5E72;&#x4E86;&#x4EC0;&#x4E48;&#xFF1A;<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">serverCron</span><span class="params">(<span class="keyword">struct</span> aeEventLoop *eventLoop, <span class="keyword">long</span> <span class="keyword">long</span> id, <span class="keyword">void</span> *clientData)</span> </span>{</span><br><span class="line">    <span class="keyword">int</span> j;</span><br><span class="line"><span class="comment">///@alex: REDIS_NOTUSED&#x8FD9;&#x4E2A;&#x5B8F;&#x7528;&#x6765;&#x6D88;&#x9664;&#x53C2;&#x6570;&#x6CA1;&#x6709;&#x88AB;&#x4F7F;&#x7528;&#x7684;&#x544A;&#x8B66;,&#x6CA1;&#x6709;&#x522B;&#x7684;&#x5B9E;&#x9645;&#x4F5C;&#x7528;</span></span><br><span class="line">    REDIS_NOTUSED(eventLoop);</span><br><span class="line">    REDIS_NOTUSED(id);</span><br><span class="line">    REDIS_NOTUSED(clientData);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Software watchdog: deliver the SIGALRM that will reach the signal</span><br><span class="line">     * handler if we don&apos;t return here fast enough. */</span></span><br><span class="line"><span class="comment">///@alex: &#x8BBE;&#x7F6E;&#x53D1;&#x9001;SIGALRM&#x7684;&#x5B9A;&#x65F6;&#x5668;</span></span><br><span class="line">    <span class="keyword">if</span> (server.watchdog_period) watchdogScheduleSignal(server.watchdog_period);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* We take a cached value of the unix time in the global state because</span><br><span class="line">     * with virtual memory and aging there is to store the current time</span><br><span class="line">     * in objects at every object access, and accuracy is not needed.</span><br><span class="line">     * To access a global var is faster than calling time(NULL) */</span></span><br><span class="line">    <span class="comment">// &#x5C06; UNIX &#x65F6;&#x95F4;&#x4FDD;&#x5B58;&#x5728;&#x670D;&#x52A1;&#x5668;&#x72B6;&#x6001;&#x4E2D;&#xFF0C;&#x51CF;&#x5C11;&#x5BF9; time(NULL) &#x7684;&#x8C03;&#x7528;&#xFF0C;&#x52A0;&#x901F;&#x3002;</span></span><br><span class="line">    server.unixtime = time(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">///@alex: &#x5BF9;&#x6267;&#x884C;&#x547D;&#x4EE4;&#x7684;&#x65F6;&#x95F4;&#x8FDB;&#x884C;&#x91C7;&#x6837;&#x5206;&#x6790;</span></span><br><span class="line"><span class="comment">///@alex: &#x770B;&#x6BCF;&#x79D2;&#x949F;&#x6267;&#x884C;&#x4E86;&#x591A;&#x5C11;&#x4E2A;&#x547D;&#x4EE4;</span></span><br><span class="line">    run_with_period(<span class="number">100</span>) trackOperationsPerSecond();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* We have just 22 bits per object for LRU information.</span><br><span class="line">     * So we use an (eventually wrapping) LRU clock with 10 seconds resolution.</span><br><span class="line">     * 2^22 bits with 10 seconds resoluton is more or less 1.5 years.</span><br><span class="line">     *</span><br><span class="line">     * Note that even if this will wrap after 1.5 years it&apos;s not a problem,</span><br><span class="line">     * everything will still work but just some object will appear younger</span><br><span class="line">     * to Redis. But for this to happen a given object should never be touched</span><br><span class="line">     * for 1.5 years.</span><br><span class="line">     *</span><br><span class="line">     * Note that you can change the resolution altering the</span><br><span class="line">     * REDIS_LRU_CLOCK_RESOLUTION define.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="comment">// &#x66F4;&#x65B0;&#x670D;&#x52A1;&#x5668;&#x7684; LRU &#x65F6;&#x95F4;</span></span><br><span class="line">    updateLRUClock();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Record the max memory used since the server was started. */</span></span><br><span class="line">    <span class="comment">// &#x8BB0;&#x5F55;&#x670D;&#x52A1;&#x5668;&#x542F;&#x52A8;&#x4EE5;&#x6765;&#x7684;&#x5185;&#x5B58;&#x6700;&#x9AD8;&#x5CF0;</span></span><br><span class="line">    <span class="keyword">if</span> (zmalloc_used_memory() &gt; server.stat_peak_memory)</span><br><span class="line">        server.stat_peak_memory = zmalloc_used_memory();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* We received a SIGTERM, shutting down here in a safe way, as it is</span><br><span class="line">     * not ok doing so inside the signal handler. */</span></span><br><span class="line">    <span class="keyword">if</span> (server.shutdown_asap) {</span><br><span class="line">        <span class="comment">// &#x4FDD;&#x5B58;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x6E05;&#x7406;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x5E76;&#x9000;&#x51FA;</span></span><br><span class="line">        <span class="keyword">if</span> (prepareForShutdown(<span class="number">0</span>) == REDIS_OK) <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">        redisLog(REDIS_WARNING,<span class="string">&quot;SIGTERM received but errors trying to shut down the server, check the logs for more information&quot;</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Show some info about non-empty databases */</span></span><br><span class="line">    <span class="comment">// &#x8BB0;&#x5F55;&#x975E;&#x7A7A;&#x6570;&#x636E;&#x5E93;&#x7684;&#x4FE1;&#x606F;</span></span><br><span class="line">    run_with_period(<span class="number">5000</span>) {</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; server.dbnum; j++) {</span><br><span class="line">            <span class="keyword">long</span> <span class="keyword">long</span> size, used, vkeys;</span><br><span class="line"></span><br><span class="line">            size = dictSlots(server.db[j].dict);</span><br><span class="line">            used = dictSize(server.db[j].dict);</span><br><span class="line">            vkeys = dictSize(server.db[j].expires);</span><br><span class="line">            <span class="keyword">if</span> (used || vkeys) {</span><br><span class="line">                redisLog(REDIS_VERBOSE,<span class="string">&quot;DB %d: %lld keys (%lld volatile) in %lld slots HT.&quot;</span>,j,used,vkeys,size);</span><br><span class="line">                <span class="comment">/* dictPrintStats(server.dict); */</span></span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* We don&apos;t want to resize the hash tables while a bacground saving</span><br><span class="line">     * is in progress: the saving child is created using fork() that is</span><br><span class="line">     * implemented with a copy-on-write semantic in most modern systems, so</span><br><span class="line">     * if we resize the HT while there is the saving child at work actually</span><br><span class="line">     * a lot of memory movements in the parent will cause a lot of pages</span><br><span class="line">     * copied. */</span></span><br><span class="line">    <span class="comment">// &#x5728;&#x4FDD;&#x5B58; RDB &#x6216;&#x8005; AOF &#x91CD;&#x5199;&#x65F6;&#x4E0D;&#x8FDB;&#x884C; REHASH &#xFF0C;&#x907F;&#x514D;&#x5199;&#x65F6;&#x590D;&#x5236;</span></span><br><span class="line">    <span class="keyword">if</span> (server.rdb_child_pid == <span class="number">-1</span> &amp;&amp; server.aof_child_pid == <span class="number">-1</span>) {</span><br><span class="line">        <span class="comment">// &#x5C06;&#x54C8;&#x5E0C;&#x8868;&#x7684;&#x6BD4;&#x7387;&#x7EF4;&#x6301;&#x5728; 1:1 &#x9644;&#x8FD1;</span></span><br><span class="line">        tryResizeHashTables();</span><br><span class="line">        <span class="keyword">if</span> (server.activerehashing) incrementallyRehash();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Show information about connected clients */</span></span><br><span class="line">    <span class="comment">// &#x663E;&#x793A;&#x5DF2;&#x8FDE;&#x63A5;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x4FE1;&#x606F;</span></span><br><span class="line">    <span class="keyword">if</span> (!server.sentinel_mode) {</span><br><span class="line">        run_with_period(<span class="number">5000</span>) {</span><br><span class="line">            redisLog(REDIS_VERBOSE,</span><br><span class="line">                <span class="string">&quot;%d clients connected (%d slaves), %zu bytes in use&quot;</span>,</span><br><span class="line">                listLength(server.clients)-listLength(server.slaves),</span><br><span class="line">                listLength(server.slaves),</span><br><span class="line">                zmalloc_used_memory());</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">/* We need to do a few operations on clients asynchronously. */</span></span><br><span class="line"><span class="comment">///@alex: &#x68C0;&#x67E5;&#x8FDE;&#x63A5;&#x662F;&#x5426;&#x8D85;&#x65F6;&#xFF0C;&#x4EE5;&#x53CA;&#x6E05;&#x7406;&#x591A;&#x4F59;&#x7684;&#x67E5;&#x8BE2;&#x7F13;&#x5B58;</span></span><br><span class="line">    clientsCron();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Start a scheduled AOF rewrite if this was requested by the user while</span><br><span class="line">     * a BGSAVE was in progress. */</span></span><br><span class="line">    <span class="comment">// &#x5982;&#x679C;&#x7528;&#x6237;&#x6267;&#x884C; BGREWRITEAOF &#x547D;&#x4EE4;&#x7684;&#x8BDD;&#xFF0C;&#x5728;&#x540E;&#x53F0;&#x5F00;&#x59CB; AOF &#x91CD;&#x5199;</span></span><br><span class="line">    <span class="keyword">if</span> (server.rdb_child_pid == <span class="number">-1</span> &amp;&amp; server.aof_child_pid == <span class="number">-1</span> &amp;&amp;</span><br><span class="line">        server.aof_rewrite_scheduled)</span><br><span class="line">    {</span><br><span class="line">        rewriteAppendOnlyFileBackground();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Check if a background saving or AOF rewrite in progress terminated. */</span></span><br><span class="line">    <span class="comment">// &#x5982;&#x679C; BGSAVE &#x6216;&#x8005; BGREWRITEAOF &#x6B63;&#x5728;&#x8FDB;&#x884C;</span></span><br><span class="line">    <span class="comment">// &#x90A3;&#x4E48;&#x68C0;&#x67E5;&#x5B83;&#x4EEC;&#x662F;&#x5426;&#x5DF2;&#x7ECF;&#x6267;&#x884C;&#x5B8C;&#x6BD5;</span></span><br><span class="line">    <span class="keyword">if</span> (server.rdb_child_pid != <span class="number">-1</span> || server.aof_child_pid != <span class="number">-1</span>) {</span><br><span class="line">        <span class="keyword">int</span> statloc;</span><br><span class="line">        <span class="keyword">pid_t</span> pid;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ((pid = wait3(&amp;statloc,WNOHANG,<span class="literal">NULL</span>)) != <span class="number">0</span>) {</span><br><span class="line">            <span class="keyword">int</span> exitcode = WEXITSTATUS(statloc);</span><br><span class="line">            <span class="keyword">int</span> bysignal = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (WIFSIGNALED(statloc)) bysignal = WTERMSIG(statloc);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (pid == server.rdb_child_pid) {</span><br><span class="line">                backgroundSaveDoneHandler(exitcode,bysignal);</span><br><span class="line">            } <span class="keyword">else</span> <span class="keyword">if</span> (pid == server.aof_child_pid) {</span><br><span class="line">                backgroundRewriteDoneHandler(exitcode,bysignal);</span><br><span class="line">            } <span class="keyword">else</span> {</span><br><span class="line">                redisLog(REDIS_WARNING,</span><br><span class="line">                    <span class="string">&quot;Warning, detected child with unmatched pid: %ld&quot;</span>,</span><br><span class="line">                    (<span class="keyword">long</span>)pid);</span><br><span class="line">            }</span><br><span class="line">            <span class="comment">// &#x5982;&#x679C; BGSAVE &#x548C; BGREWRITEAOF &#x90FD;&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#xFF0C;&#x90A3;&#x4E48;&#x91CD;&#x65B0;&#x5F00;&#x59CB; REHASH</span></span><br><span class="line">            updateDictResizePolicy();</span><br><span class="line">        }</span><br><span class="line">    } <span class="keyword">else</span> {</span><br><span class="line">        <span class="comment">/* If there is not a background saving/rewrite in progress check if</span><br><span class="line">         * we have to save/rewrite now */</span></span><br><span class="line">         <span class="comment">// &#x5982;&#x679C;&#x6709;&#x9700;&#x8981;&#xFF0C;&#x5F00;&#x59CB; RDB &#x6587;&#x4EF6;&#x7684;&#x4FDD;&#x5B58;</span></span><br><span class="line">         <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; server.saveparamslen; j++) {</span><br><span class="line">            <span class="keyword">struct</span> saveparam *sp = server.saveparams+j;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (server.dirty &gt;= sp-&gt;changes &amp;&amp;</span><br><span class="line">                server.unixtime-server.lastsave &gt; sp-&gt;seconds) {</span><br><span class="line">                redisLog(REDIS_NOTICE,<span class="string">&quot;%d changes in %d seconds. Saving...&quot;</span>,</span><br><span class="line">                    sp-&gt;changes, sp-&gt;seconds);</span><br><span class="line">                rdbSaveBackground(server.rdb_filename);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            }</span><br><span class="line">         }</span><br><span class="line"></span><br><span class="line">         <span class="comment">/* Trigger an AOF rewrite if needed */</span></span><br><span class="line">         <span class="comment">// &#x5982;&#x679C;&#x6709;&#x9700;&#x8981;&#xFF0C;&#x5F00;&#x59CB; AOF &#x6587;&#x4EF6;&#x91CD;&#x5199;</span></span><br><span class="line">         <span class="keyword">if</span> (server.rdb_child_pid == <span class="number">-1</span> &amp;&amp;</span><br><span class="line">             server.aof_child_pid == <span class="number">-1</span> &amp;&amp;</span><br><span class="line">             server.aof_rewrite_perc &amp;&amp;</span><br><span class="line">             server.aof_current_size &gt; server.aof_rewrite_min_size)</span><br><span class="line">         {</span><br><span class="line">            <span class="keyword">long</span> <span class="keyword">long</span> base = server.aof_rewrite_base_size ?</span><br><span class="line">                            server.aof_rewrite_base_size : <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">long</span> <span class="keyword">long</span> growth = (server.aof_current_size*<span class="number">100</span>/base) - <span class="number">100</span>;</span><br><span class="line">            <span class="keyword">if</span> (growth &gt;= server.aof_rewrite_perc) {</span><br><span class="line">                redisLog(REDIS_NOTICE,<span class="string">&quot;Starting automatic rewriting of AOF on %lld%% growth&quot;</span>,growth);</span><br><span class="line">                rewriteAppendOnlyFileBackground();</span><br><span class="line">            }</span><br><span class="line">         }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* If we postponed an AOF buffer flush, let&apos;s try to do it every time the</span><br><span class="line">     * cron function is called. */</span></span><br><span class="line">    <span class="comment">// &#x5982;&#x679C;&#x6709;&#x9700;&#x8981;&#xFF0C;&#x4FDD;&#x5B58; AOF &#x6587;&#x4EF6;&#x5230;&#x786C;&#x76D8;</span></span><br><span class="line">    <span class="keyword">if</span> (server.aof_flush_postponed_start) flushAppendOnlyFile(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Expire a few keys per cycle, only if this is a master.</span><br><span class="line">     * On slaves we wait for DEL operations synthesized by the master</span><br><span class="line">     * in order to guarantee a strict consistency. */</span></span><br><span class="line">    <span class="comment">// &#x5982;&#x679C;&#x670D;&#x52A1;&#x5668;&#x662F;&#x4E3B;&#x8282;&#x70B9;&#x7684;&#x8BDD;&#xFF0C;&#x8FDB;&#x884C;&#x8FC7;&#x671F;&#x952E;&#x5220;&#x9664;</span></span><br><span class="line">    <span class="comment">// &#x5982;&#x679C;&#x670D;&#x52A1;&#x5668;&#x662F;&#x9644;&#x5C5E;&#x8282;&#x70B9;&#x7684;&#x8BDD;&#xFF0C;&#x90A3;&#x4E48;&#x7B49;&#x5F85;&#x4E3B;&#x8282;&#x70B9;&#x53D1;&#x6765;&#x7684; DEL &#x547D;&#x4EE4;</span></span><br><span class="line">    <span class="keyword">if</span> (server.masterhost == <span class="literal">NULL</span>) activeExpireCycle();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Close clients that need to be closed asynchronous */</span></span><br><span class="line">    <span class="comment">// &#x5173;&#x95ED;&#x90A3;&#x4E9B;&#x9700;&#x8981;&#x5F02;&#x6B65;&#x5220;&#x9664;&#x7684;&#x5BA2;&#x6237;&#x7AEF;</span></span><br><span class="line">    freeClientsInAsyncFreeQueue();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Replication cron function -- used to reconnect to master and</span><br><span class="line">     * to detect transfer failures. */</span></span><br><span class="line">    <span class="comment">// &#x8FDB;&#x884C;&#x5B9A;&#x671F;&#x540C;&#x6B65;</span></span><br><span class="line">    run_with_period(<span class="number">1000</span>) replicationCron();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Run the Redis Cluster cron. */</span></span><br><span class="line">    <span class="comment">// &#x8FD0;&#x884C;&#x96C6;&#x7FA4;&#x5B9A;&#x671F;&#x4EFB;&#x52A1;</span></span><br><span class="line">    run_with_period(<span class="number">1000</span>) {</span><br><span class="line">        <span class="keyword">if</span> (server.cluster_enabled) clusterCron();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Run the Sentinel timer if we are in sentinel mode. */</span></span><br><span class="line">    <span class="comment">// &#x8FD0;&#x884C;&#x76D1;&#x89C6;&#x5668;&#x8BA1;&#x65F6;&#x5668;</span></span><br><span class="line">    run_with_period(<span class="number">100</span>) {</span><br><span class="line">        <span class="keyword">if</span> (server.sentinel_mode) sentinelTimer();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Cleanup expired MIGRATE cached sockets. */</span></span><br><span class="line">    run_with_period(<span class="number">1000</span>) {</span><br><span class="line">        migrateCloseTimedoutSockets();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    server.cronloops++;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1000</span>/REDIS_HZ;</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/16/redis-3-时间事件分析/" data-id="ciplanrpn000i4xs6p0rrjmlu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+
   
     <article id="post-redis-2-异步网络框架" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -140,7 +196,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/14/redis-2-异步网络框架/" data-id="ciph91xqo00096ds61oyodugt" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/06/14/redis-2-异步网络框架/" data-id="ciplanrp8000c4xs6xtb37qvq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
@@ -185,7 +241,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/13/Alfred使用iTerm2运行shell命令/" data-id="ciph91xt9000v6ds6k7ksilhz" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/06/13/Alfred使用iTerm2运行shell命令/" data-id="ciplanrpa000d4xs61x5s6ndl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/alfred/">alfred</a></li></ul>
@@ -332,7 +388,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/12/redis-1-整体架构/" data-id="ciph91xrw000s6ds6lu2c6sob" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/06/12/redis-1-整体架构/" data-id="ciplanroy00094xs6zo34akcf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
@@ -406,7 +462,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/12/Erlang学习笔记/" data-id="ciph91xqq000c6ds60rwwsjyq" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/06/12/Erlang学习笔记/" data-id="ciplanros00084xs60va0s29t" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Erlang/">Erlang</a></li></ul>
@@ -448,7 +504,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/12/Emacs学习笔记/" data-id="ciph91xql00086ds690mpwu8s" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/06/12/Emacs学习笔记/" data-id="ciplanrog00044xs6qy42tk2p" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Emacs/">Emacs</a></li></ul>
@@ -504,7 +560,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/08/DijkstraAlgorithm/" data-id="ciph91xq900046ds6f0u49l9g" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/06/08/DijkstraAlgorithm/" data-id="ciplanrod00034xs6rdckxrab" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/graph/">graph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/greedy/">greedy</a></li></ul>
@@ -547,7 +603,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/02/20160602-alfred使用笔记/" data-id="ciph91xqg00066ds6p66vn2u9" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/06/02/20160602-alfred使用笔记/" data-id="ciplanrpi000g4xs6nggrdesn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/alfred/">alfred</a></li></ul>
@@ -600,7 +656,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/02/Shell之IO重定向/" data-id="ciph91xq400036ds62xce0iez" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/06/02/Shell之IO重定向/" data-id="ciplanrom00064xs6p4gy2shy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
@@ -646,59 +702,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/01/安装和卸载Homebrew/" data-id="ciph91xpm00006ds6n751aue1" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/06/01/安装和卸载Homebrew/" data-id="ciplanrnx00004xs6gqufviab" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/homebrew/">homebrew</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/06/01/hello-world/" class="article-date">
-  <time datetime="2016-06-01T04:29:31.000Z" itemprop="datePublished">2016-06-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/01/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/01/hello-world/" data-id="ciph91xrz000t6ds67uned8h7" class="article-share-link">Partager</a>
-      
-      
     </footer>
   </div>
   
@@ -723,9 +731,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Mot-clés</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/">Emacs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erlang/">Erlang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alfred/">alfred</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graph/">graph</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/">greedy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/homebrew/">homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/">Emacs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erlang/">Erlang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alfred/">alfred</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graph/">graph</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/">greedy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/homebrew/">homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -733,18 +741,18 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Emacs/" style="font-size: 10px;">Emacs</a> <a href="/tags/Erlang/" style="font-size: 10px;">Erlang</a> <a href="/tags/alfred/" style="font-size: 20px;">alfred</a> <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/graph/" style="font-size: 10px;">graph</a> <a href="/tags/greedy/" style="font-size: 10px;">greedy</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/homebrew/" style="font-size: 10px;">homebrew</a> <a href="/tags/redis/" style="font-size: 20px;">redis</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a>
+      <a href="/tags/Emacs/" style="font-size: 10px;">Emacs</a> <a href="/tags/Erlang/" style="font-size: 10px;">Erlang</a> <a href="/tags/alfred/" style="font-size: 15px;">alfred</a> <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/graph/" style="font-size: 10px;">graph</a> <a href="/tags/greedy/" style="font-size: 10px;">greedy</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/homebrew/" style="font-size: 10px;">homebrew</a> <a href="/tags/redis/" style="font-size: 20px;">redis</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Arkiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">11</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">12</span></li></ul>
     </div>
   </div>
 
@@ -752,9 +760,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Siste innlegg</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/06/16/redis-3-时间事件分析/">redis_3_时间事件分析</a>
+          </li>
         
           <li>
             <a href="/2016/06/14/redis-2-异步网络框架/">redis_2_异步网络框架</a>
@@ -772,10 +784,6 @@
             <a href="/2016/06/12/Erlang学习笔记/">Erlang学习笔记</a>
           </li>
         
-          <li>
-            <a href="/2016/06/12/Emacs学习笔记/">Emacs学习笔记</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -789,7 +797,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 alexkkk<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
