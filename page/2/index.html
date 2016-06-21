@@ -51,9 +51,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -63,6 +63,148 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-20160602-alfred使用笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/02/20160602-alfred使用笔记/" class="article-date">
+  <time datetime="2016-06-02T13:17:13.000Z" itemprop="datePublished">2016-06-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/02/20160602-alfred使用笔记/">alfred使用笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="&#x6253;&#x5F00;&#x641C;&#x7D22;&#x6587;&#x4EF6;&#x6240;&#x5728;&#x76EE;&#x5F55;"><a href="#&#x6253;&#x5F00;&#x641C;&#x7D22;&#x6587;&#x4EF6;&#x6240;&#x5728;&#x76EE;&#x5F55;" class="headerlink" title="&#x6253;&#x5F00;&#x641C;&#x7D22;&#x6587;&#x4EF6;&#x6240;&#x5728;&#x76EE;&#x5F55;"></a>&#x6253;&#x5F00;&#x641C;&#x7D22;&#x6587;&#x4EF6;&#x6240;&#x5728;&#x76EE;&#x5F55;</h2><p>CMD + RETURN</p>
+<h2 id="&#x641C;&#x7D22;&#x6587;&#x4EF6;"><a href="#&#x641C;&#x7D22;&#x6587;&#x4EF6;" class="headerlink" title="&#x641C;&#x7D22;&#x6587;&#x4EF6;"></a>&#x641C;&#x7D22;&#x6587;&#x4EF6;</h2><p>find + &#x7A7A;&#x683C; + &#x6587;&#x4EF6;&#x540D;&#x79F0;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/02/20160602-alfred使用笔记/" data-id="cipozfbat00035us64ls4320w" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/alfred/">alfred</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-Shell之IO重定向" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/02/Shell之IO重定向/" class="article-date">
+  <time datetime="2016-06-02T11:53:08.000Z" itemprop="datePublished">2016-06-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/02/Shell之IO重定向/">Shell之I/O重定向</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="&#x5F15;&#x5B50;"><a href="#&#x5F15;&#x5B50;" class="headerlink" title="&#x5F15;&#x5B50;"></a>&#x5F15;&#x5B50;</h2><p>&#x4ECA;&#x5929;&#x7FFB;&#x4E4B;&#x524D;&#x7684;&#x8001;&#x90AE;&#x4EF6;&#x53D1;&#x73B0;&#x5982;&#x4E0B;&#x7684;&#x4E00;&#x4E2A;&#x5173;&#x4E8E;I/O&#x91CD;&#x5B9A;&#x5411;&#x7684;&#x8001;&#x9898;&#x76EE;&#xFF0C;&#x4E00;&#x4E0B;&#x5B50;&#x61F5;&#x903C;&#x4E86;&#x3002;&#x3002;&#x3002;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#cat std.sh</span><br><span class="line">#!/bin/sh</span><br><span class="line">echo &quot;stdout&quot;</span><br><span class="line">echo &quot;stderr&quot; &gt;&amp;2</span><br><span class="line"></span><br><span class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null (&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x8F93;&#x51FA;&#x4EC0;&#x4E48;?)</span><br><span class="line"></span><br><span class="line">#/bin/sh std.sh &gt; /dev/null 2&gt;&amp;1 (&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x8F93;&#x51FA;&#x4EC0;&#x4E48;?)</span><br></pre></td></tr></table></figure></p>
+<p>&#x53EA;&#x597D;&#x91CD;&#x65B0;&#x5B66;&#x4E60;&#x4E0B;I/O&#x91CD;&#x5B9A;&#x5411;&#x76F8;&#x5173;&#x7684;&#x53EA;&#x662F;&#x4E86;&#xFF0C;~(&#x2267;&#x25BD;&#x2266;)/~&#x5566;&#x5566;&#x5566;</p>
+<h2 id="&#x4EC0;&#x4E48;&#x662F;I-O&#x91CD;&#x5B9A;&#x5411;"><a href="#&#x4EC0;&#x4E48;&#x662F;I-O&#x91CD;&#x5B9A;&#x5411;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;I/O&#x91CD;&#x5B9A;&#x5411;"></a>&#x4EC0;&#x4E48;&#x662F;I/O&#x91CD;&#x5B9A;&#x5411;</h2><p>&#x9996;&#x5148;&#x91CD;&#x65B0;&#x660E;&#x786E;&#x4E0B;stdin/stdout/stderr:<br>stdin(0):   &#x9ED8;&#x8BA4;&#x662F;keyboard<br>stdout(1):  &#x9ED8;&#x8BA4;&#x662F;&#x5C4F;&#x5E55;<br>stderr(2):  &#x9519;&#x8BEF;&#x6D88;&#x606F;&#x8F93;&#x51FA;&#x5230;&#x5C4F;&#x5E55;</p>
+<p>&#x6240;&#x8C13;&#x91CD;&#x5B9A;&#x5411;&#x5C31;&#x662F;&#xFF1A;</p>
+<blockquote>
+<p align="left"> Redirection simply means capturing output from a file, command, program, script, or even code block within a script and sending it as input to another file, command, program, or script. </p>
+
+</blockquote>
+<p>&#x518D;&#x8D34;&#x4E2A;Advanced Bash Scripting&#x4E2D;&#x7684;&#x4F8B;&#x5B50;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ls -yz &gt;&gt; command.log 2&gt;&amp;1</span><br><span class="line">#  Capture result of illegal options &quot;yz&quot; in file &quot;command.log.&quot;</span><br><span class="line">#  Because stderr is redirected to the file,</span><br><span class="line">#+ any error messages will also be there.</span><br><span class="line">#  Note, however, that the following does *not* give the same result.</span><br><span class="line">ls -yz 2&gt;&amp;1 &gt;&gt; command.log</span><br><span class="line">#  Outputs an error message, but does not write to file.</span><br><span class="line">#  More precisely, the command output (in this case, null)</span><br><span class="line">#+ writes to the file, but the error message goes only to stdout.</span><br><span class="line">#  If redirecting both stdout and stderr,</span><br><span class="line">#+ the order of the commands makes a difference.</span><br></pre></td></tr></table></figure></p>
+<p>&#x6839;&#x636E;&#x8FD9;&#x4E2A;&#x601D;&#x8DEF;&#x8BD5;&#x7740;&#x770B;&#x4E4B;&#x524D;&#x7684;2&#x4E2A;&#x95EE;&#x9898;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null</span><br></pre></td></tr></table></figure></p>
+<p>&#x8F93;&#x51FA;&#xFF1A;stderr<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null</span><br></pre></td></tr></table></figure></p>
+<p>&#x8F93;&#x51FA;&#xFF1A; &#xFF08;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x8F93;&#x51FA;&#xFF09;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/02/Shell之IO重定向/" data-id="cipozfbau00045us6w2wajfis" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-安装和卸载Homebrew" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/01/安装和卸载Homebrew/" class="article-date">
+  <time datetime="2016-06-01T15:46:31.000Z" itemprop="datePublished">2016-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/01/安装和卸载Homebrew/">安装和卸载Homebrew</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&#x524D;&#x63D0;&#x662F;&#x5DF2;&#x7ECF;&#x5B89;&#x88C5;&#x4E86;ruby&#xFF0C;&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;mac&#x4F1A;&#x81EA;&#x5E26;ruby</p>
+<h2 id="&#x5B89;&#x88C5;"><a href="#&#x5B89;&#x88C5;" class="headerlink" title="&#x5B89;&#x88C5;"></a>&#x5B89;&#x88C5;</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x4E0B;&#x8F7D;&#x5B89;&#x88C5;&#x811A;&#x672C;&#xFF0C;&#x7136;&#x540E;&#x6267;&#x884C;&#x5B89;&#x88C5;</p>
+<h2 id="&#x5378;&#x8F7D;"><a href="#&#x5378;&#x8F7D;" class="headerlink" title="&#x5378;&#x8F7D;"></a>&#x5378;&#x8F7D;</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)&quot;</span><br></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x662F;&#x4E0B;&#x8F7D;&#x5378;&#x8F7D;&#x811A;&#x672C;&#xFF0C;&#x7136;&#x540E;&#x6267;&#x884C;&#x811A;&#x672C;&#x8FDB;&#x884C;&#x5378;&#x8F7D;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/01/安装和卸载Homebrew/" data-id="cipozfbaf00005us62fs93v6a" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/homebrew/">homebrew</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+
   
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -99,7 +241,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/01/hello-world/" data-id="cipf4hf54000sspz9ffpzgnpo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/01/hello-world/" data-id="cipozfbcp00145us69a4vqguy" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -140,7 +282,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/01/20160601-Mac下Github-hexo搭建静态博客/" data-id="cipf4hf380001spz9vk6myvfh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/01/20160601-Mac下Github-hexo搭建静态博客/" data-id="cipozfbam00015us6lketjete" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
@@ -169,9 +311,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">Mot-clés</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/">Emacs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erlang/">Erlang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alfred/">alfred</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graph/">graph</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/">greedy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/homebrew/">homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/">Emacs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erlang/">Erlang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alfred/">alfred</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graph/">graph</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/">greedy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/homebrew/">homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -179,9 +321,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">Nuage de mot-clés</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Emacs/" style="font-size: 10px;">Emacs</a> <a href="/tags/Erlang/" style="font-size: 10px;">Erlang</a> <a href="/tags/alfred/" style="font-size: 15px;">alfred</a> <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/graph/" style="font-size: 10px;">graph</a> <a href="/tags/greedy/" style="font-size: 10px;">greedy</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/homebrew/" style="font-size: 10px;">homebrew</a> <a href="/tags/redis/" style="font-size: 20px;">redis</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a>
+      <a href="/tags/Emacs/" style="font-size: 10px;">Emacs</a> <a href="/tags/Erlang/" style="font-size: 10px;">Erlang</a> <a href="/tags/alfred/" style="font-size: 15px;">alfred</a> <a href="/tags/algorithm/" style="font-size: 15px;">algorithm</a> <a href="/tags/graph/" style="font-size: 10px;">graph</a> <a href="/tags/greedy/" style="font-size: 10px;">greedy</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/homebrew/" style="font-size: 10px;">homebrew</a> <a href="/tags/redis/" style="font-size: 20px;">redis</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a>
     </div>
   </div>
 
@@ -190,7 +332,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">12</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">15</span></li></ul>
     </div>
   </div>
 
@@ -198,9 +340,21 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/06/19/二叉树的遍历/">二叉树的遍历</a>
+          </li>
+        
+          <li>
+            <a href="/2016/06/19/redis-5-dict数据结构分析/">redis-5-dict数据结构分析</a>
+          </li>
+        
+          <li>
+            <a href="/2016/06/19/redis-4-文件事件分析/">redis-4-文件事件分析</a>
+          </li>
         
           <li>
             <a href="/2016/06/16/redis-3-时间事件分析/">redis_3_时间事件分析</a>
@@ -208,18 +362,6 @@
         
           <li>
             <a href="/2016/06/14/redis-2-异步网络框架/">redis-2-异步网络框架</a>
-          </li>
-        
-          <li>
-            <a href="/2016/06/13/Alfred使用iTerm2运行shell命令/">Alfred使用iTerm2运行shell命令</a>
-          </li>
-        
-          <li>
-            <a href="/2016/06/12/redis-1-整体架构/">redis_1_整体架构</a>
-          </li>
-        
-          <li>
-            <a href="/2016/06/12/Erlang学习笔记/">Erlang学习笔记</a>
           </li>
         
       </ul>
@@ -235,7 +377,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 alexkkk<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
