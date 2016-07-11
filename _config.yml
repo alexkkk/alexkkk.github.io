@@ -1,0 +1,105 @@
+# Hexo Configuration
+## Docs: https://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/
+
+# Site
+title: INCLUDE
+subtitle:
+description:
+author: alexkkk
+language:
+timezone:
+
+# URL
+## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
+url: http://yoursite.com
+root: /
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+
+# Directory
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+
+# Writing
+# new_post_name: :title.md # File name of new posts
+new_post_name: :year:month:day-:title.md # File name of new posts
+default_layout: post
+titlecase: false # Transform title into titlecase
+external_link: true # Open external links in new tab
+filename_case: 0
+render_drafts: false
+## post_asset_folder: false
+post_asset_folder: true
+relative_link: false
+future: true
+highlight:
+  enable: true
+  line_number: true
+  auto_detect: false
+  tab_replace:
+
+# Category & Tag
+default_category: uncategorized
+category_map:
+tag_map:
+
+# Date / Time format
+## Hexo uses Moment.js to parse and display date
+## You can customize the date format as defined in
+## http://momentjs.com/docs/#/displaying/format/
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+
+# Pagination
+## Set per_page to 0 to disable pagination
+per_page: 10
+pagination_dir: page
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+## theme: landscape
+theme: landscape
+
+# Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+  type: git
+  #repository: http://github.com/alexkkk/alexkkk.github.io.git
+  repository: git@github.com:alexkkk/alexkkk.github.io.git
+  branch: master
+
+
+# >>> Conments 评论系统 <<<
+# Chose ONE as your comment system and keep others disable.
+# 选一个作为网站评论系统，其他保持禁用。
+
+disqus:
+  #on: true
+  shortname:
+  # https://help.disqus.com/customer/en/portal/articles/466208-what-s-a-shortname-
+  # It is unnecessary to enable disqus here if
+  # you have set "disqus_shortname" in your site's "_config.yml"
+
+duoshuo:
+  on: true
+  domain: alexkkk
+  # 是否开启多说评论，http://duoshuo.com/create-site/
+  # 使用上面网址登陆你的多说，然后创建站点，在 domain 中填入你设定的域名
+  # http://你的多说域名.duoshuo.com
+
+youyan:
+  #on: true
+  id:
+  # 是否开启友言评论，http://www.uyan.cc/index.php
+  # id 中填写你的友言用户数字ID，注册后进入后台管理即可查看
+  # 友言服务在 Web 环境下运行，普通本地环境无法查看，请部署后在线上测试。
+
+# >>> <<<
