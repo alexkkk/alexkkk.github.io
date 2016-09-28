@@ -7,7 +7,8 @@ title: INCLUDE
 subtitle:
 description:
 author: alexkkk
-language:
+# language:
+language: zh-Hans
 timezone:
 
 # URL
@@ -66,7 +67,7 @@ pagination_dir: page
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 ## theme: landscape
-theme: landscape
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
