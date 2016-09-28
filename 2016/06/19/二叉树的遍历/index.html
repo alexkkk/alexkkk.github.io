@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>二叉树的遍历 | INCLUDE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="&amp;#x4E8C;&amp;#x53C9;&amp;#x6811;&amp;#x7684;&amp;#x904D;&amp;#x5386;&amp;#x6709;&amp;#x5982;&amp;#x4E0B;&amp;#x7684;3&amp;#x79CD;&amp;#x65B9;&amp;#x6CD5;&amp;#xFF1A;
+
+&amp;#x5148;&amp;#x5E8F;&amp;#x904D;&amp;#x5386;(root-&amp;gt;left-&amp;gt;right)
+&amp;#x4E2D;&amp;#x5E8F;&amp;#x904D;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二叉树的遍历">
+<meta property="og:url" content="http://yoursite.com/2016/06/19/二叉树的遍历/index.html">
+<meta property="og:site_name" content="INCLUDE">
+<meta property="og:description" content="&amp;#x4E8C;&amp;#x53C9;&amp;#x6811;&amp;#x7684;&amp;#x904D;&amp;#x5386;&amp;#x6709;&amp;#x5982;&amp;#x4E0B;&amp;#x7684;3&amp;#x79CD;&amp;#x65B9;&amp;#x6CD5;&amp;#xFF1A;
+
+&amp;#x5148;&amp;#x5E8F;&amp;#x904D;&amp;#x5386;(root-&amp;gt;left-&amp;gt;right)
+&amp;#x4E2D;&amp;#x5E8F;&amp;#x904D;&amp;#x">
+<meta property="og:updated_time" content="2016-09-28T17:12:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="二叉树的遍历">
+<meta name="twitter:description" content="&amp;#x4E8C;&amp;#x53C9;&amp;#x6811;&amp;#x7684;&amp;#x904D;&amp;#x5386;&amp;#x6709;&amp;#x5982;&amp;#x4E0B;&amp;#x7684;3&amp;#x79CD;&amp;#x65B9;&amp;#x6CD5;&amp;#xFF1A;
+
+&amp;#x5148;&amp;#x5E8F;&amp;#x904D;&amp;#x5386;(root-&amp;gt;left-&amp;gt;right)
+&amp;#x4E2D;&amp;#x5E8F;&amp;#x904D;&amp;#x">
+  
+    <link rel="alternate" href="/atom.xml" title="INCLUDE" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">INCLUDE</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-二叉树的遍历" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/19/二叉树的遍历/" class="article-date">
+  <time datetime="2016-06-19T15:52:20.000Z" itemprop="datePublished">2016-06-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      二叉树的遍历
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&#x4E8C;&#x53C9;&#x6811;&#x7684;&#x904D;&#x5386;&#x6709;&#x5982;&#x4E0B;&#x7684;3&#x79CD;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<ol>
+<li>&#x5148;&#x5E8F;&#x904D;&#x5386;(root-&gt;left-&gt;right)</li>
+<li>&#x4E2D;&#x5E8F;&#x904D;&#x5386;(left-&gt;root-&gt;right)</li>
+<li>&#x540E;&#x5E8F;&#x904D;&#x5386;(left-&gt;right-&gt;root)</li>
+</ol>
+<h2 id="&#x524D;&#x63D0;"><a href="#&#x524D;&#x63D0;" class="headerlink" title="&#x524D;&#x63D0;"></a>&#x524D;&#x63D0;</h2><p>&#x4E8C;&#x53C9;&#x6811;&#x7684;&#x57FA;&#x672C;&#x6570;&#x636E;&#x7ED3;&#x6784;<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> Node {</div><div class="line">    <span class="keyword">int</span> val;</div><div class="line">    Node *left;</div><div class="line">    Node *right;</div><div class="line">    Node(<span class="keyword">int</span> x) : val(x), left(<span class="literal">nullptr</span>), right(<span class="literal">nullptr</span>) {</div><div class="line">    }</div><div class="line"></div><div class="line">};</div></pre></td></tr></table></figure></p>
+<h2 id="1-&#x5148;&#x5E8F;&#x904D;&#x5386;"><a href="#1-&#x5148;&#x5E8F;&#x904D;&#x5386;" class="headerlink" title="1.&#x5148;&#x5E8F;&#x904D;&#x5386;"></a>1.&#x5148;&#x5E8F;&#x904D;&#x5386;</h2><p>&#x5206;&#x522B;&#x7528;&#x9012;&#x5F52;&#x548C;&#x975E;&#x9012;&#x5F52;&#x7684;2&#x79CD;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;</p>
+<h3 id="1-1&#x9012;&#x5F52;"><a href="#1-1&#x9012;&#x5F52;" class="headerlink" title="1.1&#x9012;&#x5F52;"></a>1.1&#x9012;&#x5F52;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N)<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">preorder_traverse</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; root-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    preorder_traverse(root-&gt;left);</div><div class="line">    preorder_traverse(root-&gt;right);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h3 id="1-2&#x975E;&#x9012;&#x5F52;"><a href="#1-2&#x975E;&#x9012;&#x5F52;" class="headerlink" title="1.2&#x975E;&#x9012;&#x5F52;"></a>1.2&#x975E;&#x9012;&#x5F52;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N)<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">preorder_traverse</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">const</span> Node*&gt; s;</div><div class="line">    s.push(root);</div><div class="line">    <span class="keyword">const</span> Node* p = <span class="literal">nullptr</span>;</div><div class="line">    <span class="keyword">while</span> (!s.empty()) {</div><div class="line">        p = s.top();</div><div class="line">        s.pop();</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">        <span class="keyword">if</span> (p-&gt;left) {</div><div class="line">            s.push(p-&gt;right);</div><div class="line">        }</div><div class="line">        <span class="keyword">if</span> (p-&gt;right) {</div><div class="line">            s.push(p-&gt;left);</div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h3 id="1-3-morris&#x5148;&#x5E8F;&#x904D;&#x5386;"><a href="#1-3-morris&#x5148;&#x5E8F;&#x904D;&#x5386;" class="headerlink" title="1.3 morris&#x5148;&#x5E8F;&#x904D;&#x5386;"></a>1.3 morris&#x5148;&#x5E8F;&#x904D;&#x5386;</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">preorder_morris</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">auto</span> p = root;</div><div class="line">    <span class="keyword">while</span> (p) {</div><div class="line">        <span class="keyword">if</span> (!p-&gt;left) {</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            p = p-&gt;right;</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            <span class="keyword">auto</span> temp = p-&gt;left;</div><div class="line">            <span class="keyword">while</span> (p != temp-&gt;right &amp;&amp; temp-&gt;right) {</div><div class="line">                temp = temp-&gt;right;</div><div class="line">            }</div><div class="line">            <span class="keyword">if</span> (!temp-&gt;right) {</div><div class="line">                <span class="comment">///&#x7B2C;&#x4E00;&#x6B21;&#x4ECE;&#x5DE6;&#x5B50;&#x7684;&#x6700;&#x53F3;&#x8282;&#x70B9;&#x8FD4;&#x56DE;&#xFF0C;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x8282;&#x70B9;</span></div><div class="line">            	<span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">                temp-&gt;right = p;</div><div class="line">                p = p-&gt;left;</div><div class="line">            } <span class="keyword">else</span> {</div><div class="line">                <span class="comment">///&#x7B2C;&#x4E8C;&#x6B21;&#x4ECE;&#x5DE6;&#x5B50;&#x7684;&#x6700;&#x53F3;&#x8282;&#x70B9;&#x8FD4;&#x56DE;&#xFF0C;&#x5DF2;&#x7ECF;&#x90FD;&#x5B8C;&#x6210;&#x8BBF;&#x95EE;</span></div><div class="line">                <span class="comment">///&#x62C6;&#x5F00;&#x5EC9;&#x6D01;&#xFF0C;&#x540C;&#x65F6;&#x8F6C;&#x5411;&#x8BBF;&#x95EE;&#x53F3;&#x5B50;</span></div><div class="line">                temp-&gt;right = <span class="literal">nullptr</span>;</div><div class="line">                p = p-&gt;right;</div><div class="line">            }</div><div class="line"></div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<h2 id="2-&#x4E2D;&#x5E8F;&#x904D;&#x5386;"><a href="#2-&#x4E2D;&#x5E8F;&#x904D;&#x5386;" class="headerlink" title="2.&#x4E2D;&#x5E8F;&#x904D;&#x5386;"></a>2.&#x4E2D;&#x5E8F;&#x904D;&#x5386;</h2><p>&#x5206;&#x522B;&#x7528;&#x9012;&#x5F52;&#x548C;&#x975E;&#x9012;&#x5F52;&#x7684;2&#x79CD;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;</p>
+<h3 id="2-1&#x9012;&#x5F52;"><a href="#2-1&#x9012;&#x5F52;" class="headerlink" title="2.1&#x9012;&#x5F52;"></a>2.1&#x9012;&#x5F52;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N)<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">inorder_traverse</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    inorder_traverse(root-&gt;left);</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; root-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    inorder_traverse(root-&gt;right);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h3 id="2-2&#x975E;&#x9012;&#x5F52;"><a href="#2-2&#x975E;&#x9012;&#x5F52;" class="headerlink" title="2.2&#x975E;&#x9012;&#x5F52;"></a>2.2&#x975E;&#x9012;&#x5F52;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N)<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">inorder_traverse</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">const</span> Node*&gt; s;</div><div class="line">    <span class="keyword">while</span> (!s.empty() || root) {</div><div class="line">        <span class="keyword">while</span> (root) {</div><div class="line">            s.push(root);</div><div class="line">            root = root-&gt;left;</div><div class="line">        }</div><div class="line">        root = s.top();</div><div class="line">        s.pop();</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; root-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">        root = root-&gt;right;</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h3 id="2-3-morris&#x4E2D;&#x5E8F;&#x904D;&#x5386;"><a href="#2-3-morris&#x4E2D;&#x5E8F;&#x904D;&#x5386;" class="headerlink" title="2.3 morris&#x4E2D;&#x5E8F;&#x904D;&#x5386;"></a>2.3 morris&#x4E2D;&#x5E8F;&#x904D;&#x5386;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(1)<br>&#x7528;&#x65F6;&#x95F4;&#x6362;&#x7A7A;&#x95F4;<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">inorder_morris</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (<span class="literal">nullptr</span> == root) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">auto</span> p = root;</div><div class="line">    <span class="keyword">while</span> (p) {</div><div class="line">        <span class="keyword">if</span> (<span class="literal">nullptr</span> == p-&gt;left) {</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            p = p-&gt;right;</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            <span class="keyword">auto</span> temp = p-&gt;left;</div><div class="line">            <span class="keyword">while</span> (<span class="literal">nullptr</span> != temp-&gt;right &amp;&amp; p != temp-&gt;right) {</div><div class="line">                temp = temp-&gt;right;</div><div class="line">            }</div><div class="line">            <span class="keyword">if</span> (<span class="literal">nullptr</span> == temp-&gt;right) {</div><div class="line">                <span class="comment">///&#x7B2C;&#x4E00;&#x6B21;&#x8BBF;&#x95EE;&#x8282;&#x70B9;p&#xFF0C;p&#x7684;&#x5DE6;&#x5B50;&#x8FD8;&#x6CA1;&#x6709;&#x8BBF;&#x95EE;</span></div><div class="line">                <span class="comment">///&#x9700;&#x8981;&#x5148;&#x8BBF;&#x95EE;p&#x7684;&#x5DE6;&#x5B50;</span></div><div class="line">                temp-&gt;right = p;</div><div class="line">                p = p-&gt;left;</div><div class="line">            } <span class="keyword">else</span> {</div><div class="line">                <span class="comment">///p&#x7684;&#x5DE6;&#x5B50;&#x5DF2;&#x7ECF;&#x8BBF;&#x95EE;&#x5B8C;&#x6210;&#xFF0C;&#x8BBF;&#x95EE;p&#x672C;&#x8EAB;&#xFF0C;&#x518D;&#x8BBF;&#x95EE;p&#x7684;&#x53F3;&#x5B50;</span></div><div class="line">                <span class="comment">///&#x8981;&#x5C06;&#x539F;&#x6765;&#x5EFA;&#x7ACB;&#x7684;&#x8FDE;&#x63A5;&#x65AD;&#x5F00;</span></div><div class="line">                <span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">                temp-&gt;right = <span class="literal">nullptr</span>;</div><div class="line">                p = p-&gt;right;</div><div class="line">            }</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h2 id="3-&#x540E;&#x5E8F;&#x904D;&#x5386;"><a href="#3-&#x540E;&#x5E8F;&#x904D;&#x5386;" class="headerlink" title="3.&#x540E;&#x5E8F;&#x904D;&#x5386;"></a>3.&#x540E;&#x5E8F;&#x904D;&#x5386;</h2><p>&#x5206;&#x522B;&#x7528;&#x9012;&#x5F52;&#x548C;&#x975E;&#x9012;&#x5F52;&#x7684;2&#x79CD;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;</p>
+<h3 id="3-1&#x9012;&#x5F52;"><a href="#3-1&#x9012;&#x5F52;" class="headerlink" title="3.1&#x9012;&#x5F52;"></a>3.1&#x9012;&#x5F52;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N)<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">postorder_traverse</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    postorder_traverse(root-&gt;left);</div><div class="line">    postorder_traverse(root-&gt;right);</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; root-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h3 id="3-2&#x975E;&#x9012;&#x5F52;"><a href="#3-2&#x975E;&#x9012;&#x5F52;" class="headerlink" title="3.2&#x975E;&#x9012;&#x5F52;"></a>3.2&#x975E;&#x9012;&#x5F52;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N)<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">postorder_traverse</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">const</span> Node* pre = <span class="literal">nullptr</span>;</div><div class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">const</span> Node*&gt; s;</div><div class="line">    <span class="keyword">do</span> {</div><div class="line">        <span class="keyword">while</span> (root) {</div><div class="line">            s.push(root);</div><div class="line">            root = root-&gt;left;</div><div class="line">        }</div><div class="line">        pre = <span class="literal">nullptr</span>;</div><div class="line">        <span class="comment">///&#x53EF;&#x80FD;&#x4E00;&#x76F4;&#x5728;&#x51FA;&#x6808;</span></div><div class="line">        <span class="keyword">while</span> (!s.empty()) {</div><div class="line">            root = s.top();</div><div class="line">            <span class="comment">///&#x4ECE;&#x53F3;&#x8FB9;&#x8FD4;&#x56DE;&#xFF0C;&#x6216;&#x8005;&#x53F3;&#x5B50;&#x662F;&#x7A7A;</span></div><div class="line">            <span class="keyword">if</span> (root-&gt;right == pre) {</div><div class="line">                <span class="built_in">cout</span> &lt;&lt; root-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">                s.pop();</div><div class="line">                pre = root; <span class="comment">//&#x66F4;&#x65B0;pre</span></div><div class="line">            } <span class="keyword">else</span> {</div><div class="line">                root = root-&gt;right;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            }</div><div class="line">        }</div><div class="line">    } <span class="keyword">while</span> (!s.empty())</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h3 id="3-3-morris&#x540E;&#x5E8F;&#x904D;&#x5386;"><a href="#3-3-morris&#x540E;&#x5E8F;&#x904D;&#x5386;" class="headerlink" title="3.3 morris&#x540E;&#x5E8F;&#x904D;&#x5386;"></a>3.3 morris&#x540E;&#x5E8F;&#x904D;&#x5386;</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse</span><span class="params">(Node* from, Node* to)</span> </span>{</div><div class="line">    Node* pre = <span class="literal">nullptr</span>;</div><div class="line">    Node* cur = from;</div><div class="line">    Node* temp = <span class="literal">nullptr</span>;</div><div class="line">    <span class="keyword">while</span> (to != pre) {</div><div class="line">        temp = cur;</div><div class="line">        cur = cur-&gt;right;</div><div class="line">        temp-&gt;right = pre;</div><div class="line">        pre = temp;</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_reverse</span><span class="params">(Node* from, Node* to)</span> </span>{</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;from &quot;</span> &lt;&lt; from-&gt;val &lt;&lt; <span class="string">&quot; to &quot;</span> &lt;&lt; to-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">if</span> (from == to) {</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; from-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    }</div><div class="line">    reverse(from, to);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> p = to; p != <span class="literal">nullptr</span>; p = p-&gt;right) {</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    }</div><div class="line">    reverse(to, from);</div><div class="line">}</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">postorder_morris</span><span class="params">(Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    <span class="function">Node <span class="title">dummy</span><span class="params">(<span class="number">-1</span>)</span></span>;</div><div class="line">    dummy.left = root;</div><div class="line">    <span class="keyword">auto</span> p = &amp;dummy;</div><div class="line">    <span class="keyword">while</span> (p) {</div><div class="line">        <span class="keyword">if</span> (!p-&gt;left) {</div><div class="line">            p = p-&gt;right;</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            <span class="keyword">auto</span> temp = p-&gt;left;</div><div class="line">            <span class="keyword">while</span> (temp-&gt;right &amp;&amp; p != temp-&gt;right) {</div><div class="line">                temp = temp-&gt;right;</div><div class="line">            }</div><div class="line">            <span class="keyword">if</span> (!temp-&gt;right) {</div><div class="line">                <span class="comment">//&#x7B2C;&#x4E00;&#x6B21;&#x4ECE;&#x5DE6;&#x5B50;&#x7684;&#x6700;&#x53F3;&#x8282;&#x70B9;&#x8FD4;&#x56DE;&#xFF0C;&#x7EE7;&#x7EED;&#x5904;&#x7406;&#x5DE6;&#x5B50;</span></div><div class="line">                temp-&gt;right = p;</div><div class="line">                p = p-&gt;left;</div><div class="line">            } <span class="keyword">else</span> {</div><div class="line">                <span class="comment">//&#x7B2C;&#x4E8C;&#x6B21;&#x4ECE;&#x5DE6;&#x5B50;&#x7684;&#x6700;&#x53F3;&#x8282;&#x70B9;&#x8FD4;&#x56DE;&#xFF0C;&#x53CD;&#x5411;&#x8F93;&#x51FA;&#x8282;&#x70B9;</span></div><div class="line">                <span class="comment">//&#x65AD;&#x5F00;&#x4E4B;&#x524D;&#x5EFA;&#x7ACB;&#x7684;&#x8FDE;&#x63A5;&#xFF0C;&#x5E76;&#x8F6C;&#x5411;&#x5904;&#x7406;&#x53F3;&#x5B50;</span></div><div class="line">                print_reverse(p-&gt;left, temp);</div><div class="line">                temp-&gt;right = <span class="literal">nullptr</span>;</div><div class="line">                p = p-&gt;right;</div><div class="line">            }</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/19/二叉树的遍历/" data-id="citn6vry0000o0ogfte9zn39w" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/08/16/Go设计模式-单件模式/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          Go设计模式-单件模式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/06/19/redis-5-dict数据结构分析/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">redis-5-dict数据结构分析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/06/19/二叉树的遍历/" data-title="二叉树的遍历" data-url="http://yoursite.com/2016/06/19/二叉树的遍历/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"alexkkk"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DesignPattern/">DesignPattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/">Emacs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erlang/">Erlang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/alfred/">alfred</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graph/">graph</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/">greedy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/homebrew/">homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/DesignPattern/" style="font-size: 10px;">DesignPattern</a> <a href="/tags/Emacs/" style="font-size: 10px;">Emacs</a> <a href="/tags/Erlang/" style="font-size: 10px;">Erlang</a> <a href="/tags/alfred/" style="font-size: 15px;">alfred</a> <a href="/tags/algorithm/" style="font-size: 15px;">algorithm</a> <a href="/tags/graph/" style="font-size: 10px;">graph</a> <a href="/tags/greedy/" style="font-size: 10px;">greedy</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/homebrew/" style="font-size: 10px;">homebrew</a> <a href="/tags/redis/" style="font-size: 20px;">redis</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/09/29/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/08/16/Go语言slice详解/">Go语言slice详解</a>
+          </li>
+        
+          <li>
+            <a href="/2016/08/16/Go设计模式-单件模式/">Go设计模式-单件模式</a>
+          </li>
+        
+          <li>
+            <a href="/2016/06/19/二叉树的遍历/">二叉树的遍历</a>
+          </li>
+        
+          <li>
+            <a href="/2016/06/19/redis-5-dict数据结构分析/">redis-5-dict数据结构分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 alexkkk<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
