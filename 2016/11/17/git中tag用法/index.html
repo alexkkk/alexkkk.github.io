@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="git," />
 
 
 
@@ -84,25 +84,25 @@
 
 
 
-<meta name="description" content="AppendVectora = append(a, b&amp;#x2026;)Copy
-b = make([]T, len(a))copy(b, a)// orb = append([]T(nil), a&amp;#x2026;)Cut
-a = append(a[:i], a[j:]&amp;#x2026;)Delete
-a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
+<meta name="description" content="add taggit tag -a release_1.0.0 -m &amp;#x201C;add tag release 1.0.0&amp;#x201D;
+push tag to remotegit push origin &amp;#x2013;tags
+delete local taggit tag -d release_1.0.0
+delete remote taggit push &amp;#x2013;delet">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Go语言slice详解">
-<meta property="og:url" content="http://yoursite.com/2016/08/16/Go语言slice详解/index.html">
+<meta property="og:title" content="git中tag用法">
+<meta property="og:url" content="http://yoursite.com/2016/11/17/git中tag用法/index.html">
 <meta property="og:site_name" content="INCLUDE">
-<meta property="og:description" content="AppendVectora = append(a, b&amp;#x2026;)Copy
-b = make([]T, len(a))copy(b, a)// orb = append([]T(nil), a&amp;#x2026;)Cut
-a = append(a[:i], a[j:]&amp;#x2026;)Delete
-a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
-<meta property="og:updated_time" content="2016-09-28T19:09:56.000Z">
+<meta property="og:description" content="add taggit tag -a release_1.0.0 -m &amp;#x201C;add tag release 1.0.0&amp;#x201D;
+push tag to remotegit push origin &amp;#x2013;tags
+delete local taggit tag -d release_1.0.0
+delete remote taggit push &amp;#x2013;delet">
+<meta property="og:updated_time" content="2016-11-17T03:14:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Go语言slice详解">
-<meta name="twitter:description" content="AppendVectora = append(a, b&amp;#x2026;)Copy
-b = make([]T, len(a))copy(b, a)// orb = append([]T(nil), a&amp;#x2026;)Cut
-a = append(a[:i], a[j:]&amp;#x2026;)Delete
-a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
+<meta name="twitter:title" content="git中tag用法">
+<meta name="twitter:description" content="add taggit tag -a release_1.0.0 -m &amp;#x201C;add tag release 1.0.0&amp;#x201D;
+push tag to remotegit push origin &amp;#x2013;tags
+delete local taggit tag -d release_1.0.0
+delete remote taggit push &amp;#x2013;delet">
 
 
 
@@ -123,9 +123,9 @@ a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/08/16/Go语言slice详解/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/11/17/git中tag用法/"/>
 
-  <title> Go语言slice详解 | INCLUDE </title>
+  <title> git中tag用法 | INCLUDE </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -245,7 +245,7 @@ a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
             
             
               
-                Go语言slice详解
+                git中tag用法
               
             
           </h1>
@@ -257,8 +257,8 @@ a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-16T22:17:55+08:00" content="2016-08-16">
-              2016-08-16
+            <time itemprop="dateCreated" datetime="2016-11-17T11:12:15+08:00" content="2016-11-17">
+              2016-11-17
             </time>
           </span>
 
@@ -285,11 +285,10 @@ a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
       
 
       
-        <h1 id="AppendVector"><a href="#AppendVector" class="headerlink" title="AppendVector"></a>AppendVector</h1><p>a = append(a, b&#x2026;)<br>Copy</p>
-<p>b = make([]T, len(a))<br>copy(b, a)<br>// or<br>b = append([]T(nil), a&#x2026;)<br>Cut</p>
-<p>a = append(a[:i], a[j:]&#x2026;)<br>Delete</p>
-<p>a = append(a[:i], a[i+1:]&#x2026;)<br>// or<br>a = a[:i+copy(a[i:], a[i+1:])]<br>Delete without preserving order</p>
-<p>a[i] = a[len(a)-1]<br>a = a[:len(a)-1]</p>
+        <h1 id="add-tag"><a href="#add-tag" class="headerlink" title="add tag"></a>add tag</h1><p>git tag -a release_1.0.0 -m &#x201C;add tag release 1.0.0&#x201D;</p>
+<h1 id="push-tag-to-remote"><a href="#push-tag-to-remote" class="headerlink" title="push tag to remote"></a>push tag to remote</h1><p>git push origin &#x2013;tags</p>
+<h1 id="delete-local-tag"><a href="#delete-local-tag" class="headerlink" title="delete local tag"></a>delete local tag</h1><p>git tag -d release_1.0.0</p>
+<h1 id="delete-remote-tag"><a href="#delete-remote-tag" class="headerlink" title="delete remote tag"></a>delete remote tag</h1><p>git push &#x2013;delete origin release_1.0.0</p>
 
       
     </div>
@@ -310,22 +309,24 @@ a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag">#git</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/16/Go设计模式-单件模式/" rel="next" title="Go设计模式-单件模式">
-                <i class="fa fa-chevron-left"></i> Go设计模式-单件模式
+              <a href="/2016/10/13/golang匿名成员/" rel="next" title="golang匿名成员">
+                <i class="fa fa-chevron-left"></i> golang匿名成员
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/29/hello-world/" rel="prev" title="Hello World">
-                Hello World <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -432,7 +433,7 @@ a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AppendVector"><span class="nav-number">1.</span> <span class="nav-text">AppendVector</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#add-tag"><span class="nav-number">1.</span> <span class="nav-text">add tag</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#push-tag-to-remote"><span class="nav-number">2.</span> <span class="nav-text">push tag to remote</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#delete-local-tag"><span class="nav-number">3.</span> <span class="nav-text">delete local tag</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#delete-remote-tag"><span class="nav-number">4.</span> <span class="nav-text">delete remote tag</span></a></li></ol></div>
             
           </div>
         </section>

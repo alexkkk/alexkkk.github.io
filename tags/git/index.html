@@ -84,25 +84,12 @@
 
 
 
-<meta name="description" content="AppendVectora = append(a, b&amp;#x2026;)Copy
-b = make([]T, len(a))copy(b, a)// orb = append([]T(nil), a&amp;#x2026;)Cut
-a = append(a[:i], a[j:]&amp;#x2026;)Delete
-a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Go语言slice详解">
-<meta property="og:url" content="http://yoursite.com/2016/08/16/Go语言slice详解/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="INCLUDE">
+<meta property="og:url" content="http://yoursite.com/tags/git/index.html">
 <meta property="og:site_name" content="INCLUDE">
-<meta property="og:description" content="AppendVectora = append(a, b&amp;#x2026;)Copy
-b = make([]T, len(a))copy(b, a)// orb = append([]T(nil), a&amp;#x2026;)Cut
-a = append(a[:i], a[j:]&amp;#x2026;)Delete
-a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
-<meta property="og:updated_time" content="2016-09-28T19:09:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Go语言slice详解">
-<meta name="twitter:description" content="AppendVectora = append(a, b&amp;#x2026;)Copy
-b = make([]T, len(a))copy(b, a)// orb = append([]T(nil), a&amp;#x2026;)Cut
-a = append(a[:i], a[j:]&amp;#x2026;)Delete
-a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
+<meta name="twitter:title" content="INCLUDE">
 
 
 
@@ -123,9 +110,9 @@ a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/08/16/Go语言slice详解/"/>
+  <link rel="canonical" href="http://yoursite.com/tags/git/"/>
 
-  <title> Go语言slice详解 | INCLUDE </title>
+  <title> 标签: git | INCLUDE </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -146,7 +133,7 @@ a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container one-collumn sidebar-position-left  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -224,124 +211,46 @@ a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <div id="posts" class="posts-collapse">
+    <div class="collection-title">
+      <h2 >
+        git
+        <small>标签</small>
+      </h2>
+    </div>
 
     
-      <header class="post-header">
+      
 
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
         
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
+            <a class="post-title-link" href="/2016/11/17/git中tag用法/" itemprop="url">
               
-                Go语言slice详解
+                <span itemprop="name">git中tag用法</span>
               
-            
-          </h1>
+            </a>
         
+      </h1>
 
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-16T22:17:55+08:00" content="2016-08-16">
-              2016-08-16
-            </time>
-          </span>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2016-11-17T11:12:15+08:00"
+              content="2016-11-17" >
+          11-17
+        </time>
+      </div>
 
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h1 id="AppendVector"><a href="#AppendVector" class="headerlink" title="AppendVector"></a>AppendVector</h1><p>a = append(a, b&#x2026;)<br>Copy</p>
-<p>b = make([]T, len(a))<br>copy(b, a)<br>// or<br>b = append([]T(nil), a&#x2026;)<br>Cut</p>
-<p>a = append(a[:i], a[j:]&#x2026;)<br>Delete</p>
-<p>a = append(a[:i], a[i+1:]&#x2026;)<br>// or<br>a = a[:i+copy(a[i:], a[i+1:])]<br>Delete without preserving order</p>
-<p>a[i] = a[len(a)-1]<br>a = a[:len(a)-1]</p>
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/08/16/Go设计模式-单件模式/" rel="next" title="Go设计模式-单件模式">
-                <i class="fa fa-chevron-left"></i> Go设计模式-单件模式
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/29/hello-world/" rel="prev" title="Hello World">
-                Hello World <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
+    </header>
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
+
+  
 
 
           </div>
@@ -349,10 +258,6 @@ a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -372,17 +277,8 @@ a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -425,17 +321,6 @@ a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
 
       </section>
 
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AppendVector"><span class="nav-number">1.</span> <span class="nav-text">AppendVector</span></a></li></ol></div>
-            
-          </div>
-        </section>
       
 
     </div>
@@ -539,10 +424,6 @@ a = append(a[:i], a[i+1:]&amp;#x2026;)// ora = a[:i+c">
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
 
   
 

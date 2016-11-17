@@ -235,6 +235,103 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/17/git中tag用法/" itemprop="url">
+                  git中tag用法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-17T11:12:15+08:00" content="2016-11-17">
+              2016-11-17
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="add-tag"><a href="#add-tag" class="headerlink" title="add tag"></a>add tag</h1><p>git tag -a release_1.0.0 -m &#x201C;add tag release 1.0.0&#x201D;</p>
+<h1 id="push-tag-to-remote"><a href="#push-tag-to-remote" class="headerlink" title="push tag to remote"></a>push tag to remote</h1><p>git push origin &#x2013;tags</p>
+<h1 id="delete-local-tag"><a href="#delete-local-tag" class="headerlink" title="delete local tag"></a>delete local tag</h1><p>git tag -d release_1.0.0</p>
+<h1 id="delete-remote-tag"><a href="#delete-remote-tag" class="headerlink" title="delete remote tag"></a>delete remote tag</h1><p>git push &#x2013;delete origin release_1.0.0</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/13/golang匿名成员/" itemprop="url">
                   golang匿名成员
                 </a>
@@ -1228,103 +1325,6 @@ aeEventFinalizerProc *finalizerProc)
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/13/Alfred使用iTerm2运行shell命令/" itemprop="url">
-                  Alfred使用iTerm2运行shell命令
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-13T17:52:13+08:00" content="2016-06-13">
-              2016-06-13
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>alfred&#x9ED8;&#x8BA4;&#x662F;&#x4F7F;&#x7528;MacOSX&#x81EA;&#x5E26;&#x7684;Terminal&#x8FD0;&#x884C;shell&#x547D;&#x4EE4;,&#x6CA1;&#x6709;&#x7528;iTerm2,&#x4E0D;&#x723D;&#x3002;&#x3002;&#x3002;<br>&#x4E0A;&#x7F51;&#x641C;&#x4E86;&#x4E0B;&#xFF0C;&#x6709;&#x4E9B;&#x540C;&#x5B66;&#x8BF4;&#x5C06;iTerm2&#x8BBE;&#x7F6E;&#x6210;&#x9ED8;&#x8BA4;&#x7684;&#x7EC8;&#x7AEF;&#x5E94;&#x7528;&#x5C31;&#x884C;&#xFF0C;&#x6211;&#x8BBE;&#x7F6E;&#x4E4B;&#x540E;&#x8FD8;&#x662F;&#x4E0D;&#x884C;&#xFF0C;<br>&#x4E8E;&#x662F;&#x81EA;&#x884C;google&#x4E4B;&#xFF0C;&#x641C;&#x5230;&#x4E86;&#x4E00;&#x4E2A;&#x811A;&#x672C;&#xFF0C;&#x66FF;&#x6362;alfred&#x7684;custom&#x811A;&#x672C;&#x4E4B;&#x540E;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;<br>DONE:)</p>
-<p>&#x6CE8;&#x610F;&#xFF1A;&#x9700;&#x8981;&#x5C06;iTerm.app&#x79FB;&#x52A8;&#x5230;/Applications&#x76EE;&#x5F55;&#x4E0B;</p>
-<p>##&#x8001;&#x7684;&#x811A;&#x672C;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">on alfred_script(q)</div><div class="line">    tell application &quot;Terminal&quot;</div><div class="line">        activate</div><div class="line">        do script q</div><div class="line">    end tell</div><div class="line">end alfred_script</div></pre></td></tr></table></figure></p>
-<p>##&#x65B0;&#x7684;&#x811A;&#x672C;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">-- This is v0.6 of the custom script for AlfredApp for iTerm 2.9+</div><div class="line">-- Please see https://github.com/stuartcryan/custom-iterm-applescripts-for-alfred/</div><div class="line">-- for the latest changes.</div><div class="line"></div><div class="line">-- Please note, if you store the iTerm binary in any other location </div><div class="line">    than the Applications Folder</div><div class="line">-- please ensure you update the two locations below </div><div class="line">    (in the format of : rather than / for folder dividers)</div><div class="line">-- this gets around issues with AppleScript not handling things well </div><div class="line">    if you have two iTerm binaries on your system... which can happen :D</div><div class="line"></div><div class="line">on alfred_script(q)</div><div class="line">    if application &quot;iTerm2&quot; is running or application &quot;iTerm&quot; is running then</div><div class="line">        run script &quot;</div><div class="line">            on run {q}</div><div class="line">                tell application \&quot;:Applications:iTerm.app\&quot;</div><div class="line">                    activate</div><div class="line">                    try</div><div class="line">                        select first window</div><div class="line">                        set onlywindow to false</div><div class="line">                    on error</div><div class="line">                        create window with default profile</div><div class="line">                        select first window</div><div class="line">                        set onlywindow to true</div><div class="line">                    end try</div><div class="line">                    tell the first window</div><div class="line">                        if onlywindow is false then</div><div class="line">                            create tab with default profile</div><div class="line">                        end if</div><div class="line">                        tell current session to write text q</div><div class="line">                    end tell</div><div class="line">                end tell</div><div class="line">            end run</div><div class="line">        &quot; with parameters {q}</div><div class="line">    else</div><div class="line">        run script &quot;</div><div class="line">            on run {q}</div><div class="line">                tell application \&quot;:Applications:iTerm.app\&quot;</div><div class="line">                    activate</div><div class="line">                    try</div><div class="line">                        select first window</div><div class="line">                    on error</div><div class="line">                        create window with default profile</div><div class="line">                        select first window</div><div class="line">                    end try</div><div class="line">                    tell the first window</div><div class="line">                        tell current session to write text q</div><div class="line">                    end tell</div><div class="line">                end tell</div><div class="line">            end run</div><div class="line">        &quot; with parameters {q}</div><div class="line">    end if</div><div class="line">end alfred_script</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1370,7 +1370,7 @@ aeEventFinalizerProc *finalizerProc)
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1380,7 +1380,7 @@ aeEventFinalizerProc *finalizerProc)
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
