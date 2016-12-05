@@ -1,7 +1,7 @@
 ---
 title: python使用xlwt操作excel
 date: 2016-11-01 20:16:10
-tags:python 
+tags: python 
 ---
 
 用xlwt操作excel的代码如下：
