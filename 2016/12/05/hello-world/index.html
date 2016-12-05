@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="shell," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="&amp;#x5F15;&amp;#x5B50;&amp;#x4ECA;&amp;#x5929;&amp;#x7FFB;&amp;#x4E4B;&amp;#x524D;&amp;#x7684;&amp;#x8001;&amp;#x90AE;&amp;#x4EF6;&amp;#x53D1;&amp;#x73B0;&amp;#x5982;&amp;#x4E0B;&amp;#x7684;&amp;#x4E00;&amp;#x4E2A;&amp;#x5173;&amp;#x4E8E;I/O&amp;#x91CD;&amp;#x5B9A;&amp;#x5411;&amp;#x7684;&amp;#x80">
+<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Shell之I/O重定向">
-<meta property="og:url" content="http://yoursite.com/2016/06/02/Shell之IO重定向/index.html">
+<meta property="og:title" content="Hello World">
+<meta property="og:url" content="http://yoursite.com/2016/12/05/hello-world/index.html">
 <meta property="og:site_name" content="INCLUDE">
-<meta property="og:description" content="&amp;#x5F15;&amp;#x5B50;&amp;#x4ECA;&amp;#x5929;&amp;#x7FFB;&amp;#x4E4B;&amp;#x524D;&amp;#x7684;&amp;#x8001;&amp;#x90AE;&amp;#x4EF6;&amp;#x53D1;&amp;#x73B0;&amp;#x5982;&amp;#x4E0B;&amp;#x7684;&amp;#x4E00;&amp;#x4E2A;&amp;#x5173;&amp;#x4E8E;I/O&amp;#x91CD;&amp;#x5B9A;&amp;#x5411;&amp;#x7684;&amp;#x80">
+<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick">
 <meta property="og:updated_time" content="2016-12-05T11:38:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Shell之I/O重定向">
-<meta name="twitter:description" content="&amp;#x5F15;&amp;#x5B50;&amp;#x4ECA;&amp;#x5929;&amp;#x7FFB;&amp;#x4E4B;&amp;#x524D;&amp;#x7684;&amp;#x8001;&amp;#x90AE;&amp;#x4EF6;&amp;#x53D1;&amp;#x73B0;&amp;#x5982;&amp;#x4E0B;&amp;#x7684;&amp;#x4E00;&amp;#x4E2A;&amp;#x5173;&amp;#x4E8E;I/O&amp;#x91CD;&amp;#x5B9A;&amp;#x5411;&amp;#x7684;&amp;#x80">
+<meta name="twitter:title" content="Hello World">
+<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick">
 
 
 
@@ -114,9 +117,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/06/02/Shell之IO重定向/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/12/05/hello-world/"/>
 
-  <title> Shell之I/O重定向 | INCLUDE </title>
+  <title> Hello World | INCLUDE </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -236,7 +239,7 @@
             
             
               
-                Shell之I/O重定向
+                Hello World
               
             
           </h1>
@@ -248,8 +251,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-02T19:53:08+08:00" content="2016-06-02">
-              2016-06-02
+            <time itemprop="dateCreated" datetime="2016-12-05T19:38:48+08:00" content="2016-12-05">
+              2016-12-05
             </time>
           </span>
 
@@ -276,18 +279,15 @@
       
 
       
-        <h2 id="&#x5F15;&#x5B50;"><a href="#&#x5F15;&#x5B50;" class="headerlink" title="&#x5F15;&#x5B50;"></a>&#x5F15;&#x5B50;</h2><p>&#x4ECA;&#x5929;&#x7FFB;&#x4E4B;&#x524D;&#x7684;&#x8001;&#x90AE;&#x4EF6;&#x53D1;&#x73B0;&#x5982;&#x4E0B;&#x7684;&#x4E00;&#x4E2A;&#x5173;&#x4E8E;I/O&#x91CD;&#x5B9A;&#x5411;&#x7684;&#x8001;&#x9898;&#x76EE;&#xFF0C;&#x4E00;&#x4E0B;&#x5B50;&#x61F5;&#x903C;&#x4E86;&#x3002;&#x3002;&#x3002;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#cat std.sh</div><div class="line">#!/bin/sh</div><div class="line">echo &quot;stdout&quot;</div><div class="line">echo &quot;stderr&quot; &gt;&amp;2</div><div class="line"></div><div class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null (&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x8F93;&#x51FA;&#x4EC0;&#x4E48;?)</div><div class="line"></div><div class="line">#/bin/sh std.sh &gt; /dev/null 2&gt;&amp;1 (&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x8F93;&#x51FA;&#x4EC0;&#x4E48;?)</div></pre></td></tr></table></figure></p>
-<p>&#x53EA;&#x597D;&#x91CD;&#x65B0;&#x5B66;&#x4E60;&#x4E0B;I/O&#x91CD;&#x5B9A;&#x5411;&#x76F8;&#x5173;&#x7684;&#x53EA;&#x662F;&#x4E86;&#xFF0C;~(&#x2267;&#x25BD;&#x2266;)/~&#x5566;&#x5566;&#x5566;</p>
-<h2 id="&#x4EC0;&#x4E48;&#x662F;I-O&#x91CD;&#x5B9A;&#x5411;"><a href="#&#x4EC0;&#x4E48;&#x662F;I-O&#x91CD;&#x5B9A;&#x5411;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;I/O&#x91CD;&#x5B9A;&#x5411;"></a>&#x4EC0;&#x4E48;&#x662F;I/O&#x91CD;&#x5B9A;&#x5411;</h2><p>&#x9996;&#x5148;&#x91CD;&#x65B0;&#x660E;&#x786E;&#x4E0B;stdin/stdout/stderr:<br>stdin(0):   &#x9ED8;&#x8BA4;&#x662F;keyboard<br>stdout(1):  &#x9ED8;&#x8BA4;&#x662F;&#x5C4F;&#x5E55;<br>stderr(2):  &#x9519;&#x8BEF;&#x6D88;&#x606F;&#x8F93;&#x51FA;&#x5230;&#x5C4F;&#x5E55;</p>
-<p>&#x6240;&#x8C13;&#x91CD;&#x5B9A;&#x5411;&#x5C31;&#x662F;&#xFF1A;</p>
-<blockquote>
-<p align="left"> Redirection simply means capturing output from a file, command, program, script, or even code block within a script and sending it as input to another file, command, program, or script. </p>
-
-</blockquote>
-<p>&#x518D;&#x8D34;&#x4E2A;Advanced Bash Scripting&#x4E2D;&#x7684;&#x4F8B;&#x5B50;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">ls -yz &gt;&gt; command.log 2&gt;&amp;1</div><div class="line">#  Capture result of illegal options &quot;yz&quot; in file &quot;command.log.&quot;</div><div class="line">#  Because stderr is redirected to the file,</div><div class="line">#+ any error messages will also be there.</div><div class="line">#  Note, however, that the following does *not* give the same result.</div><div class="line">ls -yz 2&gt;&amp;1 &gt;&gt; command.log</div><div class="line">#  Outputs an error message, but does not write to file.</div><div class="line">#  More precisely, the command output (in this case, null)</div><div class="line">#+ writes to the file, but the error message goes only to stdout.</div><div class="line">#  If redirecting both stdout and stderr,</div><div class="line">#+ the order of the commands makes a difference.</div></pre></td></tr></table></figure></p>
-<p>&#x6839;&#x636E;&#x8FD9;&#x4E2A;&#x601D;&#x8DEF;&#x8BD5;&#x7740;&#x770B;&#x4E4B;&#x524D;&#x7684;2&#x4E2A;&#x95EE;&#x9898;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null</div></pre></td></tr></table></figure></p>
-<p>&#x8F93;&#x51FA;&#xFF1A;stderr<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null</div></pre></td></tr></table></figure></p>
-<p>&#x8F93;&#x51FA;&#xFF1A; &#xFF08;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x8F93;&#x51FA;&#xFF09;</p>
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 
       
     </div>
@@ -308,28 +308,18 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/shell/" rel="tag">#shell</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/01/安装和卸载Homebrew/" rel="next" title="安装和卸载Homebrew">
-                <i class="fa fa-chevron-left"></i> 安装和卸载Homebrew
+              <a href="/2016/11/17/git中tag用法/" rel="next" title="git中tag用法">
+                <i class="fa fa-chevron-left"></i> git中tag用法
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/06/02/20160602-alfred使用笔记/" rel="prev" title="alfred使用笔记">
-                alfred使用笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -436,7 +426,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引子"><span class="nav-number">1.</span> <span class="nav-text">引子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是I-O重定向"><span class="nav-number">2.</span> <span class="nav-text">什么是I/O重定向</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
