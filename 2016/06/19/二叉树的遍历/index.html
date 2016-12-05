@@ -1,0 +1,540 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>二叉树的遍历 | INCLUDE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="alexkkk">
+    
+
+    
+    <meta name="description" content="&amp;#x4E8C;&amp;#x53C9;&amp;#x6811;&amp;#x7684;&amp;#x904D;&amp;#x5386;&amp;#x6709;&amp;#x5982;&amp;#x4E0B;&amp;#x7684;3&amp;#x79CD;&amp;#x65B9;&amp;#x6CD5;&amp;#xFF1A;
+
+&amp;#x5148;&amp;#x5E8F;&amp;#x904D;&amp;#x5386;(root-&amp;gt;left-&amp;gt;right)
+&amp;#x4E2D;&amp;#x5E8F;&amp;#x904D;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二叉树的遍历">
+<meta property="og:url" content="http://yoursite.com/2016/06/19/二叉树的遍历/index.html">
+<meta property="og:site_name" content="INCLUDE">
+<meta property="og:description" content="&amp;#x4E8C;&amp;#x53C9;&amp;#x6811;&amp;#x7684;&amp;#x904D;&amp;#x5386;&amp;#x6709;&amp;#x5982;&amp;#x4E0B;&amp;#x7684;3&amp;#x79CD;&amp;#x65B9;&amp;#x6CD5;&amp;#xFF1A;
+
+&amp;#x5148;&amp;#x5E8F;&amp;#x904D;&amp;#x5386;(root-&amp;gt;left-&amp;gt;right)
+&amp;#x4E2D;&amp;#x5E8F;&amp;#x904D;&amp;#x">
+<meta property="og:updated_time" content="2016-12-05T13:41:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="二叉树的遍历">
+<meta name="twitter:description" content="&amp;#x4E8C;&amp;#x53C9;&amp;#x6811;&amp;#x7684;&amp;#x904D;&amp;#x5386;&amp;#x6709;&amp;#x5982;&amp;#x4E0B;&amp;#x7684;3&amp;#x79CD;&amp;#x65B9;&amp;#x6CD5;&amp;#xFF1A;
+
+&amp;#x5148;&amp;#x5E8F;&amp;#x904D;&amp;#x5386;(root-&amp;gt;left-&amp;gt;right)
+&amp;#x4E2D;&amp;#x5E8F;&amp;#x904D;&amp;#x">
+
+    
+    <link rel="alternative" href="/atom.xml" title="INCLUDE" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="INCLUDE" title="INCLUDE"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="INCLUDE">INCLUDE</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/19/二叉树的遍历/" title="二叉树的遍历" itemprop="url">二叉树的遍历</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="alexkkk" target="_blank" itemprop="author">alexkkk</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-19T15:52:20.000Z" itemprop="datePublished"> Published 2016-06-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前提"><span class="toc-number">1.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-先序遍历"><span class="toc-number">2.</span> <span class="toc-text">1.先序遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1递归"><span class="toc-number">2.1.</span> <span class="toc-text">1.1递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2非递归"><span class="toc-number">2.2.</span> <span class="toc-text">1.2非递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-morris先序遍历"><span class="toc-number">2.3.</span> <span class="toc-text">1.3 morris先序遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-中序遍历"><span class="toc-number">3.</span> <span class="toc-text">2.中序遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1递归"><span class="toc-number">3.1.</span> <span class="toc-text">2.1递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2非递归"><span class="toc-number">3.2.</span> <span class="toc-text">2.2非递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-morris中序遍历"><span class="toc-number">3.3.</span> <span class="toc-text">2.3 morris中序遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-后序遍历"><span class="toc-number">4.</span> <span class="toc-text">3.后序遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1递归"><span class="toc-number">4.1.</span> <span class="toc-text">3.1递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2非递归"><span class="toc-number">4.2.</span> <span class="toc-text">3.2非递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-morris后序遍历"><span class="toc-number">4.3.</span> <span class="toc-text">3.3 morris后序遍历</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>&#x4E8C;&#x53C9;&#x6811;&#x7684;&#x904D;&#x5386;&#x6709;&#x5982;&#x4E0B;&#x7684;3&#x79CD;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<ol>
+<li>&#x5148;&#x5E8F;&#x904D;&#x5386;(root-&gt;left-&gt;right)</li>
+<li>&#x4E2D;&#x5E8F;&#x904D;&#x5386;(left-&gt;root-&gt;right)</li>
+<li>&#x540E;&#x5E8F;&#x904D;&#x5386;(left-&gt;right-&gt;root)</li>
+</ol>
+<h2 id="&#x524D;&#x63D0;"><a href="#&#x524D;&#x63D0;" class="headerlink" title="&#x524D;&#x63D0;"></a>&#x524D;&#x63D0;</h2><p>&#x4E8C;&#x53C9;&#x6811;&#x7684;&#x57FA;&#x672C;&#x6570;&#x636E;&#x7ED3;&#x6784;<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> Node {</div><div class="line">    <span class="keyword">int</span> val;</div><div class="line">    Node *left;</div><div class="line">    Node *right;</div><div class="line">    Node(<span class="keyword">int</span> x) : val(x), left(<span class="literal">nullptr</span>), right(<span class="literal">nullptr</span>) {</div><div class="line">    }</div><div class="line"></div><div class="line">};</div></pre></td></tr></table></figure></p>
+<h2 id="1-&#x5148;&#x5E8F;&#x904D;&#x5386;"><a href="#1-&#x5148;&#x5E8F;&#x904D;&#x5386;" class="headerlink" title="1.&#x5148;&#x5E8F;&#x904D;&#x5386;"></a>1.&#x5148;&#x5E8F;&#x904D;&#x5386;</h2><p>&#x5206;&#x522B;&#x7528;&#x9012;&#x5F52;&#x548C;&#x975E;&#x9012;&#x5F52;&#x7684;2&#x79CD;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;</p>
+<h3 id="1-1&#x9012;&#x5F52;"><a href="#1-1&#x9012;&#x5F52;" class="headerlink" title="1.1&#x9012;&#x5F52;"></a>1.1&#x9012;&#x5F52;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N)<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">preorder_traverse</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; root-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    preorder_traverse(root-&gt;left);</div><div class="line">    preorder_traverse(root-&gt;right);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h3 id="1-2&#x975E;&#x9012;&#x5F52;"><a href="#1-2&#x975E;&#x9012;&#x5F52;" class="headerlink" title="1.2&#x975E;&#x9012;&#x5F52;"></a>1.2&#x975E;&#x9012;&#x5F52;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N)<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">preorder_traverse</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">const</span> Node*&gt; s;</div><div class="line">    s.push(root);</div><div class="line">    <span class="keyword">const</span> Node* p = <span class="literal">nullptr</span>;</div><div class="line">    <span class="keyword">while</span> (!s.empty()) {</div><div class="line">        p = s.top();</div><div class="line">        s.pop();</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">        <span class="keyword">if</span> (p-&gt;left) {</div><div class="line">            s.push(p-&gt;right);</div><div class="line">        }</div><div class="line">        <span class="keyword">if</span> (p-&gt;right) {</div><div class="line">            s.push(p-&gt;left);</div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h3 id="1-3-morris&#x5148;&#x5E8F;&#x904D;&#x5386;"><a href="#1-3-morris&#x5148;&#x5E8F;&#x904D;&#x5386;" class="headerlink" title="1.3 morris&#x5148;&#x5E8F;&#x904D;&#x5386;"></a>1.3 morris&#x5148;&#x5E8F;&#x904D;&#x5386;</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">preorder_morris</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">auto</span> p = root;</div><div class="line">    <span class="keyword">while</span> (p) {</div><div class="line">        <span class="keyword">if</span> (!p-&gt;left) {</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            p = p-&gt;right;</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            <span class="keyword">auto</span> temp = p-&gt;left;</div><div class="line">            <span class="keyword">while</span> (p != temp-&gt;right &amp;&amp; temp-&gt;right) {</div><div class="line">                temp = temp-&gt;right;</div><div class="line">            }</div><div class="line">            <span class="keyword">if</span> (!temp-&gt;right) {</div><div class="line">                <span class="comment">///&#x7B2C;&#x4E00;&#x6B21;&#x4ECE;&#x5DE6;&#x5B50;&#x7684;&#x6700;&#x53F3;&#x8282;&#x70B9;&#x8FD4;&#x56DE;&#xFF0C;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x8282;&#x70B9;</span></div><div class="line">            	<span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">                temp-&gt;right = p;</div><div class="line">                p = p-&gt;left;</div><div class="line">            } <span class="keyword">else</span> {</div><div class="line">                <span class="comment">///&#x7B2C;&#x4E8C;&#x6B21;&#x4ECE;&#x5DE6;&#x5B50;&#x7684;&#x6700;&#x53F3;&#x8282;&#x70B9;&#x8FD4;&#x56DE;&#xFF0C;&#x5DF2;&#x7ECF;&#x90FD;&#x5B8C;&#x6210;&#x8BBF;&#x95EE;</span></div><div class="line">                <span class="comment">///&#x62C6;&#x5F00;&#x5EC9;&#x6D01;&#xFF0C;&#x540C;&#x65F6;&#x8F6C;&#x5411;&#x8BBF;&#x95EE;&#x53F3;&#x5B50;</span></div><div class="line">                temp-&gt;right = <span class="literal">nullptr</span>;</div><div class="line">                p = p-&gt;right;</div><div class="line">            }</div><div class="line"></div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<h2 id="2-&#x4E2D;&#x5E8F;&#x904D;&#x5386;"><a href="#2-&#x4E2D;&#x5E8F;&#x904D;&#x5386;" class="headerlink" title="2.&#x4E2D;&#x5E8F;&#x904D;&#x5386;"></a>2.&#x4E2D;&#x5E8F;&#x904D;&#x5386;</h2><p>&#x5206;&#x522B;&#x7528;&#x9012;&#x5F52;&#x548C;&#x975E;&#x9012;&#x5F52;&#x7684;2&#x79CD;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;</p>
+<h3 id="2-1&#x9012;&#x5F52;"><a href="#2-1&#x9012;&#x5F52;" class="headerlink" title="2.1&#x9012;&#x5F52;"></a>2.1&#x9012;&#x5F52;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N)<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">inorder_traverse</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    inorder_traverse(root-&gt;left);</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; root-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    inorder_traverse(root-&gt;right);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h3 id="2-2&#x975E;&#x9012;&#x5F52;"><a href="#2-2&#x975E;&#x9012;&#x5F52;" class="headerlink" title="2.2&#x975E;&#x9012;&#x5F52;"></a>2.2&#x975E;&#x9012;&#x5F52;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N)<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">inorder_traverse</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">const</span> Node*&gt; s;</div><div class="line">    <span class="keyword">while</span> (!s.empty() || root) {</div><div class="line">        <span class="keyword">while</span> (root) {</div><div class="line">            s.push(root);</div><div class="line">            root = root-&gt;left;</div><div class="line">        }</div><div class="line">        root = s.top();</div><div class="line">        s.pop();</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; root-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">        root = root-&gt;right;</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h3 id="2-3-morris&#x4E2D;&#x5E8F;&#x904D;&#x5386;"><a href="#2-3-morris&#x4E2D;&#x5E8F;&#x904D;&#x5386;" class="headerlink" title="2.3 morris&#x4E2D;&#x5E8F;&#x904D;&#x5386;"></a>2.3 morris&#x4E2D;&#x5E8F;&#x904D;&#x5386;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(1)<br>&#x7528;&#x65F6;&#x95F4;&#x6362;&#x7A7A;&#x95F4;<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">inorder_morris</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (<span class="literal">nullptr</span> == root) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">auto</span> p = root;</div><div class="line">    <span class="keyword">while</span> (p) {</div><div class="line">        <span class="keyword">if</span> (<span class="literal">nullptr</span> == p-&gt;left) {</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            p = p-&gt;right;</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            <span class="keyword">auto</span> temp = p-&gt;left;</div><div class="line">            <span class="keyword">while</span> (<span class="literal">nullptr</span> != temp-&gt;right &amp;&amp; p != temp-&gt;right) {</div><div class="line">                temp = temp-&gt;right;</div><div class="line">            }</div><div class="line">            <span class="keyword">if</span> (<span class="literal">nullptr</span> == temp-&gt;right) {</div><div class="line">                <span class="comment">///&#x7B2C;&#x4E00;&#x6B21;&#x8BBF;&#x95EE;&#x8282;&#x70B9;p&#xFF0C;p&#x7684;&#x5DE6;&#x5B50;&#x8FD8;&#x6CA1;&#x6709;&#x8BBF;&#x95EE;</span></div><div class="line">                <span class="comment">///&#x9700;&#x8981;&#x5148;&#x8BBF;&#x95EE;p&#x7684;&#x5DE6;&#x5B50;</span></div><div class="line">                temp-&gt;right = p;</div><div class="line">                p = p-&gt;left;</div><div class="line">            } <span class="keyword">else</span> {</div><div class="line">                <span class="comment">///p&#x7684;&#x5DE6;&#x5B50;&#x5DF2;&#x7ECF;&#x8BBF;&#x95EE;&#x5B8C;&#x6210;&#xFF0C;&#x8BBF;&#x95EE;p&#x672C;&#x8EAB;&#xFF0C;&#x518D;&#x8BBF;&#x95EE;p&#x7684;&#x53F3;&#x5B50;</span></div><div class="line">                <span class="comment">///&#x8981;&#x5C06;&#x539F;&#x6765;&#x5EFA;&#x7ACB;&#x7684;&#x8FDE;&#x63A5;&#x65AD;&#x5F00;</span></div><div class="line">                <span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">                temp-&gt;right = <span class="literal">nullptr</span>;</div><div class="line">                p = p-&gt;right;</div><div class="line">            }</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h2 id="3-&#x540E;&#x5E8F;&#x904D;&#x5386;"><a href="#3-&#x540E;&#x5E8F;&#x904D;&#x5386;" class="headerlink" title="3.&#x540E;&#x5E8F;&#x904D;&#x5386;"></a>3.&#x540E;&#x5E8F;&#x904D;&#x5386;</h2><p>&#x5206;&#x522B;&#x7528;&#x9012;&#x5F52;&#x548C;&#x975E;&#x9012;&#x5F52;&#x7684;2&#x79CD;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;</p>
+<h3 id="3-1&#x9012;&#x5F52;"><a href="#3-1&#x9012;&#x5F52;" class="headerlink" title="3.1&#x9012;&#x5F52;"></a>3.1&#x9012;&#x5F52;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N)<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">postorder_traverse</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    postorder_traverse(root-&gt;left);</div><div class="line">    postorder_traverse(root-&gt;right);</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; root-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h3 id="3-2&#x975E;&#x9012;&#x5F52;"><a href="#3-2&#x975E;&#x9012;&#x5F52;" class="headerlink" title="3.2&#x975E;&#x9012;&#x5F52;"></a>3.2&#x975E;&#x9012;&#x5F52;</h3><p>&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N), &#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;O(N)<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">postorder_traverse</span><span class="params">(<span class="keyword">const</span> Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">const</span> Node* pre = <span class="literal">nullptr</span>;</div><div class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">const</span> Node*&gt; s;</div><div class="line">    <span class="keyword">do</span> {</div><div class="line">        <span class="keyword">while</span> (root) {</div><div class="line">            s.push(root);</div><div class="line">            root = root-&gt;left;</div><div class="line">        }</div><div class="line">        pre = <span class="literal">nullptr</span>;</div><div class="line">        <span class="comment">///&#x53EF;&#x80FD;&#x4E00;&#x76F4;&#x5728;&#x51FA;&#x6808;</span></div><div class="line">        <span class="keyword">while</span> (!s.empty()) {</div><div class="line">            root = s.top();</div><div class="line">            <span class="comment">///&#x4ECE;&#x53F3;&#x8FB9;&#x8FD4;&#x56DE;&#xFF0C;&#x6216;&#x8005;&#x53F3;&#x5B50;&#x662F;&#x7A7A;</span></div><div class="line">            <span class="keyword">if</span> (root-&gt;right == pre) {</div><div class="line">                <span class="built_in">cout</span> &lt;&lt; root-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">                s.pop();</div><div class="line">                pre = root; <span class="comment">//&#x66F4;&#x65B0;pre</span></div><div class="line">            } <span class="keyword">else</span> {</div><div class="line">                root = root-&gt;right;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            }</div><div class="line">        }</div><div class="line">    } <span class="keyword">while</span> (!s.empty())</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<h3 id="3-3-morris&#x540E;&#x5E8F;&#x904D;&#x5386;"><a href="#3-3-morris&#x540E;&#x5E8F;&#x904D;&#x5386;" class="headerlink" title="3.3 morris&#x540E;&#x5E8F;&#x904D;&#x5386;"></a>3.3 morris&#x540E;&#x5E8F;&#x904D;&#x5386;</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse</span><span class="params">(Node* from, Node* to)</span> </span>{</div><div class="line">    Node* pre = <span class="literal">nullptr</span>;</div><div class="line">    Node* cur = from;</div><div class="line">    Node* temp = <span class="literal">nullptr</span>;</div><div class="line">    <span class="keyword">while</span> (to != pre) {</div><div class="line">        temp = cur;</div><div class="line">        cur = cur-&gt;right;</div><div class="line">        temp-&gt;right = pre;</div><div class="line">        pre = temp;</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_reverse</span><span class="params">(Node* from, Node* to)</span> </span>{</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;from &quot;</span> &lt;&lt; from-&gt;val &lt;&lt; <span class="string">&quot; to &quot;</span> &lt;&lt; to-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">if</span> (from == to) {</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; from-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    }</div><div class="line">    reverse(from, to);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> p = to; p != <span class="literal">nullptr</span>; p = p-&gt;right) {</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    }</div><div class="line">    reverse(to, from);</div><div class="line">}</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">postorder_morris</span><span class="params">(Node* root)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span>;</div><div class="line">    <span class="function">Node <span class="title">dummy</span><span class="params">(<span class="number">-1</span>)</span></span>;</div><div class="line">    dummy.left = root;</div><div class="line">    <span class="keyword">auto</span> p = &amp;dummy;</div><div class="line">    <span class="keyword">while</span> (p) {</div><div class="line">        <span class="keyword">if</span> (!p-&gt;left) {</div><div class="line">            p = p-&gt;right;</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            <span class="keyword">auto</span> temp = p-&gt;left;</div><div class="line">            <span class="keyword">while</span> (temp-&gt;right &amp;&amp; p != temp-&gt;right) {</div><div class="line">                temp = temp-&gt;right;</div><div class="line">            }</div><div class="line">            <span class="keyword">if</span> (!temp-&gt;right) {</div><div class="line">                <span class="comment">//&#x7B2C;&#x4E00;&#x6B21;&#x4ECE;&#x5DE6;&#x5B50;&#x7684;&#x6700;&#x53F3;&#x8282;&#x70B9;&#x8FD4;&#x56DE;&#xFF0C;&#x7EE7;&#x7EED;&#x5904;&#x7406;&#x5DE6;&#x5B50;</span></div><div class="line">                temp-&gt;right = p;</div><div class="line">                p = p-&gt;left;</div><div class="line">            } <span class="keyword">else</span> {</div><div class="line">                <span class="comment">//&#x7B2C;&#x4E8C;&#x6B21;&#x4ECE;&#x5DE6;&#x5B50;&#x7684;&#x6700;&#x53F3;&#x8282;&#x70B9;&#x8FD4;&#x56DE;&#xFF0C;&#x53CD;&#x5411;&#x8F93;&#x51FA;&#x8282;&#x70B9;</span></div><div class="line">                <span class="comment">//&#x65AD;&#x5F00;&#x4E4B;&#x524D;&#x5EFA;&#x7ACB;&#x7684;&#x8FDE;&#x63A5;&#xFF0C;&#x5E76;&#x8F6C;&#x5411;&#x5904;&#x7406;&#x53F3;&#x5B50;</span></div><div class="line">                print_reverse(p-&gt;left, temp);</div><div class="line">                temp-&gt;right = <span class="literal">nullptr</span>;</div><div class="line">                p = p-&gt;right;</div><div class="line">            }</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/algorithm/">algorithm</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/06/19/二叉树的遍历/" data-title="二叉树的遍历 | INCLUDE" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/08/16/Go设计模式-单件模式/" title="Go设计模式-单件模式">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Go设计模式-单件模式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/06/19/redis-5-dict数据结构分析/"  title="redis-5-dict数据结构分析">
+ <strong>下一篇：</strong><br/> 
+ <span>redis-5-dict数据结构分析
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前提"><span class="toc-number">1.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-先序遍历"><span class="toc-number">2.</span> <span class="toc-text">1.先序遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1递归"><span class="toc-number">2.1.</span> <span class="toc-text">1.1递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2非递归"><span class="toc-number">2.2.</span> <span class="toc-text">1.2非递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-morris先序遍历"><span class="toc-number">2.3.</span> <span class="toc-text">1.3 morris先序遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-中序遍历"><span class="toc-number">3.</span> <span class="toc-text">2.中序遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1递归"><span class="toc-number">3.1.</span> <span class="toc-text">2.1递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2非递归"><span class="toc-number">3.2.</span> <span class="toc-text">2.2非递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-morris中序遍历"><span class="toc-number">3.3.</span> <span class="toc-text">2.3 morris中序遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-后序遍历"><span class="toc-number">4.</span> <span class="toc-text">3.后序遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1递归"><span class="toc-number">4.1.</span> <span class="toc-text">3.1递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2非递归"><span class="toc-number">4.2.</span> <span class="toc-text">3.2非递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-morris后序遍历"><span class="toc-number">4.3.</span> <span class="toc-text">3.3 morris后序遍历</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Go/" title="Go">Go<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/alfred/" title="alfred">alfred<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Emacs/" title="Emacs">Emacs<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/homebrew/" title="homebrew">homebrew<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/graph/" title="graph">graph<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/greedy/" title="greedy">greedy<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Erlang/" title="Erlang">Erlang<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/shell/" title="shell">shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DesignPattern/" title="DesignPattern">DesignPattern<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Go/" title="Go">Go<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/golang/" title="golang">golang<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Alexkkk in ROOBO <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="alexkkk">alexkkk</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

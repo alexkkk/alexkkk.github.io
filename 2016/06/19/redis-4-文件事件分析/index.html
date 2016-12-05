@@ -1,0 +1,530 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>redis-4-文件事件分析 | INCLUDE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="alexkkk">
+    
+
+    
+    <meta name="description" content="redis&amp;#x7684;&amp;#x6587;&amp;#x4EF6;&amp;#x4E8B;&amp;#x4EF6;&amp;#x8BBE;&amp;#x7F6E;&amp;#x6D41;&amp;#x7A0B;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A;
+
+&amp;#x7ED9;&amp;#x76D1;&amp;#x542C;socket&amp;#x8BBE;&amp;#x7F6E;acceptTcpHandler&amp;#x56DE;&amp;#x8C03;
+&amp;#x5728;accept&amp;#x4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis-4-文件事件分析">
+<meta property="og:url" content="http://yoursite.com/2016/06/19/redis-4-文件事件分析/index.html">
+<meta property="og:site_name" content="INCLUDE">
+<meta property="og:description" content="redis&amp;#x7684;&amp;#x6587;&amp;#x4EF6;&amp;#x4E8B;&amp;#x4EF6;&amp;#x8BBE;&amp;#x7F6E;&amp;#x6D41;&amp;#x7A0B;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A;
+
+&amp;#x7ED9;&amp;#x76D1;&amp;#x542C;socket&amp;#x8BBE;&amp;#x7F6E;acceptTcpHandler&amp;#x56DE;&amp;#x8C03;
+&amp;#x5728;accept&amp;#x4">
+<meta property="og:updated_time" content="2016-12-05T13:41:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis-4-文件事件分析">
+<meta name="twitter:description" content="redis&amp;#x7684;&amp;#x6587;&amp;#x4EF6;&amp;#x4E8B;&amp;#x4EF6;&amp;#x8BBE;&amp;#x7F6E;&amp;#x6D41;&amp;#x7A0B;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A;
+
+&amp;#x7ED9;&amp;#x76D1;&amp;#x542C;socket&amp;#x8BBE;&amp;#x7F6E;acceptTcpHandler&amp;#x56DE;&amp;#x8C03;
+&amp;#x5728;accept&amp;#x4">
+
+    
+    <link rel="alternative" href="/atom.xml" title="INCLUDE" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="INCLUDE" title="INCLUDE"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="INCLUDE">INCLUDE</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/19/redis-4-文件事件分析/" title="redis-4-文件事件分析" itemprop="url">redis-4-文件事件分析</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="alexkkk" target="_blank" itemprop="author">alexkkk</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-18T17:06:53.000Z" itemprop="datePublished"> Published 2016-06-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#acceptTcpHandler"><span class="toc-number">1.</span> <span class="toc-text">acceptTcpHandler</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#readQueryFromClient"><span class="toc-number">2.</span> <span class="toc-text">readQueryFromClient</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sendReplyToClient"><span class="toc-number">3.</span> <span class="toc-text">sendReplyToClient</span></a></li></ol>
+		
+		</div>
+		
+		<p>redis&#x7684;&#x6587;&#x4EF6;&#x4E8B;&#x4EF6;&#x8BBE;&#x7F6E;&#x6D41;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ol>
+<li>&#x7ED9;&#x76D1;&#x542C;socket&#x8BBE;&#x7F6E;acceptTcpHandler&#x56DE;&#x8C03;</li>
+<li>&#x5728;accept&#x4E4B;&#x540E;&#xFF0C;&#x8BBE;&#x7F6E;socket&#x7684;&#x53EF;&#x8BFB;&#x56DE;&#x8C03;readQueryFromClient</li>
+<li>&#x5728;&#x6536;&#x5230;&#x6D88;&#x606F;&#x8FDB;&#x884C;&#x5904;&#x7406;&#x51C6;&#x5907;&#x8FD4;&#x56DE;&#x5BA2;&#x6237;&#x7AEF;&#x4E4B;&#x540E;&#xFF0C;&#x8BBE;&#x7F6E;&#x53EF;&#x5199;&#x56DE;&#x8C03;sendReplyToClient</li>
+</ol>
+<h2 id="acceptTcpHandler"><a href="#acceptTcpHandler" class="headerlink" title="acceptTcpHandler"></a>acceptTcpHandler</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">acceptTcpHandler</span><span class="params">(aeEventLoop *el, <span class="keyword">int</span> fd, <span class="keyword">void</span> *privdata, <span class="keyword">int</span> mask)</span> </span>{</div><div class="line">    <span class="keyword">int</span> cport, cfd;</div><div class="line">    <span class="keyword">char</span> cip[<span class="number">128</span>];</div><div class="line">    REDIS_NOTUSED(el);</div><div class="line">    REDIS_NOTUSED(mask);</div><div class="line">    REDIS_NOTUSED(privdata);</div><div class="line"></div><div class="line">    <span class="comment">// &#x8FDE;&#x63A5;</span></div><div class="line">    cfd = anetTcpAccept(server.neterr, fd, cip, &amp;cport);</div><div class="line">    <span class="keyword">if</span> (cfd == AE_ERR) {</div><div class="line">        redisLog(REDIS_WARNING,<span class="string">&quot;Accepting client connection: %s&quot;</span>, server.neterr);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    }</div><div class="line">    redisLog(REDIS_VERBOSE,<span class="string">&quot;Accepted %s:%d&quot;</span>, cip, cport);</div><div class="line"></div><div class="line">    <span class="comment">// &#x521B;&#x5EFA;&#x5BA2;&#x6237;&#x7AEF;</span></div><div class="line">    acceptCommonHandler(cfd,<span class="number">0</span>);</div><div class="line">}</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">acceptCommonHandler</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> flags)</span> </span>{</div><div class="line">    redisClient *c;</div><div class="line"></div><div class="line">    <span class="comment">// &#x521B;&#x5EFA;&#x65B0;&#x5BA2;&#x6237;&#x7AEF;</span></div><div class="line">    <span class="keyword">if</span> ((c = createClient(fd)) == <span class="literal">NULL</span>) {</div><div class="line">        redisLog(REDIS_WARNING,<span class="string">&quot;Error allocating resources for the client&quot;</span>);</div><div class="line">        close(fd); <span class="comment">/* May be already closed, just ignore errors */</span></div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">/* If maxclient directive is set and this is one client more... close the</span></div><div class="line">     * connection. Note that we create the client instead to check before</div><div class="line">     * for this condition, since now the socket is already set in nonblocking</div><div class="line">     * mode and we can send an error for free using the Kernel I/O */</div><div class="line">    <span class="comment">// &#x5982;&#x679C;&#x8D85;&#x8FC7;&#x6700;&#x5927;&#x6253;&#x5F00;&#x5BA2;&#x6237;&#x7AEF;&#x6570;&#x91CF;&#xFF0C;&#x90A3;&#x4E48;&#x5173;&#x95ED;&#x8FD9;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;</span></div><div class="line">    <span class="comment">// &#x5148;&#x6253;&#x5F00;&#x518D;&#x68C0;&#x67E5;&#x662F;&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x53D1;&#x9001;&#x9519;&#x8BEF;</span></div><div class="line">    <span class="keyword">if</span> (listLength(server.clients) &gt; server.maxclients) {</div><div class="line">        <span class="keyword">char</span> *err = <span class="string">&quot;-ERR max number of clients reached\r\n&quot;</span>;</div><div class="line"></div><div class="line">        <span class="comment">/* That&apos;s a best effort error message, don&apos;t check write errors */</span></div><div class="line">        <span class="comment">// &#x53D1;&#x9001;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x5230;&#x5BA2;&#x6237;&#x7AEF;</span></div><div class="line">        <span class="keyword">if</span> (write(c-&gt;fd,err,<span class="built_in">strlen</span>(err)) == <span class="number">-1</span>) {</div><div class="line">            <span class="comment">/* Nothing to do, Just to avoid the warning... */</span></div><div class="line">        }</div><div class="line">        server.stat_rejected_conn++;</div><div class="line">        <span class="comment">// &#x91CA;&#x653E;&#x5BA2;&#x6237;&#x7AEF;</span></div><div class="line">        freeClient(c);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    }</div><div class="line">    server.stat_numconnections++;</div><div class="line">    c-&gt;flags |= flags;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="function">redisClient *<span class="title">createClient</span><span class="params">(<span class="keyword">int</span> fd)</span> </span>{</div><div class="line">    redisClient *c = zmalloc(<span class="keyword">sizeof</span>(redisClient));</div><div class="line"></div><div class="line">    <span class="comment">/* passing -1 as fd it is possible to create a non connected client.</span></div><div class="line">     * This is useful since all the Redis commands needs to be executed</div><div class="line">     * in the context of a client. When commands are executed in other</div><div class="line">     * contexts (for instance a Lua script) we need a non connected client. */</div><div class="line">    <span class="comment">// &#x56E0;&#x4E3A; Redis &#x547D;&#x4EE4;&#x603B;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#x4E2D;&#x6267;&#x884C;&#xFF0C;</span></div><div class="line">    <span class="comment">// &#x6709;&#x65F6;&#x5019;&#x4E3A;&#x4E86;&#x5728;&#x670D;&#x52A1;&#x5668;&#x5185;&#x90E8;&#x6267;&#x884C;&#x547D;&#x4EE4;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x4F2A;&#x5BA2;&#x6237;&#x7AEF;&#x6765;&#x6267;&#x884C;&#x547D;&#x4EE4;</span></div><div class="line">    <span class="comment">// &#x5728; fd == -1 &#x65F6;&#xFF0C;&#x521B;&#x5EFA;&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x4E3A;&#x4F2A;&#x7EC8;&#x7AEF;</span></div><div class="line">    <span class="keyword">if</span> (fd != <span class="number">-1</span>) {</div><div class="line">        anetNonBlock(<span class="literal">NULL</span>,fd);</div><div class="line">        anetTcpNoDelay(<span class="literal">NULL</span>,fd);</div><div class="line"><span class="comment">///@alex:&#x521B;&#x5EFA;socket&#x53EF;&#x8BFB;&#x56DE;&#x8C03;</span></div><div class="line">        <span class="keyword">if</span> (aeCreateFileEvent(server.el,fd,AE_READABLE, readQueryFromClient, c) == AE_ERR)</div><div class="line">        {</div><div class="line">            close(fd);</div><div class="line">            zfree(c);</div><div class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// &#x6570;&#x636E;&#x5E93;</span></div><div class="line">    selectDb(c,<span class="number">0</span>);</div><div class="line"></div><div class="line">    <span class="comment">// &#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;</span></div><div class="line">    c-&gt;fd = fd;</div><div class="line"></div><div class="line">    <span class="comment">// &#x67E5;&#x8BE2;&#x7F13;&#x5B58;&#x76F8;&#x5173;&#x7684;&#x8BBE;&#x7F6E;</span></div><div class="line">    c-&gt;bufpos = <span class="number">0</span>;</div><div class="line">    c-&gt;querybuf = sdsempty();</div><div class="line">    c-&gt;querybuf_peak = <span class="number">0</span>;</div><div class="line">    c-&gt;reqtype = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="comment">// &#x547D;&#x4EE4;&#x53CA;&#x53C2;&#x6570;</span></div><div class="line">    c-&gt;argc = <span class="number">0</span>;</div><div class="line">    c-&gt;argv = <span class="literal">NULL</span>;</div><div class="line">    c-&gt;cmd = c-&gt;lastcmd = <span class="literal">NULL</span>;</div><div class="line"></div><div class="line">    <span class="comment">// &#x56DE;&#x590D;</span></div><div class="line">    c-&gt;multibulklen = <span class="number">0</span>;</div><div class="line">    c-&gt;bulklen = <span class="number">-1</span>;</div><div class="line">    c-&gt;sentlen = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="comment">// &#x72B6;&#x6001;</span></div><div class="line">    c-&gt;flags = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="comment">// &#x7528;&#x4E8E; LRU &#x548C; IDLE &#x8BA1;&#x7B97;</span></div><div class="line">    c-&gt;ctime = c-&gt;lastinteraction = server.unixtime;</div><div class="line"></div><div class="line">    <span class="comment">// &#x8EAB;&#x4EFD;&#x9A8C;&#x8BC1;</span></div><div class="line">    c-&gt;authenticated = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="comment">// REPL &#x72B6;&#x6001;</span></div><div class="line">    c-&gt;replstate = REDIS_REPL_NONE;</div><div class="line"></div><div class="line">    <span class="comment">// &#x9644;&#x5C5E;&#x76D1;&#x542C;&#x7AEF;&#x53E3;</span></div><div class="line">    c-&gt;slave_listening_port = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="comment">// &#x56DE;&#x590D;</span></div><div class="line">    c-&gt;reply = listCreate();</div><div class="line">    c-&gt;reply_bytes = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="comment">// &#x8F6F;&#x7F13;&#x5B58;&#x8D85;&#x9650;&#x63D0;&#x9192;</span></div><div class="line">    c-&gt;obuf_soft_limit_reached_time = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="comment">// &#x56DE;&#x590D;&#x5904;&#x7406;&#x51FD;&#x6570;</span></div><div class="line">    listSetFreeMethod(c-&gt;reply,decrRefCount);</div><div class="line">    listSetDupMethod(c-&gt;reply,dupClientReplyValue);</div><div class="line"></div><div class="line">    <span class="comment">// &#x963B;&#x585E; POP &#x76F8;&#x5173;</span></div><div class="line">    c-&gt;bpop.keys = dictCreate(&amp;setDictType,<span class="literal">NULL</span>);</div><div class="line">    c-&gt;bpop.timeout = <span class="number">0</span>;</div><div class="line">    c-&gt;bpop.target = <span class="literal">NULL</span>;</div><div class="line"></div><div class="line">    <span class="comment">//</span></div><div class="line">    c-&gt;io_keys = listCreate();</div><div class="line"></div><div class="line">    <span class="comment">// &#x6240;&#x6709;&#x88AB;&#x76D1;&#x89C6;&#x7684;&#x952E;</span></div><div class="line">    c-&gt;watched_keys = listCreate();</div><div class="line">    listSetFreeMethod(c-&gt;io_keys,decrRefCount);</div><div class="line"></div><div class="line">    <span class="comment">// pubsub</span></div><div class="line">    c-&gt;pubsub_channels = dictCreate(&amp;setDictType,<span class="literal">NULL</span>);</div><div class="line">    c-&gt;pubsub_patterns = listCreate();</div><div class="line">    listSetFreeMethod(c-&gt;pubsub_patterns,decrRefCount);</div><div class="line">    listSetMatchMethod(c-&gt;pubsub_patterns,listMatchObjects);</div><div class="line"></div><div class="line">    <span class="comment">// &#x5982;&#x679C;&#x4E0D;&#x662F;&#x4F2A;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x90A3;&#x4E48;&#x5C06;&#x5BA2;&#x6237;&#x7AEF;&#x52A0;&#x5165;&#x5230;&#x670D;&#x52A1;&#x5668;&#x5BA2;&#x6237;&#x7AEF;&#x5217;&#x8868;&#x4E2D;</span></div><div class="line">    <span class="keyword">if</span> (fd != <span class="number">-1</span>) listAddNodeTail(server.clients,c);</div><div class="line"></div><div class="line">    <span class="comment">// &#x521D;&#x59CB;&#x5316;&#x4E8B;&#x52A1;&#x72B6;&#x6001;</span></div><div class="line">    initClientMultiState(c);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> c;</div><div class="line">}</div></pre></td></tr></table></figure>
+<h2 id="readQueryFromClient"><a href="#readQueryFromClient" class="headerlink" title="readQueryFromClient"></a>readQueryFromClient</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">readQueryFromClient</span><span class="params">(aeEventLoop *el, <span class="keyword">int</span> fd, <span class="keyword">void</span> *privdata, <span class="keyword">int</span> mask)</span> </span>{</div><div class="line">    redisClient *c = (redisClient*) privdata;</div><div class="line">    <span class="keyword">int</span> nread, readlen;</div><div class="line">    <span class="keyword">size_t</span> qblen;</div><div class="line">    REDIS_NOTUSED(el);</div><div class="line">    REDIS_NOTUSED(mask);</div><div class="line"></div><div class="line">    server.current_client = c;</div><div class="line">    readlen = REDIS_IOBUF_LEN;</div><div class="line">    <span class="comment">/* If this is a multi bulk request, and we are processing a bulk reply</span></div><div class="line">     * that is large enough, try to maximize the probability that the query</div><div class="line">     * buffer contains exactly the SDS string representing the object, even</div><div class="line">     * at the risk of requiring more read(2) calls. This way the function</div><div class="line">     * processMultiBulkBuffer() can avoid copying buffers to create the</div><div class="line">     * Redis Object representing the argument. */</div><div class="line">    <span class="keyword">if</span> (c-&gt;reqtype == REDIS_REQ_MULTIBULK &amp;&amp; c-&gt;multibulklen &amp;&amp; c-&gt;bulklen != <span class="number">-1</span></div><div class="line">        &amp;&amp; c-&gt;bulklen &gt;= REDIS_MBULK_BIG_ARG)</div><div class="line">    {</div><div class="line">        <span class="keyword">int</span> remaining = (<span class="keyword">unsigned</span>)(c-&gt;bulklen+<span class="number">2</span>)-sdslen(c-&gt;querybuf);</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (remaining &lt; readlen) readlen = remaining;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// &#x5206;&#x914D;&#x7A7A;&#x95F4;</span></div><div class="line">    qblen = sdslen(c-&gt;querybuf);</div><div class="line">    <span class="keyword">if</span> (c-&gt;querybuf_peak &lt; qblen) c-&gt;querybuf_peak = qblen;</div><div class="line">    c-&gt;querybuf = sdsMakeRoomFor(c-&gt;querybuf, readlen);</div><div class="line"></div><div class="line">    <span class="comment">// &#x8BFB;&#x5165;&#x5230; buf</span></div><div class="line">    nread = read(fd, c-&gt;querybuf+qblen, readlen);</div><div class="line"></div><div class="line">    <span class="comment">// &#x5904;&#x7406;&#x8BFB;&#x9519;&#x8BEF;&#x503C;&#x548C; EOF &#xFF08;&#x5BA2;&#x6237;&#x7AEF;&#x5DF2;&#x5173;&#x95ED;&#xFF09;</span></div><div class="line">    <span class="keyword">if</span> (nread == <span class="number">-1</span>) {</div><div class="line">        <span class="keyword">if</span> (errno == EAGAIN) {</div><div class="line">            nread = <span class="number">0</span>;</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            redisLog(REDIS_VERBOSE, <span class="string">&quot;Reading from client: %s&quot;</span>,strerror(errno));</div><div class="line">            freeClient(c);</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        }</div><div class="line">    } <span class="keyword">else</span> <span class="keyword">if</span> (nread == <span class="number">0</span>) {</div><div class="line">        redisLog(REDIS_VERBOSE, <span class="string">&quot;Client closed connection&quot;</span>);</div><div class="line">        freeClient(c);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    }</div><div class="line">    <span class="comment">// &#x6839;&#x636E;&#x8BFB;&#x5165;&#x60C5;&#x51B5;&#x66F4;&#x65B0;&#x5BA2;&#x6237;&#x7AEF;&#x7EDF;&#x8BA1;&#x6570;&#x636E;</span></div><div class="line">    <span class="keyword">if</span> (nread) {</div><div class="line">        sdsIncrLen(c-&gt;querybuf,nread);</div><div class="line">        <span class="comment">// &#x6700;&#x540E;&#x4E00;&#x6B21;&#x4EA4;&#x4E92;&#x65F6;&#x95F4;</span></div><div class="line">        c-&gt;lastinteraction = server.unixtime;</div><div class="line">    } <span class="keyword">else</span> {</div><div class="line">        server.current_client = <span class="literal">NULL</span>;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// &#x8BFB;&#x5165;&#x7F13;&#x5B58;&#x4E0D;&#x80FD;&#x8D85;&#x8FC7;&#x9650;&#x5236;&#xFF0C;&#x5426;&#x5219;&#x65AD;&#x5F00;&#x5E76;&#x6E05;&#x9664;&#x5BA2;&#x6237;&#x7AEF;</span></div><div class="line">    <span class="keyword">if</span> (sdslen(c-&gt;querybuf) &gt; server.client_max_querybuf_len) {</div><div class="line">        sds ci = getClientInfoString(c), bytes = sdsempty();</div><div class="line"></div><div class="line">        bytes = sdscatrepr(bytes,c-&gt;querybuf,<span class="number">64</span>);</div><div class="line">        redisLog(REDIS_WARNING,<span class="string">&quot;Closing client that reached max query buffer length: %s (qbuf initial bytes: %s)&quot;</span>, ci, bytes);</div><div class="line">        sdsfree(ci);</div><div class="line">        sdsfree(bytes);</div><div class="line">        freeClient(c);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// &#x6267;&#x884C;&#x547D;&#x4EE4;</span></div><div class="line">    processInputBuffer(c);</div><div class="line"></div><div class="line">    server.current_client = <span class="literal">NULL</span>;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">processInputBuffer</span><span class="params">(redisClient *c)</span> </span>{</div><div class="line">    <span class="comment">/* Keep processing while there is something in the input buffer */</span></div><div class="line">    <span class="keyword">while</span>(sdslen(c-&gt;querybuf)) {</div><div class="line">        <span class="comment">/* Immediately abort if the client is in the middle of something. */</span></div><div class="line">        <span class="keyword">if</span> (c-&gt;flags &amp; REDIS_BLOCKED) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">        <span class="comment">/* REDIS_CLOSE_AFTER_REPLY closes the connection once the reply is</span></div><div class="line">         * written to the client. Make sure to not let the reply grow after</div><div class="line">         * this flag has been set (i.e. don&apos;t process more commands). */</div><div class="line">        <span class="keyword">if</span> (c-&gt;flags &amp; REDIS_CLOSE_AFTER_REPLY) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">        <span class="comment">/* Determine request type when unknown. */</span></div><div class="line">        <span class="keyword">if</span> (!c-&gt;reqtype) {</div><div class="line">            <span class="keyword">if</span> (c-&gt;querybuf[<span class="number">0</span>] == <span class="string">&apos;*&apos;</span>) {</div><div class="line">                c-&gt;reqtype = REDIS_REQ_MULTIBULK;</div><div class="line">            } <span class="keyword">else</span> {</div><div class="line">                c-&gt;reqtype = REDIS_REQ_INLINE;</div><div class="line">            }</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (c-&gt;reqtype == REDIS_REQ_INLINE) {</div><div class="line">            <span class="keyword">if</span> (processInlineBuffer(c) != REDIS_OK) <span class="keyword">break</span>;</div><div class="line">        } <span class="keyword">else</span> <span class="keyword">if</span> (c-&gt;reqtype == REDIS_REQ_MULTIBULK) {</div><div class="line">            <span class="keyword">if</span> (processMultibulkBuffer(c) != REDIS_OK) <span class="keyword">break</span>;</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            redisPanic(<span class="string">&quot;Unknown request type&quot;</span>);</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="comment">/* Multibulk processing could see a &lt;= 0 length. */</span></div><div class="line">        <span class="keyword">if</span> (c-&gt;argc == <span class="number">0</span>) {</div><div class="line">            resetClient(c);</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            <span class="comment">/* Only reset the client when the command was executed. */</span></div><div class="line">            <span class="keyword">if</span> (processCommand(c) == REDIS_OK)</div><div class="line">                resetClient(c);</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">processCommand</span><span class="params">(redisClient *c)</span> </span>{</div><div class="line">    <span class="comment">/* The QUIT command is handled separately. Normal command procs will</span></div><div class="line">     * go through checking for replication and QUIT will cause trouble</div><div class="line">     * when FORCE_REPLICATION is enabled and would be implemented in</div><div class="line">     * a regular command proc. */</div><div class="line">    <span class="comment">// &#x5355;&#x72EC;&#x5904;&#x7406; QUIT &#x547D;&#x4EE4;</span></div><div class="line">    <span class="keyword">if</span> (!strcasecmp(c-&gt;argv[<span class="number">0</span>]-&gt;ptr,<span class="string">&quot;quit&quot;</span>)) {</div><div class="line">        addReply(c,shared.ok);</div><div class="line">        c-&gt;flags |= REDIS_CLOSE_AFTER_REPLY;</div><div class="line">        <span class="keyword">return</span> REDIS_ERR;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">/* Now lookup the command and check ASAP about trivial error conditions</span></div><div class="line">     * such as wrong arity, bad command name and so forth. */</div><div class="line">    <span class="comment">// &#x83B7;&#x53D6;&#x8981;&#x6267;&#x884C;&#x7684;&#x547D;&#x4EE4;&#xFF0C;</span></div><div class="line">    <span class="comment">// &#x5E76;&#x5BF9;&#x547D;&#x4EE4;&#x3001;&#x547D;&#x4EE4;&#x53C2;&#x6570;&#x548C;&#x547D;&#x4EE4;&#x53C2;&#x6570;&#x7684;&#x6570;&#x91CF;&#x8FDB;&#x884C;&#x68C0;&#x67E5;</span></div><div class="line">    c-&gt;cmd = c-&gt;lastcmd = lookupCommand(c-&gt;argv[<span class="number">0</span>]-&gt;ptr);</div><div class="line">    <span class="keyword">if</span> (!c-&gt;cmd) {</div><div class="line">        <span class="comment">// &#x547D;&#x4EE4;&#x6CA1;&#x627E;&#xFF0C;&#x51FA;&#x9519;</span></div><div class="line">        flagTransaction(c);</div><div class="line">        addReplyErrorFormat(c,<span class="string">&quot;unknown command &apos;%s&apos;&quot;</span>,</div><div class="line">            (<span class="keyword">char</span>*)c-&gt;argv[<span class="number">0</span>]-&gt;ptr);</div><div class="line">        <span class="keyword">return</span> REDIS_OK;</div><div class="line">    } <span class="keyword">else</span> <span class="keyword">if</span> ((c-&gt;cmd-&gt;arity &gt; <span class="number">0</span> &amp;&amp; c-&gt;cmd-&gt;arity != c-&gt;argc) ||</div><div class="line">               (c-&gt;argc &lt; -c-&gt;cmd-&gt;arity)) {</div><div class="line">        <span class="comment">// &#x547D;&#x4EE4;&#x53C2;&#x6570;&#x4E2A;&#x6570;&#x51FA;&#x9519;</span></div><div class="line">        flagTransaction(c);</div><div class="line">        addReplyErrorFormat(c,<span class="string">&quot;wrong number of arguments for &apos;%s&apos; command&quot;</span>,</div><div class="line">            c-&gt;cmd-&gt;name);</div><div class="line">        <span class="keyword">return</span> REDIS_OK;</div><div class="line">    }</div><div class="line">    <span class="comment">/* Check if the user is authenticated */</span></div><div class="line">    <span class="comment">// &#x68C0;&#x67E5;&#x7528;&#x6237;&#x662F;&#x5426;&#x5DF2;&#x7ECF;&#x9A8C;&#x8BC1;&#x8FC7;&#x8EAB;&#x4EFD;</span></div><div class="line">    <span class="keyword">if</span> (server.requirepass &amp;&amp; !c-&gt;authenticated &amp;&amp; c-&gt;cmd-&gt;proc != authCommand)</div><div class="line">    {</div><div class="line">        flagTransaction(c);</div><div class="line">        addReplyError(c,<span class="string">&quot;operation not permitted&quot;</span>);</div><div class="line">        <span class="keyword">return</span> REDIS_OK;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">/* If cluster is enabled, redirect here */</span></div><div class="line">    <span class="keyword">if</span> (server.cluster_enabled &amp;&amp;</div><div class="line">                !(c-&gt;cmd-&gt;getkeys_proc == <span class="literal">NULL</span> &amp;&amp; c-&gt;cmd-&gt;firstkey == <span class="number">0</span>)) {</div><div class="line">        <span class="keyword">int</span> hashslot;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (server.cluster.state != REDIS_CLUSTER_OK) {</div><div class="line">            addReplyError(c,<span class="string">&quot;The cluster is down. Check with CLUSTER INFO for more information&quot;</span>);</div><div class="line">            <span class="keyword">return</span> REDIS_OK;</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            <span class="keyword">int</span> ask;</div><div class="line">            clusterNode *n = getNodeByQuery(c,c-&gt;cmd,c-&gt;argv,c-&gt;argc,&amp;hashslot,&amp;ask);</div><div class="line">            <span class="keyword">if</span> (n == <span class="literal">NULL</span>) {</div><div class="line">                addReplyError(c,<span class="string">&quot;Multi keys request invalid in cluster&quot;</span>);</div><div class="line">                <span class="keyword">return</span> REDIS_OK;</div><div class="line">            } <span class="keyword">else</span> <span class="keyword">if</span> (n != server.cluster.myself) {</div><div class="line">                addReplySds(c,sdscatprintf(sdsempty(),</div><div class="line">                    <span class="string">&quot;-%s %d %s:%d\r\n&quot;</span>, ask ? <span class="string">&quot;ASK&quot;</span> : <span class="string">&quot;MOVED&quot;</span>,</div><div class="line">                    hashslot,n-&gt;ip,n-&gt;port));</div><div class="line">                <span class="keyword">return</span> REDIS_OK;</div><div class="line">            }</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">/* Handle the maxmemory directive.</span></div><div class="line">     *</div><div class="line">     * First we try to free some memory if possible (if there are volatile</div><div class="line">     * keys in the dataset). If there are not the only thing we can do</div><div class="line">     * is returning an error. */</div><div class="line">    <span class="comment">// &#x5982;&#x679C;&#x5185;&#x5B58;&#x4E0D;&#x8DB3;&#xFF0C;&#x5C1D;&#x8BD5;&#x91CA;&#x653E;&#x65E0;&#x7528;&#x5185;&#x5B58;</span></div><div class="line">    <span class="comment">// &#x5982;&#x679C;&#x547D;&#x4EE4;&#x53EF;&#x80FD;&#x5360;&#x7528;&#x5927;&#x91CF;&#x5185;&#x5B58;&#xFF0C;&#x800C;&#x4E14;&#x91CA;&#x653E;&#x5185;&#x5B58;&#x5931;&#x8D25;&#x7684;&#x8BDD;&#xFF0C;</span></div><div class="line">    <span class="comment">// &#x90A3;&#x4E48;&#x629B;&#x51FA;&#x9519;&#x8BEF;&#x547D;&#x4EE4;</span></div><div class="line">    <span class="keyword">if</span> (server.maxmemory) {</div><div class="line">        <span class="keyword">int</span> retval = freeMemoryIfNeeded();</div><div class="line">        <span class="keyword">if</span> ((c-&gt;cmd-&gt;flags &amp; REDIS_CMD_DENYOOM) &amp;&amp; retval == REDIS_ERR) {</div><div class="line">            flagTransaction(c);</div><div class="line">            addReply(c, shared.oomerr);</div><div class="line">            <span class="keyword">return</span> REDIS_OK;</div><div class="line">        }</div><div class="line">    }</div><div class="line">   <span class="comment">/* Don&apos;t accept write commands if there are problems persisting on disk. */</span></div><div class="line">    <span class="comment">// &#x5982;&#x679C; RDB &#x4FDD;&#x5B58;&#x5931;&#x8D25;&#xFF0C;&#x4E0D;&#x518D;&#x6267;&#x884C;&#x4FEE;&#x6539;&#x6570;&#x636E;&#x5E93;&#x7684;&#x547D;&#x4EE4;</span></div><div class="line">    <span class="keyword">if</span> (server.stop_writes_on_bgsave_err &amp;&amp;</div><div class="line">        server.saveparamslen &gt; <span class="number">0</span></div><div class="line">        &amp;&amp; server.lastbgsave_status == REDIS_ERR &amp;&amp;</div><div class="line">        c-&gt;cmd-&gt;flags &amp; REDIS_CMD_WRITE)</div><div class="line">    {</div><div class="line">        flagTransaction(c);</div><div class="line">        addReply(c, shared.bgsaveerr);</div><div class="line">        <span class="keyword">return</span> REDIS_OK;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">/* Don&apos;t accept write commands if this is a read only slave. But</span></div><div class="line">     * accept write commands if this is our master. */</div><div class="line">    <span class="comment">// &#x5728;&#x540C;&#x6B65;&#x4E2D;&#xFF0C;&#x53EA;&#x6709;&#x4E3B;&#x8282;&#x70B9;&#x53EF;&#x4EE5;&#x6267;&#x884C;&#x5199;&#x64CD;&#x4F5C;&#xFF0C;&#x9644;&#x5C5E;&#x8282;&#x70B9;&#x4E0D;&#x53EF;&#x4EE5;</span></div><div class="line">    <span class="keyword">if</span> (server.masterhost &amp;&amp; server.repl_slave_ro &amp;&amp;</div><div class="line">        !(c-&gt;flags &amp; REDIS_MASTER) &amp;&amp;</div><div class="line">        c-&gt;cmd-&gt;flags &amp; REDIS_CMD_WRITE)</div><div class="line">    {</div><div class="line">        addReply(c, shared.roslaveerr);</div><div class="line">        <span class="keyword">return</span> REDIS_OK;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">/* Only allow SUBSCRIBE and UNSUBSCRIBE in the context of Pub/Sub */</span></div><div class="line">    <span class="comment">// &#x5728;&#x8BA2;&#x9605;/&#x53D1;&#x5E03;&#x6A21;&#x5F0F;&#x4E0A;&#x4E0B;&#x6587;&#x4E2D;&#xFF0C;&#x53EA;&#x80FD;&#x6267;&#x884C;&#x8BA2;&#x9605;/&#x53D1;&#x5E03;&#x76F8;&#x5173;&#x7684;&#x547D;&#x4EE4;</span></div><div class="line">    <span class="keyword">if</span> ((dictSize(c-&gt;pubsub_channels) &gt; <span class="number">0</span> || listLength(c-&gt;pubsub_patterns) &gt; <span class="number">0</span>)</div><div class="line">        &amp;&amp;</div><div class="line">        c-&gt;cmd-&gt;proc != subscribeCommand &amp;&amp;</div><div class="line">        c-&gt;cmd-&gt;proc != unsubscribeCommand &amp;&amp;</div><div class="line">        c-&gt;cmd-&gt;proc != psubscribeCommand &amp;&amp;</div><div class="line">        c-&gt;cmd-&gt;proc != punsubscribeCommand) {</div><div class="line">        addReplyError(c,<span class="string">&quot;only (P)SUBSCRIBE / (P)UNSUBSCRIBE / QUIT allowed in this context&quot;</span>);</div><div class="line">        <span class="keyword">return</span> REDIS_OK;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">/* Only allow INFO and SLAVEOF when slave-serve-stale-data is no and</span></div><div class="line">     * we are a slave with a broken link with master. */</div><div class="line">    <span class="comment">// &#x5728;&#x9644;&#x5C5E;&#x8282;&#x70B9;&#x5E26;&#x6709;&#x8FC7;&#x671F;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x53EA;&#x5141;&#x8BB8;&#x6267;&#x884C; INFO &#x548C; SLAVEOF &#x547D;&#x4EE4;</span></div><div class="line">    <span class="keyword">if</span> (server.masterhost &amp;&amp; server.repl_state != REDIS_REPL_CONNECTED &amp;&amp;</div><div class="line">        server.repl_serve_stale_data == <span class="number">0</span> &amp;&amp;</div><div class="line">        !(c-&gt;cmd-&gt;flags &amp; REDIS_CMD_STALE))</div><div class="line">    {</div><div class="line">        flagTransaction(c);</div><div class="line">        addReply(c, shared.masterdownerr);</div><div class="line">        <span class="keyword">return</span> REDIS_OK;</div><div class="line">    }</div><div class="line">    <span class="comment">/* Loading DB? Return an error if the command has not the</span></div><div class="line">     * REDIS_CMD_LOADING flag. */</div><div class="line">    <span class="comment">// &#x5982;&#x679C;&#x670D;&#x52A1;&#x5668;&#x6B63;&#x5728;&#x8F7D;&#x5165; RDB &#x6587;&#x4EF6;&#xFF0C;</span></div><div class="line">    <span class="comment">// &#x90A3;&#x4E48;&#x963B;&#x6B62;&#x4EFB;&#x4F55;&#x6CA1;&#x6709; REDIS_CMD_LOADING FLAG &#x7684;&#x547D;&#x4EE4;&#x6267;&#x884C;</span></div><div class="line">    <span class="keyword">if</span> (server.loading &amp;&amp; !(c-&gt;cmd-&gt;flags &amp; REDIS_CMD_LOADING)) {</div><div class="line">        addReply(c, shared.loadingerr);</div><div class="line">        <span class="keyword">return</span> REDIS_OK;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">/* Lua script too slow? Only allow commands with REDIS_CMD_STALE flag. */</span></div><div class="line">    <span class="comment">// lua &#x811A;&#x672C;&#x547D;&#x4EE4;&#x8D85;&#x65F6;</span></div><div class="line">    <span class="keyword">if</span> (server.lua_timedout &amp;&amp;</div><div class="line">          c-&gt;cmd-&gt;proc != authCommand &amp;&amp;</div><div class="line">        !(c-&gt;cmd-&gt;proc == shutdownCommand &amp;&amp;</div><div class="line">          c-&gt;argc == <span class="number">2</span> &amp;&amp;</div><div class="line">          <span class="built_in">tolower</span>(((<span class="keyword">char</span>*)c-&gt;argv[<span class="number">1</span>]-&gt;ptr)[<span class="number">0</span>]) == <span class="string">&apos;n&apos;</span>) &amp;&amp;</div><div class="line">        !(c-&gt;cmd-&gt;proc == scriptCommand &amp;&amp;</div><div class="line">          c-&gt;argc == <span class="number">2</span> &amp;&amp;</div><div class="line">          <span class="built_in">tolower</span>(((<span class="keyword">char</span>*)c-&gt;argv[<span class="number">1</span>]-&gt;ptr)[<span class="number">0</span>]) == <span class="string">&apos;k&apos;</span>))</div><div class="line">    {</div><div class="line">        flagTransaction(c);</div><div class="line">        addReply(c, shared.slowscripterr);</div><div class="line">        <span class="keyword">return</span> REDIS_OK;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">/* Exec the command */</span></div><div class="line">    <span class="comment">// &#x6267;&#x884C;&#x547D;&#x4EE4;</span></div><div class="line">    <span class="keyword">if</span> (c-&gt;flags &amp; REDIS_MULTI &amp;&amp;</div><div class="line">        c-&gt;cmd-&gt;proc != execCommand &amp;&amp; c-&gt;cmd-&gt;proc != discardCommand &amp;&amp;</div><div class="line">        c-&gt;cmd-&gt;proc != multiCommand &amp;&amp; c-&gt;cmd-&gt;proc != watchCommand)</div><div class="line">    {</div><div class="line">        <span class="comment">// &#x5982;&#x679C;&#x6B63;&#x5728;&#x6267;&#x884C;&#x4E8B;&#x52A1;&#xFF0C;</span></div><div class="line">        <span class="comment">// &#x5E76;&#x4E14;&#x65B0;&#x547D;&#x4EE4;&#x4E0D;&#x662F; EXEC / DISCARD / MULTI / WATCH</span></div><div class="line">        <span class="comment">// &#x90A3;&#x4E48;&#x5C06;&#x5B83;&#x4EEC;&#x8FFD;&#x52A0;&#x5230;&#x4E8B;&#x52A1;&#x961F;&#x5217;</span></div><div class="line">        queueMultiCommand(c);</div><div class="line">        addReply(c,shared.queued);</div><div class="line">    } <span class="keyword">else</span> {</div><div class="line">        <span class="comment">// &#x6267;&#x884C;&#x547D;&#x4EE4;</span></div><div class="line">        call(c,REDIS_CALL_FULL);</div><div class="line"></div><div class="line">        <span class="comment">// &#x6BCF;&#x6B21;&#x6267;&#x884C;&#x5B8C;&#x547D;&#x4EE4;&#x4E4B;&#x540E;&#xFF0C;&#x5904;&#x7406;&#x6240;&#x6709;&#x5C31;&#x7EEA;&#x5217;&#x8868;</span></div><div class="line">        <span class="keyword">if</span> (listLength(server.ready_keys))</div><div class="line">            handleClientsBlockedOnLists();</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">return</span> REDIS_OK;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">addReply</span><span class="params">(redisClient *c, robj *obj)</span> </span>{</div><div class="line">    <span class="comment">// &#x4F2A;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x9644;&#x5C5E;&#x8282;&#x70B9;&#x6216;&#x521B;&#x5EFA;&#x5199;&#x4E8B;&#x4EF6;&#x5904;&#x7406;&#x5668;&#x5931;&#x8D25;</span></div><div class="line">    <span class="keyword">if</span> (prepareClientToWrite(c) != REDIS_OK) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">    <span class="comment">/* This is an important place where we can avoid copy-on-write</span></div><div class="line">     * when there is a saving child running, avoiding touching the</div><div class="line">     * refcount field of the object if it&apos;s not needed.</div><div class="line">     *</div><div class="line">     * If the encoding is RAW and there is room in the static buffer</div><div class="line">     * we&apos;ll be able to send the object to the client without</div><div class="line">     * messing with its page. */</div><div class="line">    <span class="keyword">if</span> (obj-&gt;encoding == REDIS_ENCODING_RAW) {</div><div class="line">        <span class="comment">// &#x5982;&#x679C; c-&gt;reply &#x94FE;&#x8868;&#x4E2D;&#x6CA1;&#x6709;&#x8282;&#x70B9;&#xFF0C;&#x5E76;&#x4E14;&#x7F13;&#x5B58;&#x7A7A;&#x95F4;&#x8DB3;&#x591F;&#xFF0C;</span></div><div class="line">        <span class="comment">// &#x90A3;&#x4E48;&#x5C06;&#x5185;&#x5BB9;&#x8FFD;&#x52A0;&#x5230; c-&gt;buf &#x7684;&#x540E;&#x90E8;</span></div><div class="line">        <span class="keyword">if</span> (_addReplyToBuffer(c,obj-&gt;ptr,sdslen(obj-&gt;ptr)) != REDIS_OK)</div><div class="line">            <span class="comment">// &#x5426;&#x5219;&#xFF0C;&#x5C06;&#x5185;&#x5BB9;&#x6DFB;&#x52A0;&#x5230; c-&gt;reply &#x94FE;&#x8868;</span></div><div class="line">            _addReplyObjectToList(c,obj);</div><div class="line">    } <span class="keyword">else</span> <span class="keyword">if</span> (obj-&gt;encoding == REDIS_ENCODING_INT) {</div><div class="line">        <span class="comment">/* Optimization: if there is room in the static buffer for 32 bytes</span></div><div class="line">         * (more than the max chars a 64 bit integer can take as string) we</div><div class="line">         * avoid decoding the object and go for the lower level approach. */</div><div class="line">        <span class="comment">// &#x5982;&#x679C;&#x56DE;&#x590D;&#x5217;&#x8868;&#x672A;&#x4F7F;&#x7528;&#xFF0C;&#x5E76;&#x4E14;&#x7F13;&#x51B2;&#x533A;&#x6709;&#x8DB3;&#x591F;&#x7A7A;&#x95F4;</span></div><div class="line">        <span class="comment">// &#x90A3;&#x4E48;&#x5C06;&#x5B57;&#x7B26;&#x4E32;&#x5F62;&#x5F0F;&#x7684; 32 &#x4F4D;&#x6574;&#x6570;&#x6DFB;&#x52A0;&#x5230;&#x7F13;&#x51B2;&#x533A;&#x7684;&#x672B;&#x5C3E;</span></div><div class="line">        <span class="keyword">if</span> (listLength(c-&gt;reply) == <span class="number">0</span> &amp;&amp; (<span class="keyword">sizeof</span>(c-&gt;buf) - c-&gt;bufpos) &gt;= <span class="number">32</span>) {</div><div class="line">            <span class="keyword">char</span> buf[<span class="number">32</span>];</div><div class="line">            <span class="keyword">int</span> len;</div><div class="line"></div><div class="line">            len = ll2string(buf,<span class="keyword">sizeof</span>(buf),(<span class="keyword">long</span>)obj-&gt;ptr);</div><div class="line">            <span class="keyword">if</span> (_addReplyToBuffer(c,buf,len) == REDIS_OK)</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            <span class="comment">/* else... continue with the normal code path, but should never</span></div><div class="line">             * happen actually since we verified there is room. */</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="comment">// &#x8D85;&#x8FC7; 32 &#x4F4D;&#x7684;&#x6574;&#x6570;&#x9700;&#x8981;&#x89E3;&#x7801;&#x4E4B;&#x540E;&#x624D;&#x80FD;&#x6DFB;&#x52A0;&#x5230;&#x56DE;&#x590D;</span></div><div class="line">        obj = getDecodedObject(obj);</div><div class="line">        <span class="keyword">if</span> (_addReplyToBuffer(c,obj-&gt;ptr,sdslen(obj-&gt;ptr)) != REDIS_OK)</div><div class="line">            _addReplyObjectToList(c,obj);</div><div class="line">        decrRefCount(obj);</div><div class="line"></div><div class="line">    } <span class="keyword">else</span> {</div><div class="line">        redisPanic(<span class="string">&quot;Wrong obj-&gt;encoding in addReply()&quot;</span>);</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">prepareClientToWrite</span><span class="params">(redisClient *c)</span> </span>{</div><div class="line">    <span class="keyword">if</span> (c-&gt;flags &amp; REDIS_LUA_CLIENT) <span class="keyword">return</span> REDIS_OK;</div><div class="line">    <span class="keyword">if</span> (c-&gt;fd &lt;= <span class="number">0</span>) <span class="keyword">return</span> REDIS_ERR; <span class="comment">/* Fake client */</span></div><div class="line">    <span class="keyword">if</span> (c-&gt;bufpos == <span class="number">0</span> &amp;&amp; listLength(c-&gt;reply) == <span class="number">0</span> &amp;&amp;</div><div class="line">        (c-&gt;replstate == REDIS_REPL_NONE || c-&gt;replstate == REDIS_REPL_ONLINE) &amp;&amp;</div><div class="line">        aeCreateFileEvent(server.el, c-&gt;fd, AE_WRITABLE, sendReplyToClient, c) == AE_ERR)</div><div class="line">        <span class="keyword">return</span> REDIS_ERR;</div><div class="line">    <span class="keyword">return</span> REDIS_OK;</div><div class="line">}</div></pre></td></tr></table></figure>
+<h2 id="sendReplyToClient"><a href="#sendReplyToClient" class="headerlink" title="sendReplyToClient"></a>sendReplyToClient</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">sendReplyToClient</span><span class="params">(aeEventLoop *el, <span class="keyword">int</span> fd, <span class="keyword">void</span> *privdata, <span class="keyword">int</span> mask)</span> </span>{</div><div class="line">    redisClient *c = privdata;</div><div class="line">    <span class="keyword">int</span> nwritten = <span class="number">0</span>, totwritten = <span class="number">0</span>, objlen;</div><div class="line">    <span class="keyword">size_t</span> objmem;</div><div class="line">    robj *o;</div><div class="line">    REDIS_NOTUSED(el);</div><div class="line">    REDIS_NOTUSED(mask);</div><div class="line"></div><div class="line">    <span class="keyword">while</span>(c-&gt;bufpos &gt; <span class="number">0</span> || listLength(c-&gt;reply)) {</div><div class="line">        <span class="keyword">if</span> (c-&gt;bufpos &gt; <span class="number">0</span>) {</div><div class="line">            <span class="keyword">if</span> (c-&gt;flags &amp; REDIS_MASTER) {</div><div class="line">                <span class="comment">/* Don&apos;t reply to a master */</span></div><div class="line">                nwritten = c-&gt;bufpos - c-&gt;sentlen;</div><div class="line">            } <span class="keyword">else</span> {</div><div class="line">                nwritten = write(fd,c-&gt;buf+c-&gt;sentlen,c-&gt;bufpos-c-&gt;sentlen);</div><div class="line">                <span class="keyword">if</span> (nwritten &lt;= <span class="number">0</span>) <span class="keyword">break</span>;</div><div class="line">            }</div><div class="line">            c-&gt;sentlen += nwritten;</div><div class="line">            totwritten += nwritten;</div><div class="line"></div><div class="line">            <span class="comment">/* If the buffer was sent, set bufpos to zero to continue with</span></div><div class="line">             * the remainder of the reply. */</div><div class="line">            <span class="keyword">if</span> (c-&gt;sentlen == c-&gt;bufpos) {</div><div class="line">                c-&gt;bufpos = <span class="number">0</span>;</div><div class="line">                c-&gt;sentlen = <span class="number">0</span>;</div><div class="line">            }</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            o = listNodeValue(listFirst(c-&gt;reply));</div><div class="line">            objlen = sdslen(o-&gt;ptr);</div><div class="line">            objmem = zmalloc_size_sds(o-&gt;ptr);</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (objlen == <span class="number">0</span>) {</div><div class="line">                listDelNode(c-&gt;reply,listFirst(c-&gt;reply));</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            }</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (c-&gt;flags &amp; REDIS_MASTER) {</div><div class="line">                <span class="comment">/* Don&apos;t reply to a master */</span></div><div class="line">                nwritten = objlen - c-&gt;sentlen;</div><div class="line">            } <span class="keyword">else</span> {</div><div class="line">                nwritten = write(fd, ((<span class="keyword">char</span>*)o-&gt;ptr)+c-&gt;sentlen,objlen-c-&gt;sentlen);</div><div class="line">                <span class="keyword">if</span> (nwritten &lt;= <span class="number">0</span>) <span class="keyword">break</span>;</div><div class="line">            }</div><div class="line">            c-&gt;sentlen += nwritten;</div><div class="line">            totwritten += nwritten;</div><div class="line">            <span class="comment">/* If we fully sent the object on head go to the next one */</span></div><div class="line">            <span class="keyword">if</span> (c-&gt;sentlen == objlen) {</div><div class="line">                listDelNode(c-&gt;reply,listFirst(c-&gt;reply));</div><div class="line">                c-&gt;sentlen = <span class="number">0</span>;</div><div class="line">                c-&gt;reply_bytes -= objmem;</div><div class="line">            }</div><div class="line">        }</div><div class="line">        <span class="comment">/* Note that we avoid to send more than REDIS_MAX_WRITE_PER_EVENT</span></div><div class="line">         * bytes, in a single threaded server it&apos;s a good idea to serve</div><div class="line">         * other clients as well, even if a very large request comes from</div><div class="line">         * super fast link that is always able to accept data (in real world</div><div class="line">         * scenario think about &apos;KEYS *&apos; against the loopback interface).</div><div class="line">         *</div><div class="line">         * However if we are over the maxmemory limit we ignore that and</div><div class="line">         * just deliver as much data as it is possible to deliver. */</div><div class="line">        <span class="comment">// &#x4E3A;&#x4E86;&#x907F;&#x514D;&#x4E00;&#x4E2A;&#x5DE8;&#x5927;&#x7684;&#x56DE;&#x590D;&#x72EC;&#x5360;&#x670D;&#x52A1;&#x5668;</span></div><div class="line">        <span class="comment">// &#x5982;&#x679C;&#x5199;&#x5165;&#x5B57;&#x8282;&#x6570;&#x5DF2;&#x7ECF;&#x8D85;&#x8FC7;&#x4E8B;&#x4EF6;&#x8BBE;&#x5B9A;&#x7684;&#x6700;&#x5927;&#x6BCF;&#x6B21;&#x53EF;&#x5199;&#x5B57;&#x8282;&#x6570;</span></div><div class="line">        <span class="comment">// &#x90A3;&#x4E48;&#x4E2D;&#x65AD;&#x56DE;&#x590D;&#x7684;&#x53D1;&#x9001;</span></div><div class="line">        <span class="keyword">if</span> (totwritten &gt; REDIS_MAX_WRITE_PER_EVENT &amp;&amp;</div><div class="line">            (server.maxmemory == <span class="number">0</span> ||</div><div class="line">             zmalloc_used_memory() &lt; server.maxmemory)) <span class="keyword">break</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// &#x5199;&#x5165;&#x51FA;&#x9519;</span></div><div class="line">    <span class="keyword">if</span> (nwritten == <span class="number">-1</span>) {</div><div class="line">        <span class="comment">// &#x88AB;&#x4E2D;&#x65AD;</span></div><div class="line">        <span class="keyword">if</span> (errno == EAGAIN) {</div><div class="line">            nwritten = <span class="number">0</span>;</div><div class="line">        <span class="comment">// &#x5904;&#x7406;&#x51FA;&#x9519;</span></div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            redisLog(REDIS_VERBOSE,</div><div class="line">                <span class="string">&quot;Error writing to client: %s&quot;</span>, strerror(errno));</div><div class="line">            freeClient(c);</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// &#x66F4;&#x65B0;&#x670D;&#x52A1;&#x5668;&#x7684;&#x6700;&#x540E;&#x52A8;&#x4F5C;&#x65F6;&#x95F4;</span></div><div class="line">    <span class="keyword">if</span> (totwritten &gt; <span class="number">0</span>) c-&gt;lastinteraction = server.unixtime;</div><div class="line"></div><div class="line">    <span class="comment">// &#x56DE;&#x590D;&#x5168;&#x90E8;&#x53D1;&#x9001;&#x5B8C;&#x6BD5;&#xFF0C;&#x5220;&#x9664;&#x4E8B;&#x4EF6;&#x5904;&#x7406;&#x5668;</span></div><div class="line">    <span class="keyword">if</span> (c-&gt;bufpos == <span class="number">0</span> &amp;&amp; listLength(c-&gt;reply) == <span class="number">0</span>) {</div><div class="line">        c-&gt;sentlen = <span class="number">0</span>;</div><div class="line"><span class="comment">///@alex:&#x56DE;&#x590D;&#x53D1;&#x9001;&#x5B8C;&#x6BD5;&#xFF0C;&#x9700;&#x8981;&#x5220;&#x9664;&#x53EF;&#x5199;&#x56DE;&#x8C03;&#xFF0C;&#x8FD9;&#x4E2A;&#x5F88;&#x91CD;&#x8981;&#xFF0C;&#x4E0D;&#x7136;&#x4E00;&#x76F4;&#x4F1A;&#x6709;&#x53EF;&#x5199;&#x4E8B;&#x4EF6;</span></div><div class="line">        aeDeleteFileEvent(server.el,c-&gt;fd,AE_WRITABLE);</div><div class="line"></div><div class="line">        <span class="comment">/* Close connection after entire reply has been sent. */</span></div><div class="line">        <span class="comment">// &#x5982;&#x679C;&#x72B6;&#x6001;&#x4E3A;&#x201C;&#x56DE;&#x590D;&#x5B8C;&#x6BD5;&#x4E4B;&#x540E;&#x5173;&#x95ED;&#x201D;&#xFF0C;&#x90A3;&#x4E48;&#x5173;&#x95ED;&#x5BA2;&#x6237;&#x7AEF;</span></div><div class="line">        <span class="keyword">if</span> (c-&gt;flags &amp; REDIS_CLOSE_AFTER_REPLY) freeClient(c);</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/redis/">redis</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/06/19/redis-4-文件事件分析/" data-title="redis-4-文件事件分析 | INCLUDE" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/06/19/redis-5-dict数据结构分析/" title="redis-5-dict数据结构分析">
+  <strong>上一篇：</strong><br/>
+  <span>
+  redis-5-dict数据结构分析</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/06/16/redis-3-时间事件分析/"  title="redis_3_时间事件分析">
+ <strong>下一篇：</strong><br/> 
+ <span>redis_3_时间事件分析
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#acceptTcpHandler"><span class="toc-number">1.</span> <span class="toc-text">acceptTcpHandler</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#readQueryFromClient"><span class="toc-number">2.</span> <span class="toc-text">readQueryFromClient</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sendReplyToClient"><span class="toc-number">3.</span> <span class="toc-text">sendReplyToClient</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Go/" title="Go">Go<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/alfred/" title="alfred">alfred<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Emacs/" title="Emacs">Emacs<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/homebrew/" title="homebrew">homebrew<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/graph/" title="graph">graph<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/greedy/" title="greedy">greedy<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Erlang/" title="Erlang">Erlang<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/shell/" title="shell">shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DesignPattern/" title="DesignPattern">DesignPattern<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Go/" title="Go">Go<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/golang/" title="golang">golang<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Alexkkk in ROOBO <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="alexkkk">alexkkk</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
