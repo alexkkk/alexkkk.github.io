@@ -4,23 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>python使用xlwt操作excel | INCLUDE</title>
+    <title>golang-import详解 | INCLUDE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="alexkkk">
     
 
     
-    <meta name="description" content="&amp;#x7528;xlwt&amp;#x64CD;&amp;#x4F5C;excel&amp;#x7684;&amp;#x4EE3;&amp;#x7801;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A;12345678910111213# create workbookworkbook = xlwt.Workbook()# create sheetsheet = workbook.add_sheet(&amp;quot;sheet1&amp;quot;">
+    <meta name="description" content="&amp;#x5982;&amp;#x4F55;import&amp;#x5305;&amp;#xFF1F;golang&amp;#x4E2D;import&amp;#x5305;&amp;#x6BD4;&amp;#x8F83;&amp;#x7B80;&amp;#x5355;&amp;#xFF0C;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A;
+123import &amp;quot;fmt&amp;quot;    //&amp;#x8FD9;&amp;#x79CD;&amp;#x60C5;&amp;#x51B5;&amp;#x4F1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python使用xlwt操作excel">
-<meta property="og:url" content="http://yoursite.com/2016/11/01/python使用xlwt操作excel/index.html">
+<meta property="og:title" content="golang-import详解">
+<meta property="og:url" content="http://yoursite.com/2016/12/25/golang-import详解/index.html">
 <meta property="og:site_name" content="INCLUDE">
-<meta property="og:description" content="&amp;#x7528;xlwt&amp;#x64CD;&amp;#x4F5C;excel&amp;#x7684;&amp;#x4EE3;&amp;#x7801;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A;12345678910111213# create workbookworkbook = xlwt.Workbook()# create sheetsheet = workbook.add_sheet(&amp;quot;sheet1&amp;quot;">
-<meta property="og:updated_time" content="2016-12-05T13:41:37.000Z">
+<meta property="og:description" content="&amp;#x5982;&amp;#x4F55;import&amp;#x5305;&amp;#xFF1F;golang&amp;#x4E2D;import&amp;#x5305;&amp;#x6BD4;&amp;#x8F83;&amp;#x7B80;&amp;#x5355;&amp;#xFF0C;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A;
+123import &amp;quot;fmt&amp;quot;    //&amp;#x8FD9;&amp;#x79CD;&amp;#x60C5;&amp;#x51B5;&amp;#x4F1">
+<meta property="og:updated_time" content="2016-12-25T15:00:20.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python使用xlwt操作excel">
-<meta name="twitter:description" content="&amp;#x7528;xlwt&amp;#x64CD;&amp;#x4F5C;excel&amp;#x7684;&amp;#x4EE3;&amp;#x7801;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A;12345678910111213# create workbookworkbook = xlwt.Workbook()# create sheetsheet = workbook.add_sheet(&amp;quot;sheet1&amp;quot;">
+<meta name="twitter:title" content="golang-import详解">
+<meta name="twitter:description" content="&amp;#x5982;&amp;#x4F55;import&amp;#x5305;&amp;#xFF1F;golang&amp;#x4E2D;import&amp;#x5305;&amp;#x6BD4;&amp;#x8F83;&amp;#x7B80;&amp;#x5355;&amp;#xFF0C;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A;
+123import &amp;quot;fmt&amp;quot;    //&amp;#x8FD9;&amp;#x79CD;&amp;#x60C5;&amp;#x51B5;&amp;#x4F1">
 
     
     <link rel="alternative" href="/atom.xml" title="INCLUDE" type="application/atom+xml">
@@ -80,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/11/01/python使用xlwt操作excel/" title="python使用xlwt操作excel" itemprop="url">python使用xlwt操作excel</a>
+      <a href="/2016/12/25/golang-import详解/" title="golang-import详解" itemprop="url">golang-import详解</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="alexkkk" target="_blank" itemprop="author">alexkkk</a>
 		
   <p class="article-time">
-    <time datetime="2016-11-01T12:16:10.000Z" itemprop="datePublished"> 发表于 2016-11-01</time>
+    <time datetime="2016-12-25T14:42:34.000Z" itemprop="datePublished"> 发表于 2016-12-25</time>
     
   </p>
 </header>
@@ -96,23 +99,30 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何import包？"><span class="toc-number">1.</span> <span class="toc-text">如何import包？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如果包重名怎么办？"><span class="toc-number">2.</span> <span class="toc-text">如果包重名怎么办？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包名太长怎么办？"><span class="toc-number">3.</span> <span class="toc-text">包名太长怎么办？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#import-“fmt”是什么鬼？"><span class="toc-number">4.</span> <span class="toc-text">import _ “fmt”是什么鬼？</span></a></li></ol>
 		
 		</div>
 		
-		<p>&#x7528;xlwt&#x64CD;&#x4F5C;excel&#x7684;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># create workbook</span></div><div class="line">workbook = xlwt.Workbook()</div><div class="line"></div><div class="line"><span class="comment"># create sheet</span></div><div class="line">sheet = workbook.add_sheet(<span class="string">&quot;sheet1&quot;</span>) </div><div class="line"></div><div class="line"><span class="comment"># write to cell (x, y, value)</span></div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;query&quot;</span>)</div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">1</span>, <span class="string">&quot;old(strict)&quot;</span>)</div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">2</span>, <span class="string">&quot;new(strict)&quot;</span>)</div><div class="line"></div><div class="line"><span class="comment"># save to file</span></div><div class="line">workbook.save(<span class="string">&quot;compare.xls&quot;</span>)</div></pre></td></tr></table></figure></p>
-<p>&#x6211;&#x5199;&#x4E86;&#x4E0B;&#x9762;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/local/bin/python</span></div><div class="line"><span class="keyword">import</span> xlwt</div><div class="line"></div><div class="line">workbook = xlwt.Workbook()</div><div class="line"></div><div class="line">sheet = workbook.add_sheet(<span class="string">&quot;sheet1&quot;</span>)</div><div class="line"></div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;aa&quot;</span>)</div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">1</span>, <span class="string">u&apos;&#x4E2D;&#x6587;&apos;</span>)</div><div class="line"></div><div class="line">workbook.save(<span class="string">&apos;test.xls&apos;</span>)</div></pre></td></tr></table></figure></p>
-<p>&#x4F46;&#x662F;&#x4E0A;&#x9762;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;&#x5199;&#x5165;&#x7684;&#x6709;&#x4E2D;&#x6587;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x59CB;&#x7EC8;&#x62A5;&#x5982;&#x4E0B;&#x7684;&#x9519;&#x8BEF;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SyntaxError: Non-ASCII character <span class="string">&apos;\xe4&apos;</span> <span class="keyword">in</span> file xx.py on line 10, but no encoding declared; see http://python.org/dev/peps/pep-0263/ <span class="keyword">for</span> details</div></pre></td></tr></table></figure></p>
-<p>&#x6539;&#x6210;&#x4E0B;&#x9762;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x589E;&#x52A0;&#x4E86;&#x6307;&#x5B9A;&#x6587;&#x4EF6;&#x7F16;&#x7801;&#x683C;&#x5F0F;&#x7684;<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/local/bin/python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"><span class="keyword">import</span> xlwt</div><div class="line"></div><div class="line"></div><div class="line">workbook = xlwt.Workbook()</div><div class="line"></div><div class="line">sheet = workbook.add_sheet(<span class="string">&quot;sheet1&quot;</span>)</div><div class="line"></div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;aa&quot;</span>)</div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">1</span>, <span class="string">u&apos;&#x4E2D;&#x6587;&apos;</span>)</div><div class="line"></div><div class="line">workbook.save(<span class="string">&apos;test.xls&apos;</span>)</div></pre></td></tr></table></figure></p>
+		<h2 id="&#x5982;&#x4F55;import&#x5305;&#xFF1F;"><a href="#&#x5982;&#x4F55;import&#x5305;&#xFF1F;" class="headerlink" title="&#x5982;&#x4F55;import&#x5305;&#xFF1F;"></a>&#x5982;&#x4F55;import&#x5305;&#xFF1F;</h2><p>golang&#x4E2D;import&#x5305;&#x6BD4;&#x8F83;&#x7B80;&#x5355;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span>    <span class="comment">//&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4F1A;&#x9ED8;&#x8BA4;&#x5728;GO&#x7684;GOPATH&#x76EE;&#x5F55;&#x4E0B;&#x8FDB;&#x884C;&#x5168;&#x5C40;&#x67E5;&#x627E;</span></div><div class="line"><span class="keyword">import</span> <span class="string">&quot;./fmt&quot;</span>  <span class="comment">//&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4F1A;&#x5728;&#x76F8;&#x5BF9;&#x76EE;&#x5F55;&#x8FDB;&#x884C;&#x67E5;&#x627E;</span></div><div class="line"><span class="keyword">import</span> <span class="string">&quot;/fmt&quot;</span>   <span class="comment">//&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4F1A;&#x5728;&#x7EDD;&#x5BF9;&#x8DEF;&#x5F84;&#x8FDB;&#x884C;&#x67E5;&#x627E;</span></div></pre></td></tr></table></figure>
+<h2 id="&#x5982;&#x679C;&#x5305;&#x91CD;&#x540D;&#x600E;&#x4E48;&#x529E;&#xFF1F;"><a href="#&#x5982;&#x679C;&#x5305;&#x91CD;&#x540D;&#x600E;&#x4E48;&#x529E;&#xFF1F;" class="headerlink" title="&#x5982;&#x679C;&#x5305;&#x91CD;&#x540D;&#x600E;&#x4E48;&#x529E;&#xFF1F;"></a>&#x5982;&#x679C;&#x5305;&#x91CD;&#x540D;&#x600E;&#x4E48;&#x529E;&#xFF1F;</h2><p>golang&#x53EF;&#x4EE5;&#x5F88;&#x5BB9;&#x6613;&#x5730;&#x901A;&#x8FC7;&#x522B;&#x540D;&#x533A;&#x5206;&#x540C;&#x540D;&#x7684;&#x5305;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> global_fmt <span class="string">&quot;fmt&quot;</span></div><div class="line"><span class="keyword">import</span> my_fmt <span class="string">&quot;./fmt&quot;</span></div></pre></td></tr></table></figure></p>
+<h2 id="&#x5305;&#x540D;&#x592A;&#x957F;&#x600E;&#x4E48;&#x529E;&#xFF1F;"><a href="#&#x5305;&#x540D;&#x592A;&#x957F;&#x600E;&#x4E48;&#x529E;&#xFF1F;" class="headerlink" title="&#x5305;&#x540D;&#x592A;&#x957F;&#x600E;&#x4E48;&#x529E;&#xFF1F;"></a>&#x5305;&#x540D;&#x592A;&#x957F;&#x600E;&#x4E48;&#x529E;&#xFF1F;</h2><p>&#x6709;&#x65F6;&#x5019;&#x5728;&#x5F15;&#x5165;&#x5305;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5305;&#x540D;&#x5F88;&#x957F;&#x5199;&#x7684;&#x5F88;&#x70E6;&#xFF0C;&#x80FD;&#x4E0D;&#x80FD;&#x7701;&#x6389;&#xFF1F;&#x56DE;&#x7B54;&#xFF1A;&#x5FC5;&#x987B;&#x53EF;&#x4EE5;&#x554A;<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> . <span class="string">&quot;fmt&quot;</span></div></pre></td></tr></table></figure></p>
+<p>&#x5C06;fmt &#x542F;&#x7528;&#x522B;&#x540D;&#x201D;.&#x201D;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x5176;&#x5185;&#x5BB9;&#xFF0C;&#x800C;&#x4E0D;&#x7528;&#x518D;&#x52A0;fmt.<br>&#x4F8B;&#x5982;fmt.Println(&#x201C;&#x201D;)&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5199;&#x6210;Println(&#x201C;&#x201D;)</p>
+<h2 id="import-&#x201C;fmt&#x201D;&#x662F;&#x4EC0;&#x4E48;&#x9B3C;&#xFF1F;"><a href="#import-&#x201C;fmt&#x201D;&#x662F;&#x4EC0;&#x4E48;&#x9B3C;&#xFF1F;" class="headerlink" title="import _ &#x201C;fmt&#x201D;&#x662F;&#x4EC0;&#x4E48;&#x9B3C;&#xFF1F;"></a>import _ &#x201C;fmt&#x201D;&#x662F;&#x4EC0;&#x4E48;&#x9B3C;&#xFF1F;</h2><p>&#x6B63;&#x5E38;import&#x5305;<code>import &quot;fmt&quot;</code>&#x4F1A;&#x6267;&#x884C;&#x5305;&#x79CD;&#x7684;&#x4E00;&#x4E9B;&#x53D8;&#x91CF;&#x7684;&#x58F0;&#x660E;&#x548C;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x6267;&#x884C;init()&#x51FD;&#x6570;<br><code>import _ &quot;fmt&quot;</code>&#x8868;&#x793A;&#x53EA;&#x6267;&#x884C;<code>fmt</code>&#x5305;&#x91CC;&#x7684;<code>init</code>&#x51FD;&#x6570;</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Go/">Go</a>
+</div>
+
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/python/">python</a>
+  <span></span> <a href="/tags/Go/">Go</a>
   </div>
 
 </div>
@@ -121,7 +131,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/11/01/python使用xlwt操作excel/" data-title="python使用xlwt操作excel | INCLUDE" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/12/25/golang-import详解/" data-title="golang-import详解 | INCLUDE" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -135,18 +145,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/11/17/git中tag用法/" title="git中tag用法">
+ <a href="/2017/03/03/speex的坑/" title="speex的坑">
   <strong>上一篇：</strong><br/>
   <span>
-  git中tag用法</span>
+  speex的坑</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/10/13/golang匿名成员/"  title="golang匿名成员">
+<a href="/2016/12/05/hello-world/"  title="Hello World">
  <strong>下一篇：</strong><br/> 
- <span>golang匿名成员
+ <span>Hello World
 </span>
 </a>
 </div>
@@ -161,7 +171,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何import包？"><span class="toc-number">1.</span> <span class="toc-text">如何import包？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如果包重名怎么办？"><span class="toc-number">2.</span> <span class="toc-text">如果包重名怎么办？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包名太长怎么办？"><span class="toc-number">3.</span> <span class="toc-text">包名太长怎么办？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#import-“fmt”是什么鬼？"><span class="toc-number">4.</span> <span class="toc-text">import _ “fmt”是什么鬼？</span></a></li></ol>
  
   </div>
 

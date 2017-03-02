@@ -44,7 +44,7 @@
 				<h1 class="site-name"><a href="/" title="INCLUDE">INCLUDE</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -60,7 +60,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -78,6 +78,131 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/06/02/Shell之IO重定向/" title="Shell之I/O重定向" itemprop="url">Shell之I/O重定向</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="alexkkk" target="_blank" itemprop="author">alexkkk</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-02T11:53:08.000Z" itemprop="datePublished"> 发表于 2016-06-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="&#x5F15;&#x5B50;"><a href="#&#x5F15;&#x5B50;" class="headerlink" title="&#x5F15;&#x5B50;"></a>&#x5F15;&#x5B50;</h2><p>&#x4ECA;&#x5929;&#x7FFB;&#x4E4B;&#x524D;&#x7684;&#x8001;&#x90AE;&#x4EF6;&#x53D1;&#x73B0;&#x5982;&#x4E0B;&#x7684;&#x4E00;&#x4E2A;&#x5173;&#x4E8E;I/O&#x91CD;&#x5B9A;&#x5411;&#x7684;&#x8001;&#x9898;&#x76EE;&#xFF0C;&#x4E00;&#x4E0B;&#x5B50;&#x61F5;&#x903C;&#x4E86;&#x3002;&#x3002;&#x3002;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#cat std.sh</div><div class="line">#!/bin/sh</div><div class="line">echo &quot;stdout&quot;</div><div class="line">echo &quot;stderr&quot; &gt;&amp;2</div><div class="line"></div><div class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null (&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x8F93;&#x51FA;&#x4EC0;&#x4E48;?)</div><div class="line"></div><div class="line">#/bin/sh std.sh &gt; /dev/null 2&gt;&amp;1 (&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x8F93;&#x51FA;&#x4EC0;&#x4E48;?)</div></pre></td></tr></table></figure></p>
+<p>&#x53EA;&#x597D;&#x91CD;&#x65B0;&#x5B66;&#x4E60;&#x4E0B;I/O&#x91CD;&#x5B9A;&#x5411;&#x76F8;&#x5173;&#x7684;&#x53EA;&#x662F;&#x4E86;&#xFF0C;~(&#x2267;&#x25BD;&#x2266;)/~&#x5566;&#x5566;&#x5566;</p>
+<h2 id="&#x4EC0;&#x4E48;&#x662F;I-O&#x91CD;&#x5B9A;&#x5411;"><a href="#&#x4EC0;&#x4E48;&#x662F;I-O&#x91CD;&#x5B9A;&#x5411;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;I/O&#x91CD;&#x5B9A;&#x5411;"></a>&#x4EC0;&#x4E48;&#x662F;I/O&#x91CD;&#x5B9A;&#x5411;</h2><p>&#x9996;&#x5148;&#x91CD;&#x65B0;&#x660E;&#x786E;&#x4E0B;stdin/stdout/stderr:<br>stdin(0):   &#x9ED8;&#x8BA4;&#x662F;keyboard<br>stdout(1):  &#x9ED8;&#x8BA4;&#x662F;&#x5C4F;&#x5E55;<br>stderr(2):  &#x9519;&#x8BEF;&#x6D88;&#x606F;&#x8F93;&#x51FA;&#x5230;&#x5C4F;&#x5E55;</p>
+<p>&#x6240;&#x8C13;&#x91CD;&#x5B9A;&#x5411;&#x5C31;&#x662F;&#xFF1A;</p>
+<blockquote>
+<p align="left"> Redirection simply means capturing output from a file, command, program, script, or even code block within a script and sending it as input to another file, command, program, or script. </p>
+
+</blockquote>
+<p>&#x518D;&#x8D34;&#x4E2A;Advanced Bash Scripting&#x4E2D;&#x7684;&#x4F8B;&#x5B50;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">ls -yz &gt;&gt; command.log 2&gt;&amp;1</div><div class="line">#  Capture result of illegal options &quot;yz&quot; in file &quot;command.log.&quot;</div><div class="line">#  Because stderr is redirected to the file,</div><div class="line">#+ any error messages will also be there.</div><div class="line">#  Note, however, that the following does *not* give the same result.</div><div class="line">ls -yz 2&gt;&amp;1 &gt;&gt; command.log</div><div class="line">#  Outputs an error message, but does not write to file.</div><div class="line">#  More precisely, the command output (in this case, null)</div><div class="line">#+ writes to the file, but the error message goes only to stdout.</div><div class="line">#  If redirecting both stdout and stderr,</div><div class="line">#+ the order of the commands makes a difference.</div></pre></td></tr></table></figure></p>
+<p>&#x6839;&#x636E;&#x8FD9;&#x4E2A;&#x601D;&#x8DEF;&#x8BD5;&#x7740;&#x770B;&#x4E4B;&#x524D;&#x7684;2&#x4E2A;&#x95EE;&#x9898;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null</div></pre></td></tr></table></figure></p>
+<p>&#x8F93;&#x51FA;&#xFF1A;stderr<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#/bin/sh std.sh 2&gt;&amp;1 &gt; /dev/null</div></pre></td></tr></table></figure></p>
+<p>&#x8F93;&#x51FA;&#xFF1A; &#xFF08;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x8F93;&#x51FA;&#xFF09;</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/shell/">shell</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/01/安装和卸载Homebrew/" title="安装和卸载Homebrew" itemprop="url">安装和卸载Homebrew</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="alexkkk" target="_blank" itemprop="author">alexkkk</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-01T15:46:31.000Z" itemprop="datePublished"> 发表于 2016-06-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>&#x524D;&#x63D0;&#x662F;&#x5DF2;&#x7ECF;&#x5B89;&#x88C5;&#x4E86;ruby&#xFF0C;&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;mac&#x4F1A;&#x81EA;&#x5E26;ruby</p>
+<h2 id="&#x5B89;&#x88C5;"><a href="#&#x5B89;&#x88C5;" class="headerlink" title="&#x5B89;&#x88C5;"></a>&#x5B89;&#x88C5;</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</div></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x4E0B;&#x8F7D;&#x5B89;&#x88C5;&#x811A;&#x672C;&#xFF0C;&#x7136;&#x540E;&#x6267;&#x884C;&#x5B89;&#x88C5;</p>
+<h2 id="&#x5378;&#x8F7D;"><a href="#&#x5378;&#x8F7D;" class="headerlink" title="&#x5378;&#x8F7D;"></a>&#x5378;&#x8F7D;</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)&quot;</div></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x662F;&#x4E0B;&#x8F7D;&#x5378;&#x8F7D;&#x811A;&#x672C;&#xFF0C;&#x7136;&#x540E;&#x6267;&#x884C;&#x811A;&#x672C;&#x8FDB;&#x884C;&#x5378;&#x8F7D;</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/homebrew/">homebrew</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/06/01/20160601-Mac下Github-hexo搭建静态博客/" title="Mac下Github+hexo搭建静态博客" itemprop="url">Mac下Github+hexo搭建静态博客</a>
   </h1>
   <p class="article-author">By
@@ -85,7 +210,7 @@
 		<a href="/about" title="alexkkk" target="_blank" itemprop="author">alexkkk</a>
 		
   <p class="article-time">
-    <time datetime="2016-06-01T03:23:47.000Z" itemprop="datePublished"> Published 2016-06-01</time>
+    <time datetime="2016-06-01T03:23:47.000Z" itemprop="datePublished"> 发表于 2016-06-01</time>
     
   </p>
 </header>
@@ -134,10 +259,10 @@
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
@@ -145,11 +270,11 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
-			<li><a href="/categories/Go/" title="Go">Go<sup>1</sup></a></li>
+			<li><a href="/categories/Go/" title="Go">Go<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -158,7 +283,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -174,11 +299,7 @@
 			
 		
 			
-				<li><a href="/tags/Emacs/" title="Emacs">Emacs<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/shell/" title="shell">shell<sup>1</sup></a></li>
+				<li><a href="/tags/Go/" title="Go">Go<sup>2</sup></a></li>
 			
 		
 			
@@ -186,7 +307,11 @@
 			
 		
 			
-				<li><a href="/tags/greedy/" title="greedy">greedy<sup>1</sup></a></li>
+				<li><a href="/tags/Erlang/" title="Erlang">Erlang<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/shell/" title="shell">shell<sup>1</sup></a></li>
 			
 		
 			
@@ -194,11 +319,11 @@
 			
 		
 			
-				<li><a href="/tags/Erlang/" title="Erlang">Erlang<sup>1</sup></a></li>
+				<li><a href="/tags/homebrew/" title="homebrew">homebrew<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/homebrew/" title="homebrew">homebrew<sup>1</sup></a></li>
+				<li><a href="/tags/greedy/" title="greedy">greedy<sup>1</sup></a></li>
 			
 		
 			
@@ -206,19 +331,23 @@
 			
 		
 			
-				<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/golang/" title="golang">golang<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Go/" title="Go">Go<sup>1</sup></a></li>
+				<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Emacs/" title="Emacs">Emacs<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/speex/" title="speex">speex<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -226,7 +355,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -248,11 +377,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
 </div>
 
@@ -289,7 +418,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="alexkkk">alexkkk</a>
 		
@@ -390,7 +519,7 @@ $(document).ready(function(){
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

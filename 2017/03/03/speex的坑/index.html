@@ -4,23 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>python使用xlwt操作excel | INCLUDE</title>
+    <title>speex的坑 | INCLUDE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="alexkkk">
     
 
     
-    <meta name="description" content="&amp;#x7528;xlwt&amp;#x64CD;&amp;#x4F5C;excel&amp;#x7684;&amp;#x4EE3;&amp;#x7801;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A;12345678910111213# create workbookworkbook = xlwt.Workbook()# create sheetsheet = workbook.add_sheet(&amp;quot;sheet1&amp;quot;">
+    <meta name="description" content="&amp;#x5728;&amp;#x505A;&amp;#x8BED;&amp;#x97F3;&amp;#x8BC6;&amp;#x522B;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#x7528;&amp;#x5230;speex&amp;#x538B;&amp;#x7F29;&amp;#xFF0C;&amp;#x53D1;&amp;#x73B0;&amp;#x4E86;&amp;#x4E00;&amp;#x4E2A;&amp;#x5751;&amp;#x3002;
+&amp;#">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python使用xlwt操作excel">
-<meta property="og:url" content="http://yoursite.com/2016/11/01/python使用xlwt操作excel/index.html">
+<meta property="og:title" content="speex的坑">
+<meta property="og:url" content="http://yoursite.com/2017/03/03/speex的坑/index.html">
 <meta property="og:site_name" content="INCLUDE">
-<meta property="og:description" content="&amp;#x7528;xlwt&amp;#x64CD;&amp;#x4F5C;excel&amp;#x7684;&amp;#x4EE3;&amp;#x7801;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A;12345678910111213# create workbookworkbook = xlwt.Workbook()# create sheetsheet = workbook.add_sheet(&amp;quot;sheet1&amp;quot;">
-<meta property="og:updated_time" content="2016-12-05T13:41:37.000Z">
+<meta property="og:description" content="&amp;#x5728;&amp;#x505A;&amp;#x8BED;&amp;#x97F3;&amp;#x8BC6;&amp;#x522B;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#x7528;&amp;#x5230;speex&amp;#x538B;&amp;#x7F29;&amp;#xFF0C;&amp;#x53D1;&amp;#x73B0;&amp;#x4E86;&amp;#x4E00;&amp;#x4E2A;&amp;#x5751;&amp;#x3002;
+&amp;#">
+<meta property="og:updated_time" content="2017-03-02T16:18:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python使用xlwt操作excel">
-<meta name="twitter:description" content="&amp;#x7528;xlwt&amp;#x64CD;&amp;#x4F5C;excel&amp;#x7684;&amp;#x4EE3;&amp;#x7801;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A;12345678910111213# create workbookworkbook = xlwt.Workbook()# create sheetsheet = workbook.add_sheet(&amp;quot;sheet1&amp;quot;">
+<meta name="twitter:title" content="speex的坑">
+<meta name="twitter:description" content="&amp;#x5728;&amp;#x505A;&amp;#x8BED;&amp;#x97F3;&amp;#x8BC6;&amp;#x522B;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#x7528;&amp;#x5230;speex&amp;#x538B;&amp;#x7F29;&amp;#xFF0C;&amp;#x53D1;&amp;#x73B0;&amp;#x4E86;&amp;#x4E00;&amp;#x4E2A;&amp;#x5751;&amp;#x3002;
+&amp;#">
 
     
     <link rel="alternative" href="/atom.xml" title="INCLUDE" type="application/atom+xml">
@@ -80,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/11/01/python使用xlwt操作excel/" title="python使用xlwt操作excel" itemprop="url">python使用xlwt操作excel</a>
+      <a href="/2017/03/03/speex的坑/" title="speex的坑" itemprop="url">speex的坑</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="alexkkk" target="_blank" itemprop="author">alexkkk</a>
 		
   <p class="article-time">
-    <time datetime="2016-11-01T12:16:10.000Z" itemprop="datePublished"> 发表于 2016-11-01</time>
+    <time datetime="2017-03-02T16:14:22.000Z" itemprop="datePublished"> 发表于 2017-03-03</time>
     
   </p>
 </header>
@@ -100,10 +103,12 @@
 		
 		</div>
 		
-		<p>&#x7528;xlwt&#x64CD;&#x4F5C;excel&#x7684;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># create workbook</span></div><div class="line">workbook = xlwt.Workbook()</div><div class="line"></div><div class="line"><span class="comment"># create sheet</span></div><div class="line">sheet = workbook.add_sheet(<span class="string">&quot;sheet1&quot;</span>) </div><div class="line"></div><div class="line"><span class="comment"># write to cell (x, y, value)</span></div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;query&quot;</span>)</div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">1</span>, <span class="string">&quot;old(strict)&quot;</span>)</div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">2</span>, <span class="string">&quot;new(strict)&quot;</span>)</div><div class="line"></div><div class="line"><span class="comment"># save to file</span></div><div class="line">workbook.save(<span class="string">&quot;compare.xls&quot;</span>)</div></pre></td></tr></table></figure></p>
-<p>&#x6211;&#x5199;&#x4E86;&#x4E0B;&#x9762;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/local/bin/python</span></div><div class="line"><span class="keyword">import</span> xlwt</div><div class="line"></div><div class="line">workbook = xlwt.Workbook()</div><div class="line"></div><div class="line">sheet = workbook.add_sheet(<span class="string">&quot;sheet1&quot;</span>)</div><div class="line"></div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;aa&quot;</span>)</div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">1</span>, <span class="string">u&apos;&#x4E2D;&#x6587;&apos;</span>)</div><div class="line"></div><div class="line">workbook.save(<span class="string">&apos;test.xls&apos;</span>)</div></pre></td></tr></table></figure></p>
-<p>&#x4F46;&#x662F;&#x4E0A;&#x9762;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;&#x5199;&#x5165;&#x7684;&#x6709;&#x4E2D;&#x6587;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x59CB;&#x7EC8;&#x62A5;&#x5982;&#x4E0B;&#x7684;&#x9519;&#x8BEF;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SyntaxError: Non-ASCII character <span class="string">&apos;\xe4&apos;</span> <span class="keyword">in</span> file xx.py on line 10, but no encoding declared; see http://python.org/dev/peps/pep-0263/ <span class="keyword">for</span> details</div></pre></td></tr></table></figure></p>
-<p>&#x6539;&#x6210;&#x4E0B;&#x9762;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x589E;&#x52A0;&#x4E86;&#x6307;&#x5B9A;&#x6587;&#x4EF6;&#x7F16;&#x7801;&#x683C;&#x5F0F;&#x7684;<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/local/bin/python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"><span class="keyword">import</span> xlwt</div><div class="line"></div><div class="line"></div><div class="line">workbook = xlwt.Workbook()</div><div class="line"></div><div class="line">sheet = workbook.add_sheet(<span class="string">&quot;sheet1&quot;</span>)</div><div class="line"></div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;aa&quot;</span>)</div><div class="line">sheet.write(<span class="number">0</span>, <span class="number">1</span>, <span class="string">u&apos;&#x4E2D;&#x6587;&apos;</span>)</div><div class="line"></div><div class="line">workbook.save(<span class="string">&apos;test.xls&apos;</span>)</div></pre></td></tr></table></figure></p>
+		<p>&#x5728;&#x505A;&#x8BED;&#x97F3;&#x8BC6;&#x522B;&#x670D;&#x52A1;&#x5668;&#x7684;&#x65F6;&#x5019;&#x7528;&#x5230;speex&#x538B;&#x7F29;&#xFF0C;&#x53D1;&#x73B0;&#x4E86;&#x4E00;&#x4E2A;&#x5751;&#x3002;</p>
+<p>&#x5BF9;&#x5E94;&#x4E00;&#x4E2A;speex&#x7684;&#x97F3;&#x9891;&#x6587;&#x4EF6;&#x4E0D;&#x540C;&#x7684;&#x89E3;&#x538B;&#x64CD;&#x4F5C;&#x65B9;&#x5F0F;&#x4F1A;&#x5F97;&#x5230;&#x4E0D;&#x540C;&#x7684;&#x7ED3;&#x679C;&#x3002;</p>
+<p>&#x5047;&#x8BBE;&#x4E00;&#x4E2A;speex&#x6587;&#x4EF6;&#x6709;N&#x4E2A;frame, &#x7528;&#x5982;&#x4E0B;&#x7684;2&#x5404;&#x65B9;&#x6CD5;&#x89E3;&#x538B;&#xFF1A;</p>
+<p>&#x65B9;&#x6CD5;1&#xFF1A;<br>&#x521D;&#x59CB;&#x5316;decoder -&gt; &#x89E3;&#x538B;&#x7B2C;i&#x4E2A;frame -&gt; close decoder<br>&#x521D;&#x59CB;&#x5316;decoder -&gt; &#x89E3;&#x538B;&#x7B2C;i + 1&#x4E2A;frame -&gt; close decoder<br>&#x2026;</p>
+<p>&#x65B9;&#x6CD5;2&#xFF1A;<br>initialize decoder<br>&#x89E3;&#x538B;&#x7B2C;i&#x4E2A;frame<br>&#x89E3;&#x538B;&#x7B2C;i + 1&#x4E2A;frame<br>&#x2026;<br>close decoder</p>
+<p>&#x5F97;&#x5230;&#x7684;pcm&#x6587;&#x4EF6;&#x5B8C;&#x5168;&#x4E0D;&#x4E00;&#x6837;&#x3002;&#x3002;&#x3002;&#x3002;<br>&#x5177;&#x4F53;&#x539F;&#x56E0;&#x8FD8;&#x8981;&#x770B;&#x4E0B;speex&#x7684;&#x6E90;&#x4EE3;&#x7801;&#x624D;&#x77E5;&#x9053;&#xFF0C;&#x7B49;&#x6709;&#x7A7A;&#x628A;&#x3002;&#x3002;&#x3002;</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -112,7 +117,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/python/">python</a>
+  <span></span> <a href="/tags/speex/">speex</a>
   </div>
 
 </div>
@@ -121,7 +126,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/11/01/python使用xlwt操作excel/" data-title="python使用xlwt操作excel | INCLUDE" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2017/03/03/speex的坑/" data-title="speex的坑 | INCLUDE" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -134,19 +139,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/11/17/git中tag用法/" title="git中tag用法">
-  <strong>上一篇：</strong><br/>
-  <span>
-  git中tag用法</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/10/13/golang匿名成员/"  title="golang匿名成员">
+<a href="/2016/12/25/golang-import详解/"  title="golang-import详解">
  <strong>下一篇：</strong><br/> 
- <span>golang匿名成员
+ <span>golang-import详解
 </span>
 </a>
 </div>
